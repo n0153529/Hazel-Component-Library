@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Workflow</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <main class="page wizard-container">
+    <div class="wizard-card">
+      <div class="wizard-head">
+        <div class="caption">Create offer</div>
+        <div class="h3">Define details</div>
+        <div class="small">Step 3 of 5</div>
+      </div>
+      <div class="wizard-body">
+        <div class="stepper" style="margin-bottom:24px">
+          <div class="step"><div class="num">1</div><div>Create</div></div>
+          <div class="step"><div class="num">2</div><div>Category</div></div>
+          <div class="step active"><div class="num">3</div><div>Details</div></div>
+          <div class="step"><div class="num">4</div><div>Audience</div></div>
+          <div class="step"><div class="num">5</div><div>Review</div></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="field"><div class="label">Offer name</div><input class="input" /></div>
+          <div class="field"><div class="label">Offer type</div><select class="select"><option>Promotion</option></select></div>
+          <div class="field"><div class="label">Start date</div><input class="input" placeholder="YYYY-MM-DD" /></div>
+          <div class="field"><div class="label">End date</div><input class="input" placeholder="YYYY-MM-DD" /></div>
+        </div>
+      </div>
+      <div class="wizard-foot">
+        <button class="btn btn-secondary">Back</button>
+        <button class="btn btn-primary">Save & continue</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

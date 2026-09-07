@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Create an Offer - Hazel</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+
+  <!-- Wizard top bar: breadcrumb + discard -->
+  <header class="wizard-topbar">
+    <div class="container wizard-topbar-inner">
+      <div class="crumb">
+        <div class="crumb-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <a href="index.html">Offers</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">Create an Offer</span>
+      </div>
+      <div class="discard">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Discard
+      </div>
+    </div>
+  </header>
+
+  <main class="wizard-container page" style="padding-top:0">
+
+    <div class="wizard-page-head">
+      <div>
+        <div class="h2">Create an Offer</div>
+        <p>Follow the steps to configure and publish a new offer&hellip;</p>
+      </div>
+      <button class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" stroke="currentColor" stroke-width="2"/></svg>
+        Save as template
+      </button>
+    </div>
+
+    <!-- numbered stepper -->
+    <div class="owizard-steps" id="stepper"></div>
+
+    <div class="owizard-card">
+      <div class="owizard-body" id="stepBody">
+        <!-- injected per step -->
+      </div>
+      <div class="owizard-foot">
+        <button class="btn btn-ghost" id="btnBack">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="step-progress">
+          <div class="cap" id="stepCap">Step 1 of 5</div>
+          <div class="progress-dots" id="progressDots"></div>
+        </div>
+        <button class="btn btn-primary btn-pill" id="btnNext">
+          Continue
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+<script>
+const STEPS = ["Who?","Eligibility","Details","Benefits","Categories"];
+let current = 0; // 0-indexed
+
+/* ---------- stepper ---------- */
+function renderStepper(){
+  const el = document.getElementById('stepper');
+  el.innerHTML = STEPS.map((label,i)=>{
+    const state = i < current ? 'done' : (i === current ? 'active' : '');
+    const circle = i < current
+      ? `<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+      : (i+1);
+    let html = `<div class="owizard-step ${state}"><div class="circle">${circle}</div><div class="lbl">${label}</div></div>`;
+    if(i < STEPS.length-1){
+      html += `<div class="owizard-line ${i < current ? 'done':''}"></div>`;
+    }
+    return html;
+  }).join('');
+}
+
+function renderFooter(){
+  document.getElementById('stepCap').textContent = `Step ${current+1} of ${STEPS.length}`;
+  document.getElementById('progressDots').innerHTML = STEPS.map((_,i)=>`<span class="${i<=current?'done':''}"></span>`).join('');
+  document.getElementById('btnBack').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('btnNext').innerHTML = current === STEPS.length-1
+    ? `<svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Preview & Publish`
+    : `Continue <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+/* ---------- step content ---------- */
+function iconInfo(){
+  return `<svg viewBox="0 0 24 24" fill="none" width="13" height="13"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+}
+function iconChev(){
+  return `<svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function iconCheck(){
+  return `<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function iconX(){
+  return `<svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+const CORE_GROUPS = [
+  {code:'CL', title:'Care experienced people', desc:'Set location and age eligibility for care-experienced people.'}
+];
+const OTHER_GROUPS = [
+  {code:'FC', title:'Foster carer', desc:'Support children or young people in foster care.'},
+  {code:'KC', title:'Kinship carer', desc:'Care for a child or young person through a family or connected-person arrangement.'},
+  {code:'SWK', title:'Support worker', desc:'Support care-experienced people with practical, emotional or community support.'},
+  {code:'SW', title:'Social worker', desc:'Support children in care or those leaving care.'},
+  {code:'IV', title:'Independent visitor', desc:'Visit and support children in care.'},
+  {code:'A', title:'Advocate', desc:'Advocate for and support children or young people in care.'},
+  {code:'LC', title:'Leaving care professional', desc:'Work in or support a leaving care service.'},
+  {code:'PA', title:'Leaving Care PAs', desc:'Support young people preparing for adulthood and independence.'}
+];
+
+function stepWho(){
+  return `
+    <div class="h4">Who is this offer for?</div>
+    <p class="intro">Select the groups that can access this offer.</p>
+    ${CORE_GROUPS.map(g=>`
+      <div class="nav-row selected">
+        <div class="avatar avatar-primary">${g.code}</div>
+        <div class="body"><div class="title">${g.title}</div><div class="desc">${g.desc}</div></div>
+        ${iconChev()}
+      </div>`).join('')}
+    <div class="hr"></div>
+    <div class="label" style="margin-bottom:4px">Other member accounts</div>
+    <p class="small" style="margin:0 0 16px">Select any other member groups that can access this offer.</p>
+    ${OTHER_GROUPS.map(g=>`
+      <div class="nav-row">
+        <div class="avatar">${g.code}</div>
+        <div class="body"><div class="title">${g.title}</div><div class="desc">${g.desc}</div></div>
+        ${iconChev()}
+      </div>`).join('')}
+    <div style="margin-top:16px">
+      <span class="chip-removable">Care experienced people <button>${iconX()}</button></span>
+    </div>
+  `;
+}
+
+function stepEligibility(){
+  return `
+    <div class="h4">Eligibility</div>
+    <p class="intro">Set access rules for each selected group.</p>
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <span class="chip-removable" style="background:var(--primary-soft);color:var(--primary)">
+        <span class="avatar avatar-sm avatar-primary" style="margin-right:2px">CL</span> Care experienced people
+        <span class="badge badge-success" style="height:20px">3/3</span>
+      </span>
+    </div>
+    <div class="nav-row selected" style="cursor:default">
+      <div class="avatar avatar-primary">CL</div>
+      <div class="body"><div class="title">Care experienced people</div><div class="desc">Set location and age eligibility for care-experienced people.</div></div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="subpanel" style="margin-top:0">
+        <div class="subpanel-header" style="background:var(--panel-dark);border-bottom:none">
+          <div class="title" style="color:#fff">Age eligibility</div>
+        </div>
+        <div class="subpanel-body">
+          <p class="small" style="margin-top:0">Set the age range this offer is available to.</p>
+          <div class="grid grid-2">
+            <div class="field"><div class="label">Minimum age</div><input class="input" placeholder="e.g. 16" /></div>
+            <div class="field"><div class="label">Maximum age</div><input class="input" placeholder="e.g. 25" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="subpanel" style="margin-top:0">
+        <div class="subpanel-header" style="background:var(--panel-dark);border-bottom:none">
+          <div class="title" style="color:#fff">Care status qualifier</div>
+        </div>
+        <div class="subpanel-body" style="display:grid;gap:10px">
+          <div class="option-card selected">
+            <div class="row"><span class="box" style="width:16px;height:16px;border-radius:4px;background:var(--primary);display:inline-grid;place-items:center;margin-right:6px">${iconCheck()}</span><span class="title">Relevant</span></div>
+            <div class="desc">A child who is being looked after by a local authority.</div>
+          </div>
+          <div class="option-card">
+            <div class="row"><span class="title">Former relevant</span></div>
+            <div class="desc">A young person aged 16&ndash;21 who was previously looked after.</div>
+          </div>
+          <div class="option-card">
+            <div class="row"><span class="title">Qualifying</span></div>
+            <div class="desc">A person aged 16&ndash;25 who left care before age 16 or has special circumstances.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${eligRow('Corporate parent - living in our area','Care-experienced people for whom we are the corporate parent and who currently live in our area.','allowed')}
+    ${eligRow("Corporate parent - living outside our area","Care-experienced people for whom we are the corporate parent but who currently live outside our area.",'na')}
+    ${eligRow("Another authority's corporate parent - living in our area","Care-experienced people whose corporate parent is another local authority but who currently live in our area.",'allowed')}
+  `;
+}
+function eligRow(title, desc, state){
+  const badge = state === 'allowed' ? `<span class="badge badge-success">Allowed</span>` : `<span class="badge badge-danger">N/A</span>`;
+  const yesOn = state === 'allowed' ? 'on' : '';
+  const noOn = state === 'na' ? 'on' : '';
+  return `
+    <div class="card padded" style="margin-top:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text-strong)">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--primary)"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+          ${title}
+        </div>
+        ${badge}
+      </div>
+      <p class="small" style="margin:0 0 14px">${desc}</p>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="segmented">
+          <button class="seg-btn yes ${yesOn}">${iconCheck()} Yes</button>
+          <button class="seg-btn no ${noOn}">${iconX()} No</button>
+        </div>
+        <div class="link-actions"><a href="#">Includes ▾</a></div>
+      </div>
+    </div>
+  `;
+}
+
+function stepDetails(){
+  return `
+    <div class="h4">Offer Details</div>
+    <p class="intro">Define what the offer includes and how it appears to customers.</p>
+
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Offer Type<span class="req">*</span></div>
+      <select class="select"><option>Select a type&hellip;</option></select>
+    </div>
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Offer Title<span class="req">*</span></div>
+      <input class="input" placeholder="e.g. Summer Work Experience Placement" />
+    </div>
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Short Description</div>
+      <textarea class="textarea" style="min-height:70px" placeholder="A brief summary shown on the offer card&hellip;"></textarea>
+      <div class="help">Max 160 characters. Shown in search results and previews.</div>
+    </div>
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Full Description</div>
+      <div class="editor">
+        <div class="editor-toolbar">
+          <span class="ebtn">↺</span><span class="ebtn">↻</span><span class="sep"></span>
+          <span class="ebtn" style="font-weight:800">B</span><span class="ebtn" style="font-style:italic">I</span><span class="ebtn" style="text-decoration:underline">U</span><span class="sep"></span>
+          <span class="ebtn">≡</span><span class="ebtn">≣</span><span class="sep"></span>
+          <span class="ebtn">⇤</span><span class="ebtn">↔</span><span class="ebtn">⇥</span><span class="sep"></span>
+          <span class="ebtn">🔗</span>
+        </div>
+        <div class="editor-area">Enter your content here&hellip;</div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:18px">
+      <div class="field"><div class="label">Start Date</div><input class="input" type="date" /></div>
+      <div class="field">
+        <div class="label">End Date</div>
+        <input class="input" type="date" />
+        <label class="check small" style="margin-top:4px"><input type="checkbox" class="checkbox" /> No end date - offer runs indefinitely</label>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Terms and Conditions</div>
+      <textarea class="textarea" style="min-height:70px" placeholder="Enter any terms, conditions, or restrictions that apply to this offer. e.g. 'Valid for new customers only. Cannot be combined with other offers. Subject to availability.'"></textarea>
+      <div class="help">These will be shown to members before they access or redeem the offer.</div>
+    </div>
+
+    <div class="field" style="margin-bottom:18px">
+      <div class="label" style="display:flex;align-items:center;gap:6px">Offer Access Route <span class="info" style="width:18px;height:18px;display:inline-grid">${iconInfo()}</span></div>
+      <div class="grid grid-2">
+        <div class="option-card disabled"><div class="row"><span class="title">Direct</span><span class="badge badge-soon">Soon</span></div><div class="desc">Immediately accessible with no extra steps</div></div>
+        <div class="option-card disabled"><div class="row"><span class="title">Referral</span><span class="badge badge-soon">Soon</span></div><div class="desc">Requires a referral from another party</div></div>
+        <div class="option-card selected"><div class="row"><span class="title">Application</span><span class="badge badge-active">Active</span></div><div class="desc">Applicant must submit a formal application</div></div>
+        <div class="option-card disabled"><div class="row"><span class="title">Redeem</span><span class="badge badge-soon">Soon</span></div><div class="desc">Requires a code or voucher to unlock</div></div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Offer Image</div>
+      <div class="dropzone">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><path d="M21 15l-5-5-11 11" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div class="title">Drop an image here</div>
+        <div class="hint">PNG, JPG, or WebP - max 2 MB</div>
+        <button class="btn btn-secondary btn-sm">+ Browse Files</button>
+      </div>
+      <div class="help">Recommended: 1200 × 628 px</div>
+    </div>
+
+    <div class="field" style="margin-bottom:18px">
+      <div class="label">Add Text to Image</div>
+      <textarea class="textarea" style="min-height:60px" placeholder="Text to overlay on the offer image, e.g. '30% off for social workers'&hellip;"></textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%">✦ Generate Image with Hazel AI</button>
+  `;
+}
+
+const BENEFITS_LEFT = ["Help with living costs","Help to find work","Help with housing","Help to stay in your home","Help with health and wellbeing","Help with bills","Help in an emergency","Help with independence","Help with relationships and connections","Help with confidence","Help for parents and families"];
+const BENEFITS_RIGHT = ["Help when you are working","Help with education and training","Help setting up your home","Help with travel","Help with food","Help with money","Help with digital access","Help with documents and ID","Help with activities and interests","Help to start a business"];
+
+function stepBenefits(){
+  const selected = new Set(["Help when you are working","Help with activities and interests"]);
+  const row = (label)=>`
+    <div class="select-row ${selected.has(label)?'selected':''}">
+      <div class="box">${iconCheck()}</div>
+      <div class="title">${label}</div>
+    </div>`;
+  return `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between">
+      <div><div class="h4" style="margin-bottom:2px">Benefits</div>
+      <p class="intro" style="margin-bottom:6px">Select all the benefits this offer delivers. These will be used for future member matching.</p></div>
+      <span class="pill-counter">${selected.size} / 21 selected</span>
+    </div>
+    <div class="link-actions" style="margin-bottom:16px"><a href="#">Select all</a><span class="dot">&middot;</span><a href="#">Clear all</a></div>
+    <div class="grid grid-2">
+      <div>${BENEFITS_LEFT.map(row).join('')}</div>
+      <div>${BENEFITS_RIGHT.map(row).join('')}</div>
+    </div>
+  `;
+}
+
+const CATEGORIES = ["Housing & Accommodation","Money & Financial Support","Education & Learning","Jobs, Training & Careers","Health & Wellbeing","Relationships & Support Networks","Community, Activities & Having Your Say","Independent Living & Everyday Life","Advice, Rights & Leaving Care Support","Extra Support When You Need It"];
+const TAGS = ["Home Appliances","Flooring","Bedding","White Goods","Furniture","Cookware","Garden","Cleaning Products","Starter Packs","DIY and Tools","Home Insurance","Energy and Utilities","Broadband","Preparing to Move","Rent Guarantor","Help to Move","Hampers"];
+
+function stepCategories(){
+  return `
+    <div class="h4">Offer Categories</div>
+    <p class="intro">Choose the categories this offer applies to. Select one or more.</p>
+    ${CATEGORIES.map((c,i)=>`
+      <div class="select-row ${i===0?'selected':''}">
+        <div class="box">${iconCheck()}</div>
+        <div class="title">${c}</div>
+        <div class="info">${iconInfo()}</div>
+      </div>`).join('')}
+
+    <div class="subpanel">
+      <div class="subpanel-header">
+        <div class="title">${iconCheck()} Housing & Accommodation</div>
+        <div class="meta">Offer Tags</div>
+      </div>
+      <div class="subpanel-body">
+        <p class="small" style="margin-top:0">Add useful search tags so members can find the offer in more than one way.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${TAGS.map((t,i)=>`<span class="tag-pill ${i===0?'selected':''}">${i===0?iconCheck():''} ${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-secondary btn-sm">+ Create a category</button>
+      <button class="btn btn-secondary btn-sm">✎ Create Tags</button>
+    </div>
+
+    <div class="panel-dark">
+      <div class="head">
+        <div class="head-left">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/></svg></div>
+          <div class="title">Share offer with local council?</div>
+        </div>
+        <div class="info-btn">${iconInfo()}</div>
+      </div>
+      <div class="desc">Allow a local council to view, share and broker this offer in their area.</div>
+      <div class="segmented">
+        <button class="seg-btn yes on-dark on">${iconCheck()} Yes</button>
+        <button class="seg-btn on-dark">${iconX()} No</button>
+      </div>
+      <div class="field-label">Select local authority</div>
+      <div class="searchbar">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input placeholder="Search for a local authority&hellip;" />
+      </div>
+    </div>
+  `;
+}
+
+const RENDERERS = [stepWho, stepEligibility, stepDetails, stepBenefits, stepCategories];
+
+function render(){
+  renderStepper();
+  renderFooter();
+  document.getElementById('stepBody').innerHTML = RENDERERS[current]();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('btnNext').addEventListener('click', ()=>{
+  if(current < STEPS.length-1){ current++; render(); }
+});
+document.getElementById('btnBack').addEventListener('click', ()=>{
+  if(current > 0){ current--; render(); }
+});
+
+render();
+</script>
+</body>
+</html>

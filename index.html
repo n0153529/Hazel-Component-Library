@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hazel Component Library v4</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand"><div class="brand-mark"></div><div>Hazel Component Library <span class="badge badge-primary">v4</span></div></div>
+      <nav class="nav">
+        <a class="active" href="index.html">Overview</a>
+        <a href="components.html">Components</a>
+        <a href="create-offer.html">Create an Offer (live example)</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page container">
+
+    <section class="card padded" style="margin-bottom:24px">
+      <div class="caption">v4 - Sept 2026</div>
+      <div class="h2" style="margin:6px 0 10px">A single source of truth for Hazel's UI</div>
+      <p class="body" style="max-width:640px;color:var(--muted)">
+        This library's palette and components are sampled directly from the Figma Make
+        "Create an Offer" design, not approximated. Use <code>styles.css</code> as the
+        source of truth when porting these patterns into the React/TypeScript app.
+      </p>
+      <div class="row" style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="components.html">Browse all components</a>
+        <a class="btn btn-secondary" href="create-offer.html">See the Create an Offer rebuild</a>
+      </div>
+    </section>
+
+    <section class="card padded" style="margin-bottom:24px">
+      <div class="caption">Brand identity</div>
+      <div class="h3" style="margin:6px 0 4px">Hazel brand colours</div>
+      <p class="small" style="margin:0 0 16px">
+        These are Hazel's official brand colours, distinct from the functional UI tokens above.
+        Use <code>--brand-dark-green</code>, <code>--brand-light-green</code> and
+        <code>--brand-dark-grey</code> for marketing surfaces, logo lockups and anywhere the
+        brand itself needs to show up, rather than the semantic <code>--primary</code> /
+        <code>--text-strong</code> tokens used inside the product UI.
+      </p>
+      <div class="grid grid-3" style="margin-bottom:24px">
+        <div class="brand-swatch" style="background:var(--brand-dark-green);color:#fff">
+          <div class="name">Dark green</div>
+          <div class="hex">#104751</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--brand-light-green);color:#fff">
+          <div class="name">Light green</div>
+          <div class="hex">#078c9e</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--brand-dark-grey);color:#fff">
+          <div class="name">Dark grey</div>
+          <div class="hex">#151719</div>
+        </div>
+      </div>
+
+      <div class="h5" style="margin-bottom:10px">Logo lockups</div>
+      <p class="small" style="margin:0 0 16px">The cream logomark is designed to sit on the brand's dark surfaces, most often the dark green, sometimes the dark grey. Avoid placing it on light or white backgrounds.</p>
+      <div class="grid grid-3">
+        <div class="brand-lockup" style="background:var(--brand-dark-green)">
+          <img src="assets/hazel-logo-cream.png" alt="Hazel logo on dark green" />
+        </div>
+        <div class="brand-lockup" style="background:var(--brand-dark-grey)">
+          <img src="assets/hazel-logo-cream.png" alt="Hazel logo on dark grey" />
+        </div>
+        <div class="brand-lockup" style="background:linear-gradient(135deg,var(--brand-dark-green),var(--brand-light-green))">
+          <img src="assets/hazel-logo-cream.png" alt="Hazel logo on brand gradient" />
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-2" style="align-items:start;margin-bottom:24px">
+      <div class="card padded">
+        <div class="caption">Typography scale</div>
+        <div class="h1">Headline 1</div>
+        <div class="h2">Headline 2</div>
+        <div class="h3">Headline 3</div>
+        <div class="h4">Headline 4</div>
+        <div class="h5">Headline 5</div>
+        <div class="h6">Headline 6</div>
+        <p class="body">Body text for forms, descriptions, and supporting content.</p>
+        <p class="small">Small text for helper copy and metadata.</p>
+      </div>
+
+      <div class="card padded">
+        <div class="caption">Core tokens (sampled from Figma)</div>
+        <div class="grid grid-2">
+          <div class="kpi"><div class="label">Primary</div><div class="value" style="font-size:20px">#078C9E</div></div>
+          <div class="kpi"><div class="label">Text strong</div><div class="value" style="font-size:20px">#104751</div></div>
+          <div class="kpi"><div class="label">Background</div><div class="value" style="font-size:20px">#F5F5F3</div></div>
+          <div class="kpi"><div class="label">Selected bg</div><div class="value" style="font-size:20px">#EFF8F9</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-3">
+      <a class="card padded" href="components.html" style="cursor:pointer">
+        <div class="h5">Component catalog</div>
+        <p class="small">Every element - buttons, badges, selectable rows, option cards, the dark panel, segmented toggles, and more - with markup examples.</p>
+      </a>
+      <a class="card padded" href="create-offer.html" style="cursor:pointer">
+        <div class="h5">Create an Offer (live example)</div>
+        <p class="small">The full interactive 5-step wizard, rebuilt from the Figma screens step-for-step using only library components.</p>
+      </a>
+      <a class="card padded" href="dashboard.html" style="cursor:pointer">
+        <div class="h5">Dashboard layout</div>
+        <p class="small">Sidebar + widget layout reference, inheriting the same v4 tokens.</p>
+      </a>
+    </section>
+
+  </main>
+</body>
+</html>
