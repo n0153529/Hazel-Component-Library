@@ -15,7 +15,7 @@
   .sec-title{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
   .sec-title .h4{margin:0}
   .swatch{width:100%;height:56px;border-radius:12px;border:1px solid var(--border);margin-bottom:8px}
-  .swatch-row{display:flex;flex-direction:column;gap:2px;font-size:12px}
+  .swatch-row{display:flex;flex-direction:column;gap:2px;font-size:var(--text-sm)}
   .demo{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:14px}
   .demo-dark{background:var(--panel-dark)}
   .row-wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -25,7 +25,7 @@
 <body class="app-shell">
   <header class="topbar">
     <div class="container topbar-inner">
-      <div class="brand"><div class="brand-mark"></div> Hazel Component Library <span class="badge badge-primary">v4</span></div>
+      <div class="brand"><img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" /><span>Hazel Component Library <span class="badge badge-primary">v4</span></span></div>
       <div class="nav">
         <a href="index.html">Overview</a>
         <a class="active" href="components.html">Components</a>
@@ -68,7 +68,7 @@
       <div class="sec" id="tokens">
         <div class="sec-title"><div class="h4">Design tokens</div></div>
         <p class="small">Sampled directly from the Figma Make "Create an Offer" design. Use these CSS variables - never hardcode hex values in components.</p>
-        <div class="grid grid-4">
+        <div class="cols-4">
           <div class="swatch-row"><div class="swatch" style="background:var(--bg)"></div>--bg #f5f5f3</div>
           <div class="swatch-row"><div class="swatch" style="background:var(--surface)"></div>--surface #ffffff</div>
           <div class="swatch-row"><div class="swatch" style="background:var(--text-strong)"></div>--text-strong #104751</div>
@@ -100,7 +100,7 @@
 
       <div class="sec" id="buttons">
         <div class="sec-title"><div class="h4">Buttons</div></div>
-        <p class="small">Rectangular (<code>.btn</code>) for form/secondary actions. Pill (<code>.btn-pill</code>) for primary wizard CTAs, matching "Continue" / "Preview &amp; Publish".</p>
+        <p class="small">All standard buttons (<code>.btn</code>) are fully pill-shaped by default now, matching "Continue" / "Preview &amp; Publish" / "Save as template". The old <code>.btn-pill</code> modifier still exists but has nothing left to do.</p>
         <div class="demo row-wrap">
           <button class="btn btn-primary">Primary</button>
           <button class="btn btn-primary btn-pill">Continue →</button>
@@ -131,7 +131,7 @@
 
       <div class="sec" id="inputs">
         <div class="sec-title"><div class="h4">Inputs</div></div>
-        <div class="demo grid grid-2">
+        <div class="demo cols-2">
           <div class="field"><div class="label">Offer Title<span class="req">*</span></div><input class="input" placeholder="e.g. Summer Work Experience Placement" /></div>
           <div class="field"><div class="label">Offer Type</div><select class="select"><option>Select a type…</option></select></div>
           <div class="field"><div class="label">Short Description</div><textarea class="textarea" style="min-height:80px" placeholder="A brief summary…"></textarea><div class="help">Max 160 characters.</div></div>
@@ -195,7 +195,7 @@
       <div class="sec" id="option-card">
         <div class="sec-title"><div class="h4">Option cards</div></div>
         <p class="small">2×2 radio-card grid with a status badge. Used for Offer Access Route.</p>
-        <div class="demo grid grid-2">
+        <div class="demo cols-2">
           <div class="option-card selected"><div class="row"><span class="title">Application</span><span class="badge badge-active">Active</span></div><div class="desc">Applicant must submit a formal application</div></div>
           <div class="option-card disabled"><div class="row"><span class="title">Referral</span><span class="badge badge-soon">Soon</span></div><div class="desc">Requires a referral from another party</div></div>
         </div>
@@ -378,7 +378,7 @@
 
       <div class="sec" id="empty">
         <div class="sec-title"><div class="h4">Empty &amp; loading states</div></div>
-        <div class="demo grid grid-2">
+        <div class="demo cols-2">
           <div class="empty">
             <div class="h6">No offers yet</div>
             <p class="small">Create your first offer to get started.</p>

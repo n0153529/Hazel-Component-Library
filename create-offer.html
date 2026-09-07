@@ -161,14 +161,14 @@ function stepEligibility(){
       <div class="body"><div class="title">Care experienced people</div><div class="desc">Set location and age eligibility for care-experienced people.</div></div>
     </div>
 
-    <div class="grid grid-2" style="margin-top:16px">
+    <div class="cols-2" style="margin-top:16px">
       <div class="subpanel" style="margin-top:0">
         <div class="subpanel-header" style="background:var(--panel-dark);border-bottom:none">
           <div class="title" style="color:#fff">Age eligibility</div>
         </div>
         <div class="subpanel-body">
           <p class="small" style="margin-top:0">Set the age range this offer is available to.</p>
-          <div class="grid grid-2">
+          <div class="cols-2">
             <div class="field"><div class="label">Minimum age</div><input class="input" placeholder="e.g. 16" /></div>
             <div class="field"><div class="label">Maximum age</div><input class="input" placeholder="e.g. 25" /></div>
           </div>
@@ -257,7 +257,7 @@ function stepDetails(){
       </div>
     </div>
 
-    <div class="grid grid-2" style="margin-bottom:18px">
+    <div class="cols-2" style="margin-bottom:18px">
       <div class="field"><div class="label">Start Date</div><input class="input" type="date" /></div>
       <div class="field">
         <div class="label">End Date</div>
@@ -274,7 +274,7 @@ function stepDetails(){
 
     <div class="field" style="margin-bottom:18px">
       <div class="label" style="display:flex;align-items:center;gap:6px">Offer Access Route <span class="info" style="width:18px;height:18px;display:inline-grid">${iconInfo()}</span></div>
-      <div class="grid grid-2">
+      <div class="cols-2">
         <div class="option-card disabled"><div class="row"><span class="title">Direct</span><span class="badge badge-soon">Soon</span></div><div class="desc">Immediately accessible with no extra steps</div></div>
         <div class="option-card disabled"><div class="row"><span class="title">Referral</span><span class="badge badge-soon">Soon</span></div><div class="desc">Requires a referral from another party</div></div>
         <div class="option-card selected"><div class="row"><span class="title">Application</span><span class="badge badge-active">Active</span></div><div class="desc">Applicant must submit a formal application</div></div>
@@ -321,7 +321,7 @@ function stepBenefits(){
       <span class="pill-counter">${selected.size} / 21 selected</span>
     </div>
     <div class="link-actions" style="margin-bottom:16px"><a href="#">Select all</a><span class="dot">&middot;</span><a href="#">Clear all</a></div>
-    <div class="grid grid-2">
+    <div class="cols-2">
       <div>${BENEFITS_LEFT.map(row).join('')}</div>
       <div>${BENEFITS_RIGHT.map(row).join('')}</div>
     </div>

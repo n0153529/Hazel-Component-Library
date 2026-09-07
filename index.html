@@ -9,7 +9,7 @@
 <body class="app-shell">
   <header class="topbar">
     <div class="container topbar-inner">
-      <div class="brand"><div class="brand-mark"></div><div>Hazel Component Library <span class="badge badge-primary">v4</span></div></div>
+      <div class="brand"><img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" /><div>Hazel Component Library <span class="badge badge-primary">v4</span></div></div>
       <nav class="nav">
         <a class="active" href="index.html">Overview</a>
         <a href="components.html">Components</a>
@@ -45,7 +45,7 @@
         brand itself needs to show up, rather than the semantic <code>--primary</code> /
         <code>--text-strong</code> tokens used inside the product UI.
       </p>
-      <div class="grid grid-3" style="margin-bottom:24px">
+      <div class="cols-3" style="margin-bottom:24px">
         <div class="brand-swatch" style="background:var(--brand-dark-green);color:#fff">
           <div class="name">Dark green</div>
           <div class="hex">#104751</div>
@@ -62,7 +62,7 @@
 
       <div class="h5" style="margin-bottom:10px">Logo lockups</div>
       <p class="small" style="margin:0 0 16px">The cream logomark is designed to sit on the brand's dark surfaces, most often the dark green, sometimes the dark grey. Avoid placing it on light or white backgrounds.</p>
-      <div class="grid grid-3">
+      <div class="cols-3">
         <div class="brand-lockup" style="background:var(--brand-dark-green)">
           <img src="assets/hazel-logo-cream.png" alt="Hazel logo on dark green" />
         </div>
@@ -75,31 +75,72 @@
       </div>
     </section>
 
-    <section class="grid grid-2" style="align-items:start;margin-bottom:24px">
-      <div class="card padded">
-        <div class="caption">Typography scale</div>
-        <div class="h1">Headline 1</div>
-        <div class="h2">Headline 2</div>
-        <div class="h3">Headline 3</div>
-        <div class="h4">Headline 4</div>
-        <div class="h5">Headline 5</div>
-        <div class="h6">Headline 6</div>
-        <p class="body">Body text for forms, descriptions, and supporting content.</p>
-        <p class="small">Small text for helper copy and metadata.</p>
-      </div>
-
-      <div class="card padded">
-        <div class="caption">Core tokens (sampled from Figma)</div>
-        <div class="grid grid-2">
-          <div class="kpi"><div class="label">Primary</div><div class="value" style="font-size:20px">#078C9E</div></div>
-          <div class="kpi"><div class="label">Text strong</div><div class="value" style="font-size:20px">#104751</div></div>
-          <div class="kpi"><div class="label">Background</div><div class="value" style="font-size:20px">#F5F5F3</div></div>
-          <div class="kpi"><div class="label">Selected bg</div><div class="value" style="font-size:20px">#EFF8F9</div></div>
+    <section class="card padded" style="margin-bottom:24px">
+      <div class="caption">Functional UI tokens</div>
+      <div class="h3" style="margin:6px 0 4px">What each colour is for</div>
+      <p class="small" style="margin:0 0 16px">
+        These are the working tokens the components in this library actually use,
+        as opposed to the brand colours above. Some values overlap on purpose
+        (Primary and Text strong reuse the brand greens) but they're named by
+        function so a future re-theme only has to change one place.
+      </p>
+      <div class="cols-4">
+        <div class="brand-swatch" style="background:var(--bg);color:var(--text-strong);border:1px solid var(--border)">
+          <div class="name">Background</div>
+          <div class="hex">#f5f5f3</div>
+          <div class="small" style="margin-top:4px">Page background, behind every card</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--surface);color:var(--text-strong);border:1px solid var(--border)">
+          <div class="name">Surface</div>
+          <div class="hex">#ffffff</div>
+          <div class="small" style="margin-top:4px">Cards, panels, the topbar</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--text-strong);color:#fff">
+          <div class="name">Text strong</div>
+          <div class="hex">#104751</div>
+          <div class="small" style="margin-top:4px;opacity:.85;color:inherit">Headings and emphasised text</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--primary);color:#fff">
+          <div class="name">Primary</div>
+          <div class="hex">#078c9e</div>
+          <div class="small" style="margin-top:4px;opacity:.85;color:inherit">Buttons, links, active states</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--primary-soft);color:var(--text-strong);border:1px solid var(--border)">
+          <div class="name">Selected background</div>
+          <div class="hex">#eff8f9</div>
+          <div class="small" style="margin-top:4px">Behind a selected row, tag or option</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--success);color:#fff">
+          <div class="name">Success</div>
+          <div class="hex">#059669</div>
+          <div class="small" style="margin-top:4px;opacity:.85;color:inherit">"Allowed", "Yes", published states</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--danger);color:#fff">
+          <div class="name">Danger</div>
+          <div class="hex">#dc2626</div>
+          <div class="small" style="margin-top:4px;opacity:.85;color:inherit">"N/A", "No", errors</div>
+        </div>
+        <div class="brand-swatch" style="background:var(--warning);color:#fff">
+          <div class="name">Warning</div>
+          <div class="hex">#b7791f</div>
+          <div class="small" style="margin-top:4px;opacity:.85;color:inherit">Drafts, things needing attention</div>
         </div>
       </div>
     </section>
 
-    <section class="grid grid-3">
+    <section class="card padded" style="margin-bottom:24px">
+      <div class="caption">Typography scale</div>
+      <div class="h1">Headline 1</div>
+      <div class="h2">Headline 2</div>
+      <div class="h3">Headline 3</div>
+      <div class="h4">Headline 4</div>
+      <div class="h5">Headline 5</div>
+      <div class="h6">Headline 6</div>
+      <p class="body">Body text for forms, descriptions, and supporting content.</p>
+      <p class="small">Small text for helper copy and metadata.</p>
+    </section>
+
+    <section class="cols-3">
       <a class="card padded" href="components.html" style="cursor:pointer">
         <div class="h5">Component catalog</div>
         <p class="small">Every element - buttons, badges, selectable rows, option cards, the dark panel, segmented toggles, and more - with markup examples.</p>
