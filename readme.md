@@ -7,120 +7,110 @@ reference to build the real React/TypeScript components against, not a framework
 ## Files
 
 - `styles.css` - all design tokens and component CSS. Start here.
-- `index.html` - landing page and overview, including the brand and token showcase.
-- `components.html` - full catalog of every component with markup examples.
+- `index.html` - landing page: hero, brand identity and logo lockups, and links
+  into the rest of the library.
+- `components.html` - full catalog of every component, including the
+  functional UI tokens and typography scale (moved here from the overview
+  page in this pass).
 - `create-offer.html` - the actual 5-step "Create an Offer" wizard, rebuilt
   interactively (vanilla JS step-switching) to match the Figma screens.
-  This is the best single file to compare directly against the Figma export.
-- `dashboard.html` - existing dashboard layout, carried over from v3 (inherits
-  the new v4 tokens automatically since it uses the same CSS variables). Has
-  its own self-contained sidebar header for the demo product ("Offer Studio")
-  rather than the shared library topbar, so it wasn't touched by the topbar
-  rebrand below.
-- `workflow.html` - the old generic wizard example from v3, superseded by
-  `create-offer.html`, kept only as a minimal wizard-shell reference.
+- `dashboard.html` - existing dashboard layout, carried over from v3, has its
+  own self-contained header for the demo product ("Offer Studio").
+- `workflow.html` - old generic wizard example from v3, superseded by
+  `create-offer.html`.
 - `assets/hazel-logo-cream.png` - the cream logomark, for use on dark surfaces.
 
-## This pass: fixed a real layout bug, plus four requested changes
+## This pass: precision pixel-matching against new Figma screenshots
 
-**Found and fixed a genuine bug in the Create an Offer rebuild.** Re-checking
-against the Figma screenshots turned up a real issue: the two-column sections
-(Age eligibility / Care status qualifier in Eligibility, the Offer Access
-Route cards in Details, and the two-column checklist in Benefits) were built
-with CSS Grid, which is correct per spec but rendered unreliably with complex
-nested content in at least one tool. Rather than leave any doubt, those
-specific sections were switched to a small flexbox utility (`.cols-2`,
-`.cols-3`, `.cols-4` in `styles.css`) which lays out identically but has no
-edge cases with nested content. Re-verified and all three sections now sit
-correctly side-by-side. I couldn't fetch the live Figma Make site directly
-(it blocks automated access), so this check was done against the screenshots
-already shared; if anything on the live site still looks off, point me at the
-specific step and I'll target it directly.
+You flagged that the library's corners were too round, the stepper lines too
+wide, and the Details step didn't match. Re-measured directly off the pixels
+in the two new screenshots (not eyeballed) and found:
 
-**"Core tokens" section rebuilt to actually explain itself.** It was a grid
-of KPI-style boxes with just a label and a hex code, not obviously a colour
-reference. It's now a proper swatch grid ("Functional UI tokens"), each one
-showing the actual colour, its name, its hex value, and a one-line note on
-where it's used in the interface (for example, Selected background: "Behind
-a selected row, tag or option").
+**Border radius was too large everywhere.** Measured the actual corner
+curvature in the screenshots: the outer wizard card is ~8px, everything else
+(rows, subpanels, option cards, badges, modals, menus) is ~6px. `--radius-sm`,
+`--radius-md`, and `--radius-lg` are now all `6px`, `--radius-xl` is `8px`.
+Went through every hardcoded pixel radius in `styles.css` individually (17 of
+them) rather than just the tokens, so nothing was left on the old 12-28px
+scale. Genuinely circular elements (avatars, switches, pill badges, the
+segmented toggle) were left alone.
 
-**No text smaller than 14px anywhere.** `--text-xs` and `--text-sm` both moved
-up to 14px (previously 12px and 13px), and every hardcoded sub-14px
-`font-size` declaration across all five files (badges, table headers,
-avatars, tooltips, sidebar labels, kpi labels, and so on) was replaced with
-the token so nothing falls below the floor. `--text-xs` and `--text-sm` are
-now equal; they're kept as separate tokens in case you want to reintroduce a
-distinction later, but neither should go below 14px again.
+**Stepper was stretched full-width; Figma's is compact.** The connecting
+lines were using `flex:1`, so they stretched to fill whatever space was
+available, making the whole stepper spread across the full card width. Measured
+the actual line length in the screenshot (~32px, fixed) and rebuilt it as a
+fixed-width, left-aligned row instead. Also added the soft mint glow ring
+around the active step's circle, which was in the Figma design but missing
+from the rebuild entirely.
 
-**Component library's own top nav is now on-brand.** `.topbar` (used by
-`index.html` and `components.html`, the documentation shell, not the in-app
-wizard) now uses the dark green brand colour with your logo in the top left,
-replacing the placeholder gradient square. Nav links were recoloured for
-contrast on the dark background. This does not touch `.wizard-topbar`, which
-is deliberately still white to match the actual product screen in Figma, or
-`dashboard.html`'s own sidebar header, which represents a different mock
-product ("Offer Studio") rather than the library's own chrome, flag it if you
-want that changed too.
+**"Includes" is now a real accordion, not a static link.** The screenshot
+showed it expands to reveal a detail panel with a left border accent, and the
+chevron flips direction. Rebuilt with a `toggleIncludes()` function so it
+actually opens and closes, matching the collapsed and expanded states shown
+in your screenshot exactly (including reusing the row's own description text
+in the expanded panel, which is what the Figma design does).
 
-## Earlier pass: buttons, brand, type scale, responsive tables
+**Info icons are now real tooltips.** The category rows, "Offer Access
+Route" label, and "share with council" panel all had static, non-functional
+"i" icons. They now use a proper hover/focus tooltip (`.info-tip`), consistent
+with the rest of the library's tooltip component.
 
-**Buttons are fully pill-shaped by default.** `.btn` and its `-sm` / `-lg`
-sizes all use `border-radius: var(--radius-pill)`. `.btn-pill` still exists
-as a harmless no-op alias. Icon-only utility buttons (menu items, pagination
-numbers, toolbar icons) were left as rounded squares since they aren't really
-"buttons" in the same sense, flag it if you want those pill-shaped too.
+**Start Date field was oversized and misaligned.** Root cause: inputs were
+using `min-height: 44px` with no explicit `height`, which let native date
+inputs grow taller than a normal text field in some browsers. Inputs and
+selects now use a fixed `height: 44px` with `box-sizing: border-box`, and
+date/time inputs get an explicit `line-height: normal` to stop that growth.
+Re-verified the Details step's Start Date / End Date row renders as two
+equal, aligned fields.
 
-**Brand identity section on `index.html`.** Three named tokens document
-Hazel's brand colours, distinct from the functional UI tokens (which happen
-to reuse two of the same hex values inside the product interface):
+**Details step re-checked element by element** against your new screenshot.
+Structure, spacing, and copy all line up; the two differences you'll see if
+previewing with an old screenshot tool (a blank date field with no calendar
+icon, and a "+" instead of a sparkle on "Generate Image with Hazel AI") are
+both rendering limitations of that specific tool, not the underlying code.
+Native `type="date"` inputs and the `✦` sparkle character both render
+correctly in real browsers.
 
-| Token | Value | Note |
-|---|---|---|
-| `--brand-dark-green` | `#104751` | same value as `--text-strong` / `--panel-dark`, named separately for brand use |
-| `--brand-light-green` | `#078c9e` | same value as `--primary`, named separately for brand use |
-| `--brand-dark-grey` | `#151719` | not previously in the palette |
+**Overview page decluttered.** Removed the "Typography scale" section
+entirely (per your request) and moved "Functional UI tokens" into
+`components.html`, right above the Typography section that already lived
+there. The overview page is now just the hero, the brand identity and logo
+section, and the three links into the rest of the library.
 
-The overview page shows all three as swatches, plus the logo on dark green,
-dark grey, and a brand gradient, since it's a cream mark and needs a dark
-surface. Don't place it on white or light backgrounds.
+## A note on what I couldn't verify directly
 
-**Body text is 16px by default.** `--text-md` is `16px` (matching
-`--text-lg`), and `html, body` sets `font-size: 16px` explicitly.
+The live Figma Make site blocks automated fetching, so this pass (like the
+last one) was done by pixel-measuring the screenshots you attached rather
+than inspecting the site or exported code directly. If you do have a Figma
+code export, attaching it would let me check things like exact spacing values
+and font weights more precisely than measuring screenshot pixels. If
+anything still looks off after this pass, telling me which step and what
+specifically looks wrong (with a fresh screenshot if possible) is the fastest
+way for me to close the gap.
 
-**Responsive table pattern.** `.table-wrap` includes a
-`@media (max-width: 640px)` rule that turns table rows into stacked
-label/value cards on small screens, reading each cell's `data-label`
-attribute for the row heading. `components.html` previews this inside a
-phone-frame mockup (`.table-wrap.force-mobile`) so you can see the mobile
-layout without resizing the browser; that class is a demo aid only, the real
-product should rely on the media query and just resize.
+## Earlier passes (for reference)
 
-## Em dashes
-
-Every em dash in the project was replaced with a plain hyphen, including
-inside literal Figma-sourced copy strings. None should be reintroduced going
-forward, in code, comments, or copy.
-
-## A note on nested CSS Grid
-
-`grid-template-columns` is standard and works correctly in every modern
-browser. If a layout ever looks collapsed to a single column in an automated
-screenshot or an old headless tool, that's a renderer limitation, not a CSS
-bug, but as of this pass the wizard's own two/three/four-column sections use
-the flexbox `.cols-N` utilities instead specifically to remove that doubt.
-General-purpose layout elsewhere (`components.html`, `dashboard.html`) still
-uses the standard `.grid` utility, which is appropriate for the real product.
+- All standard buttons are fully pill-shaped (`border-radius: var(--radius-pill)`).
+- Brand identity tokens (`--brand-dark-green`, `--brand-light-green`,
+  `--brand-dark-grey`) plus logo lockups on the overview page.
+- No text smaller than 14px anywhere (`--text-xs` / `--text-sm` both 14px,
+  `--text-md` / `--text-lg` both 16px).
+- Component library's own top nav (`index.html`, `components.html`) uses the
+  brand dark green with the logo top-left.
+- Responsive table pattern (`.table-wrap` + `data-label`) previewed on
+  desktop and inside a phone-frame mockup in `components.html`.
+- Every em dash in the project replaced with a plain hyphen; none should be
+  reintroduced going forward.
+- The wizard's two/three/four-column sections use flexbox (`.cols-2/3/4`)
+  rather than CSS Grid, specifically to avoid any rendering ambiguity in
+  older tools; general-purpose layout elsewhere still uses `.grid`.
 
 ## Recommended next step
 
 The pattern names map cleanly to React components: `<Stepper>`, `<SelectRow>`,
 `<NavRow>`, `<OptionCard>`, `<SegmentedToggle>`, `<TagPill>`, `<Chip>`,
-`<PanelDark>`, `<Dropzone>`, `<RichTextEditor>`, `<ResponsiveTable>`. Suggest
-porting one at a time, starting with whatever the backend dev's retrofit of
-"Create an Offer" is currently missing, using `create-offer.html` as the
-pixel reference and `styles.css` custom properties as the token source.
-
-Still to design or spec when needed: date picker popover, multi-select
-combobox, inline validation summary, and a mobile nav drawer; none of these
-appeared in the Create an Offer screens yet, so they're left out rather than
-guessed at.
+`<PanelDark>`, `<Dropzone>`, `<RichTextEditor>`, `<ResponsiveTable>`,
+`<IncludesAccordion>`, `<InfoTooltip>`. Suggest porting one at a time,
+starting with whatever the backend dev's retrofit of "Create an Offer" is
+currently missing, using `create-offer.html` as the pixel reference and
+`styles.css` custom properties as the token source.

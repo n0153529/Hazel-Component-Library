@@ -100,6 +100,9 @@ function iconInfo(){
 function iconChev(){
   return `<svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
+function iconChevSm(){
+  return `<svg class="chev-sm" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
 function iconCheck(){
   return `<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
@@ -219,7 +222,12 @@ function eligRow(title, desc, state){
           <button class="seg-btn yes ${yesOn}">${iconCheck()} Yes</button>
           <button class="seg-btn no ${noOn}">${iconX()} No</button>
         </div>
-        <div class="link-actions"><a href="#">Includes ▾</a></div>
+        <button type="button" class="includes-toggle" onclick="toggleIncludes(this)">
+          ${iconInfo()} <span class="txt">Includes</span> ${iconChevSm()}
+        </button>
+      </div>
+      <div class="includes-panel" hidden>
+        <p>${desc}</p>
       </div>
     </div>
   `;
@@ -273,7 +281,7 @@ function stepDetails(){
     </div>
 
     <div class="field" style="margin-bottom:18px">
-      <div class="label" style="display:flex;align-items:center;gap:6px">Offer Access Route <span class="info" style="width:18px;height:18px;display:inline-grid">${iconInfo()}</span></div>
+      <div class="label" style="display:flex;align-items:center;gap:6px">Offer Access Route <span class="info info-tip" style="width:18px;height:18px;display:inline-grid" tabindex="0">${iconInfo()}<span class="bubble">How members will get access to this offer</span></span></div>
       <div class="cols-2">
         <div class="option-card disabled"><div class="row"><span class="title">Direct</span><span class="badge badge-soon">Soon</span></div><div class="desc">Immediately accessible with no extra steps</div></div>
         <div class="option-card disabled"><div class="row"><span class="title">Referral</span><span class="badge badge-soon">Soon</span></div><div class="desc">Requires a referral from another party</div></div>
@@ -339,7 +347,7 @@ function stepCategories(){
       <div class="select-row ${i===0?'selected':''}">
         <div class="box">${iconCheck()}</div>
         <div class="title">${c}</div>
-        <div class="info">${iconInfo()}</div>
+        <div class="info info-tip" tabindex="0">${iconInfo()}<span class="bubble">Members will see offers tagged with this category</span></div>
       </div>`).join('')}
 
     <div class="subpanel">
@@ -366,7 +374,7 @@ function stepCategories(){
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="m9 12 2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/></svg></div>
           <div class="title">Share offer with local council?</div>
         </div>
-        <div class="info-btn">${iconInfo()}</div>
+        <div class="info-btn info-tip" tabindex="0">${iconInfo()}<span class="bubble">Councils can broker this offer to residents in their area</span></div>
       </div>
       <div class="desc">Allow a local council to view, share and broker this offer in their area.</div>
       <div class="segmented">
@@ -389,6 +397,15 @@ function render(){
   renderFooter();
   document.getElementById('stepBody').innerHTML = RENDERERS[current]();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* Toggles the "Includes" accordion on an eligibility card: flips the
+   chevron and shows/hides the detail panel that sits below the row. */
+function toggleIncludes(btn){
+  const card = btn.closest('.card');
+  const panel = card ? card.querySelector('.includes-panel') : null;
+  const isOpen = btn.classList.toggle('open');
+  if(panel) panel.hidden = !isOpen;
 }
 
 document.getElementById('btnNext').addEventListener('click', ()=>{
