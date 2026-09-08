@@ -102,12 +102,12 @@
           </div>
           <div class="brand-swatch" style="background:var(--success);color:#fff">
             <div class="name">Success</div>
-            <div class="hex">#059669</div>
+            <div class="hex">#047857</div>
             <div class="small" style="margin-top:4px;opacity:.85;color:inherit">"Allowed", "Yes", published states</div>
           </div>
           <div class="brand-swatch" style="background:var(--danger);color:#fff">
             <div class="name">Danger</div>
-            <div class="hex">#dc2626</div>
+            <div class="hex">#b91c1c</div>
             <div class="small" style="margin-top:4px;opacity:.85;color:inherit">"N/A", "No", errors</div>
           </div>
           <div class="brand-swatch" style="background:var(--warning);color:#fff">
@@ -144,7 +144,7 @@
 
       <div class="sec" id="buttons">
         <div class="sec-title"><div class="h4">Buttons</div></div>
-        <p class="small">All standard buttons (<code>.btn</code>) are fully pill-shaped by default now, matching "Continue" / "Preview &amp; Publish" / "Save as template". The old <code>.btn-pill</code> modifier still exists but has nothing left to do.</p>
+        <p class="small">Per the Figma source, only the primary step-navigation actions ("Continue", "Preview &amp; Publish") are pill-shaped, via the <code>.btn-pill</code> modifier. Every other button - including "Save as template" - uses the standard 6px radius.</p>
         <div class="demo row-wrap">
           <button class="btn btn-primary">Primary</button>
           <button class="btn btn-primary btn-pill">Continue →</button>
@@ -155,6 +155,17 @@
           <button class="btn btn-primary" disabled>Disabled</button>
           <button class="btn btn-primary btn-sm">Small</button>
           <button class="btn btn-primary btn-lg">Large</button>
+        </div>
+        <p class="small" style="margin-top:14px">Dashed utility button (<code>.btn-dashed</code>), used for "Create a category" / "Create Tags":</p>
+        <div class="demo row-wrap">
+          <button class="btn btn-dashed btn-sm">
+            <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Create a category
+          </button>
+          <button class="btn btn-dashed btn-sm">
+            <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M1 9.5 7.5 3 11 6.5 4.5 13H1V9.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9.5 1.5 12.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Create Tags
+          </button>
         </div>
       </div>
 
@@ -220,19 +231,19 @@
 
       <div class="sec" id="select-row">
         <div class="sec-title"><div class="h4">Selectable list row</div></div>
-        <p class="small">Full-width checkbox row with optional info trigger. Used for Offer Categories &amp; Benefits.</p>
+        <p class="small">Full-width checkbox row with optional info trigger. Used for Offer Categories &amp; Benefits. The whole row is clickable, and unselected rows get a darker border on hover (<code>var(--border-hover)</code>) - try it below.</p>
         <div class="demo">
-          <div class="select-row selected"><div class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="title">Housing &amp; Accommodation</div><div class="info"><svg viewBox="0 0 24 24" fill="none" width="13" height="13"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div></div>
-          <div class="select-row"><div class="box"></div><div class="title">Money &amp; Financial Support</div><div class="info"><svg viewBox="0 0 24 24" fill="none" width="13" height="13"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div></div>
+          <div class="select-row selected" onclick="this.classList.toggle('selected')"><div class="box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="title">Housing &amp; Accommodation</div><div class="info"><svg viewBox="0 0 24 24" fill="none" width="13" height="13"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div></div>
+          <div class="select-row" onclick="this.classList.toggle('selected')"><div class="box"></div><div class="title">Money &amp; Financial Support</div><div class="info"><svg viewBox="0 0 24 24" fill="none" width="13" height="13"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div></div>
         </div>
       </div>
 
       <div class="sec" id="nav-row">
         <div class="sec-title"><div class="h4">Navigable row</div></div>
-        <p class="small">Avatar-initial row with chevron, for choosing an audience/group. Used in the "Who?" step.</p>
+        <p class="small">Avatar-initial row with chevron, for choosing an audience/group. Used in the "Who?" step, where every row is independently clickable (multi-select), not just decorative. Unselected rows get a darker border on hover.</p>
         <div class="demo">
-          <div class="nav-row selected"><div class="avatar avatar-primary">CL</div><div class="body"><div class="title">Care experienced people</div><div class="desc">Set location and age eligibility.</div></div><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="nav-row"><div class="avatar">FC</div><div class="body"><div class="title">Foster carer</div><div class="desc">Support children in foster care.</div></div><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="nav-row selected" onclick="this.classList.toggle('selected')"><div class="avatar avatar-primary">CL</div><div class="body"><div class="title">Care experienced people</div><div class="desc">Set location and age eligibility.</div></div><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="nav-row" onclick="this.classList.toggle('selected')"><div class="avatar">FC</div><div class="body"><div class="title">Foster carer</div><div class="desc">Support children in foster care.</div></div><svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
       </div>
 

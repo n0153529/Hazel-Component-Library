@@ -111,41 +111,63 @@ function iconX(){
 }
 
 const CORE_GROUPS = [
-  {code:'CL', title:'Care experienced people', desc:'Set location and age eligibility for care-experienced people.'}
+  {code:'CL', id:'care', title:'Care experienced people', desc:'Set location and age eligibility for care-experienced people.'}
 ];
 const OTHER_GROUPS = [
-  {code:'FC', title:'Foster carer', desc:'Support children or young people in foster care.'},
-  {code:'KC', title:'Kinship carer', desc:'Care for a child or young person through a family or connected-person arrangement.'},
-  {code:'SWK', title:'Support worker', desc:'Support care-experienced people with practical, emotional or community support.'},
-  {code:'SW', title:'Social worker', desc:'Support children in care or those leaving care.'},
-  {code:'IV', title:'Independent visitor', desc:'Visit and support children in care.'},
-  {code:'A', title:'Advocate', desc:'Advocate for and support children or young people in care.'},
-  {code:'LC', title:'Leaving care professional', desc:'Work in or support a leaving care service.'},
-  {code:'PA', title:'Leaving Care PAs', desc:'Support young people preparing for adulthood and independence.'}
+  {code:'FC', id:'foster_carer', title:'Foster carer', desc:'Support children or young people in foster care.'},
+  {code:'KC', id:'kinship_carer', title:'Kinship carer', desc:'Care for a child or young person through a family or connected-person arrangement.'},
+  {code:'SWK', id:'support_worker', title:'Support worker', desc:'Support care-experienced people with practical, emotional or community support.'},
+  {code:'SW', id:'social_worker', title:'Social worker', desc:'Support children in care or those leaving care.'},
+  {code:'IV', id:'ind_visitor', title:'Independent visitor', desc:'Visit and support children in care.'},
+  {code:'A', id:'advocate', title:'Advocate', desc:'Advocate for and support children or young people in care.'},
+  {code:'LC', id:'leaving_care_prof', title:'Leaving care professional', desc:'Work in or support a leaving care service.'},
+  {code:'PA', id:'leaving_care_pa', title:'Leaving Care PAs', desc:'Support young people preparing for adulthood and independence.'}
 ];
 
+/* Step 1 selection state: "care experienced" is its own toggle, everything
+   else is a multi-select set - both are genuinely clickable, matching the
+   real Figma Make behaviour rather than a static mockup. */
+let who1 = { care: true, members: new Set() };
+
+function toggleCare(){
+  who1.care = !who1.care;
+  refreshStepBody();
+}
+function toggleMember(id){
+  if(who1.members.has(id)) who1.members.delete(id); else who1.members.add(id);
+  refreshStepBody();
+}
+function refreshStepBody(){
+  document.getElementById('stepBody').innerHTML = RENDERERS[current]();
+}
+
 function stepWho(){
+  const chips = [];
+  if(who1.care) chips.push(`<span class="chip-removable">Care experienced people <button onclick="toggleCare()">${iconX()}</button></span>`);
+  OTHER_GROUPS.filter(g=>who1.members.has(g.id)).forEach(g=>{
+    chips.push(`<span class="chip-removable">${g.title} <button onclick="toggleMember('${g.id}')">${iconX()}</button></span>`);
+  });
   return `
     <div class="h4">Who is this offer for?</div>
     <p class="intro">Select the groups that can access this offer.</p>
     ${CORE_GROUPS.map(g=>`
-      <div class="nav-row selected">
-        <div class="avatar avatar-primary">${g.code}</div>
+      <div class="nav-row ${who1.care?'selected':''}" onclick="toggleCare()" role="checkbox" aria-checked="${who1.care}" tabindex="0">
+        <div class="avatar ${who1.care?'avatar-primary':''}">${g.code}</div>
         <div class="body"><div class="title">${g.title}</div><div class="desc">${g.desc}</div></div>
         ${iconChev()}
       </div>`).join('')}
     <div class="hr"></div>
     <div class="label" style="margin-bottom:4px">Other member accounts</div>
     <p class="small" style="margin:0 0 16px">Select any other member groups that can access this offer.</p>
-    ${OTHER_GROUPS.map(g=>`
-      <div class="nav-row">
-        <div class="avatar">${g.code}</div>
+    ${OTHER_GROUPS.map(g=>{
+      const active = who1.members.has(g.id);
+      return `
+      <div class="nav-row ${active?'selected':''}" onclick="toggleMember('${g.id}')" role="checkbox" aria-checked="${active}" tabindex="0">
+        <div class="avatar ${active?'avatar-primary':''}">${g.code}</div>
         <div class="body"><div class="title">${g.title}</div><div class="desc">${g.desc}</div></div>
         ${iconChev()}
-      </div>`).join('')}
-    <div style="margin-top:16px">
-      <span class="chip-removable">Care experienced people <button>${iconX()}</button></span>
-    </div>
+      </div>`;}).join('')}
+    ${chips.length ? `<div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">${chips.join('')}</div>` : ''}
   `;
 }
 
@@ -204,30 +226,30 @@ function stepEligibility(){
   `;
 }
 function eligRow(title, desc, state){
-  const badge = state === 'allowed' ? `<span class="badge badge-success">Allowed</span>` : `<span class="badge badge-danger">N/A</span>`;
+  const badge = state === 'allowed' ? `<span class="badge badge-success elig-badge">Allowed</span>` : `<span class="badge badge-danger elig-badge">N/A</span>`;
   const yesOn = state === 'allowed' ? 'on' : '';
   const noOn = state === 'na' ? 'on' : '';
   return `
-    <div class="card padded" style="margin-top:14px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text-strong)">
-          <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--primary)"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
-          ${title}
-        </div>
+    <div class="elig-card" style="margin-top:12px">
+      <div class="elig-card-head">
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--primary)"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="elig-card-title">${title}</span>
         ${badge}
       </div>
-      <p class="small" style="margin:0 0 14px">${desc}</p>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div class="segmented">
-          <button class="seg-btn yes ${yesOn}">${iconCheck()} Yes</button>
-          <button class="seg-btn no ${noOn}">${iconX()} No</button>
+      <div class="elig-card-body">
+        <p class="small" style="margin:0 0 12px">${desc}</p>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="segmented">
+            <button class="seg-btn yes ${yesOn}">${iconCheck()} Yes</button>
+            <button class="seg-btn no ${noOn}">${iconX()} No</button>
+          </div>
+          <button type="button" class="includes-toggle" onclick="toggleIncludes(this)">
+            ${iconInfo()} <span class="txt">Includes</span> ${iconChevSm()}
+          </button>
         </div>
-        <button type="button" class="includes-toggle" onclick="toggleIncludes(this)">
-          ${iconInfo()} <span class="txt">Includes</span> ${iconChevSm()}
-        </button>
-      </div>
-      <div class="includes-panel" hidden>
-        <p>${desc}</p>
+        <div class="includes-panel" hidden>
+          <p>${desc}</p>
+        </div>
       </div>
     </div>
   `;
@@ -312,60 +334,121 @@ function stepDetails(){
   `;
 }
 
-const BENEFITS_LEFT = ["Help with living costs","Help to find work","Help with housing","Help to stay in your home","Help with health and wellbeing","Help with bills","Help in an emergency","Help with independence","Help with relationships and connections","Help with confidence","Help for parents and families"];
-const BENEFITS_RIGHT = ["Help when you are working","Help with education and training","Help setting up your home","Help with travel","Help with food","Help with money","Help with digital access","Help with documents and ID","Help with activities and interests","Help to start a business"];
+const BENEFITS = ["Help with living costs","Help when you are working","Help to find work","Help with education and training","Help with housing","Help setting up your home","Help to stay in your home","Help with travel","Help with health and wellbeing","Help with food","Help with bills","Help with money","Help in an emergency","Help with digital access","Help with independence","Help with documents and ID","Help with relationships and connections","Help with activities and interests","Help with confidence","Help to start a business","Help for parents and families"];
+
+let benefitsSelected = new Set(["Help when you are working","Help with activities and interests"]);
+
+function toggleBenefit(label){
+  if(benefitsSelected.has(label)) benefitsSelected.delete(label); else benefitsSelected.add(label);
+  refreshStepBody();
+}
+function benefitsSelectAll(){ benefitsSelected = new Set(BENEFITS); refreshStepBody(); }
+function benefitsClearAll(){ benefitsSelected = new Set(); refreshStepBody(); }
 
 function stepBenefits(){
-  const selected = new Set(["Help when you are working","Help with activities and interests"]);
   const row = (label)=>`
-    <div class="select-row ${selected.has(label)?'selected':''}">
+    <div class="select-row ${benefitsSelected.has(label)?'selected':''}" onclick="toggleBenefit('${label.replace(/'/g,"\\'")}')" role="checkbox" aria-checked="${benefitsSelected.has(label)}" tabindex="0">
       <div class="box">${iconCheck()}</div>
       <div class="title">${label}</div>
     </div>`;
+  // Split by even/odd index rather than first-half/second-half: this
+  // reproduces the exact same row-major reading order a 2-column CSS grid
+  // produces (row 0: items 0,1 / row 1: items 2,3 / ...), while rendering
+  // reliably via flexbox instead of depending on grid support.
+  const left = BENEFITS.filter((_,i)=>i%2===0);
+  const right = BENEFITS.filter((_,i)=>i%2===1);
   return `
     <div style="display:flex;align-items:flex-start;justify-content:space-between">
       <div><div class="h4" style="margin-bottom:2px">Benefits</div>
       <p class="intro" style="margin-bottom:6px">Select all the benefits this offer delivers. These will be used for future member matching.</p></div>
-      <span class="pill-counter">${selected.size} / 21 selected</span>
+      <span class="pill-counter">${benefitsSelected.size} / ${BENEFITS.length} selected</span>
     </div>
-    <div class="link-actions" style="margin-bottom:16px"><a href="#">Select all</a><span class="dot">&middot;</span><a href="#">Clear all</a></div>
+    <div class="link-actions" style="margin-bottom:16px"><a href="#" onclick="benefitsSelectAll();return false;">Select all</a><span class="dot">&middot;</span><a href="#" onclick="benefitsClearAll();return false;">Clear all</a></div>
     <div class="cols-2">
-      <div>${BENEFITS_LEFT.map(row).join('')}</div>
-      <div>${BENEFITS_RIGHT.map(row).join('')}</div>
+      <div>${left.map(row).join('')}</div>
+      <div>${right.map(row).join('')}</div>
     </div>
   `;
 }
 
-const CATEGORIES = ["Housing & Accommodation","Money & Financial Support","Education & Learning","Jobs, Training & Careers","Health & Wellbeing","Relationships & Support Networks","Community, Activities & Having Your Say","Independent Living & Everyday Life","Advice, Rights & Leaving Care Support","Extra Support When You Need It"];
-const TAGS = ["Home Appliances","Flooring","Bedding","White Goods","Furniture","Cookware","Garden","Cleaning Products","Starter Packs","DIY and Tools","Home Insurance","Energy and Utilities","Broadband","Preparing to Move","Rent Guarantor","Help to Move","Hampers"];
+const CATEGORIES = [
+  {label:"Housing & Accommodation", info:"Support finding and maintaining a safe, stable home."},
+  {label:"Money & Financial Support", info:"Access to grants, benefits, and financial advice."},
+  {label:"Education & Learning", info:"Courses, training, and educational opportunities."},
+  {label:"Jobs, Training & Careers", info:"Employment support, apprenticeships, and career guidance."},
+  {label:"Health & Wellbeing", info:"Physical and mental health services and support."},
+  {label:"Relationships & Support Networks", info:"Mentoring, befriending, and community connections."},
+  {label:"Community, Activities & Having Your Say", info:"Local events, activities, and participation opportunities."},
+  {label:"Independent Living & Everyday Life", info:"Skills and support for living independently."},
+  {label:"Advice, Rights & Leaving Care Support", info:"Legal advice, advocacy, and leaving care services."},
+  {label:"Extra Support When You Need It", info:"Crisis support and additional specialist services."}
+];
+const CATEGORY_TAGS = {
+  "Housing & Accommodation": ["Home Appliances","Flooring","Bedding","White Goods","Furniture","Cookware","Garden","Cleaning Products","Starter Packs","DIY and Tools","Home Insurance","Energy and Utilities","Broadband","Preparing to Move","Rent Guarantor","Help to Move","Hampers"],
+  "Money & Financial Support": ["Credit Rating","Banking","Mortgages","Grants","Budgeting","Debt Advice","Benefits Calculator","Universal Credit","Savings","Insurance"],
+  "Education & Learning": ["Schools","Tutoring","GCSEs","A-Levels","Online Courses","Apprenticeships","Literacy","Numeracy","Digital Skills","Languages","Evening Classes","Higher Education","Bursaries"],
+  "Jobs, Training & Careers": ["Job Search","CV Writing","Interviews","Apprenticeships","Work Placement","Volunteering","Self Employment","Employer Schemes","Skills Bootcamps","Work Experience"],
+  "Health & Wellbeing": ["GP","Dentist","Optician","Mental Health","Therapy","Sexual Health","Pharmacy","Substance Support","Gym & Fitness","Nutrition","Wellbeing Activities"],
+  "Relationships & Support Networks": ["Mentoring","Befriending","Peer Support","Family Contact","Independent Visitor","Social Groups","Counselling","Advocacy","Support Worker"],
+  "Community, Activities & Having Your Say": ["Events","Sports","Arts & Crafts","Music","Young Person Panels","Consultations","Co-production","Volunteering","Days Out","Holiday Activities"],
+  "Independent Living & Everyday Life": ["Cooking","Budgeting Skills","Cleaning","Shopping","Digital Skills","Driving","Life Skills Courses","Time Management","Personal Hygiene"],
+  "Advice, Rights & Leaving Care Support": ["Legal Aid","Rights Advice","Advocacy Services","Leaving Care Planning","Pathway Planning","Personal Adviser","Court Support","Immigration Advice"],
+  "Extra Support When You Need It": ["Crisis Support","Emergency Accommodation","Food Banks","Domestic Abuse Support","Substance Support","Mental Health Crisis","Safe Houses","Emergency Contacts","Specialist Services"]
+};
+
+let categoriesSelected = new Set(["Housing & Accommodation"]);
+let tagsSelected = { "Housing & Accommodation": new Set(["Home Appliances"]) };
+
+function toggleCategory(label){
+  if(categoriesSelected.has(label)) categoriesSelected.delete(label); else categoriesSelected.add(label);
+  refreshStepBody();
+}
+function toggleTag(cat, tag){
+  if(!tagsSelected[cat]) tagsSelected[cat] = new Set();
+  if(tagsSelected[cat].has(tag)) tagsSelected[cat].delete(tag); else tagsSelected[cat].add(tag);
+  refreshStepBody();
+}
 
 function stepCategories(){
+  const catsWithTags = [...categoriesSelected].filter(c => (CATEGORY_TAGS[c]||[]).length);
   return `
     <div class="h4">Offer Categories</div>
     <p class="intro">Choose the categories this offer applies to. Select one or more.</p>
-    ${CATEGORIES.map((c,i)=>`
-      <div class="select-row ${i===0?'selected':''}">
+    ${CATEGORIES.map((c)=>{
+      const active = categoriesSelected.has(c.label);
+      return `
+      <div class="select-row ${active?'selected':''}" onclick="toggleCategory('${c.label.replace(/'/g,"\\'")}')" role="checkbox" aria-checked="${active}" tabindex="0">
         <div class="box">${iconCheck()}</div>
-        <div class="title">${c}</div>
-        <div class="info info-tip" tabindex="0">${iconInfo()}<span class="bubble">Members will see offers tagged with this category</span></div>
-      </div>`).join('')}
+        <div class="title">${c.label}</div>
+        <div class="info info-tip" tabindex="0" onclick="event.stopPropagation()">${iconInfo()}<span class="bubble">${c.info}</span></div>
+      </div>`;}).join('')}
 
+    ${catsWithTags.map(cat => `
     <div class="subpanel">
       <div class="subpanel-header">
-        <div class="title">${iconCheck()} Housing & Accommodation</div>
+        <div class="title">${iconCheck()} ${cat}</div>
         <div class="meta">Offer Tags</div>
       </div>
       <div class="subpanel-body">
         <p class="small" style="margin-top:0">Add useful search tags so members can find the offer in more than one way.</p>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
-          ${TAGS.map((t,i)=>`<span class="tag-pill ${i===0?'selected':''}">${i===0?iconCheck():''} ${t}</span>`).join('')}
+          ${CATEGORY_TAGS[cat].map(t=>{
+            const on = tagsSelected[cat] && tagsSelected[cat].has(t);
+            return `<span class="tag-pill ${on?'selected':''}" onclick="toggleTag('${cat.replace(/'/g,"\\'")}','${t.replace(/'/g,"\\'")}')">${on?iconCheck():''} ${t}</span>`;
+          }).join('')}
         </div>
       </div>
-    </div>
+    </div>`).join('')}
 
     <div style="display:flex;gap:10px;margin-top:16px">
-      <button class="btn btn-secondary btn-sm">+ Create a category</button>
-      <button class="btn btn-secondary btn-sm">✎ Create Tags</button>
+      <button class="btn btn-dashed btn-sm">
+        <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Create a category
+      </button>
+      <button class="btn btn-dashed btn-sm">
+        <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M1 9.5 7.5 3 11 6.5 4.5 13H1V9.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9.5 1.5 12.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Create Tags
+      </button>
     </div>
 
     <div class="panel-dark">
@@ -402,7 +485,7 @@ function render(){
 /* Toggles the "Includes" accordion on an eligibility card: flips the
    chevron and shows/hides the detail panel that sits below the row. */
 function toggleIncludes(btn){
-  const card = btn.closest('.card');
+  const card = btn.closest('.elig-card');
   const panel = card ? card.querySelector('.includes-panel') : null;
   const isOpen = btn.classList.toggle('open');
   if(panel) panel.hidden = !isOpen;

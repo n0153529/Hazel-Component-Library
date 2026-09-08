@@ -1,24 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+
 /* =========================================================
    HAZEL DESIGN SYSTEM v4
    Source of truth for colour, type, spacing and components.
-   Palette below is sampled directly from the "Create an Offer"
-   Figma Make design (Sept 2026) - not approximated.
+   Palette below is taken directly from the Figma Make "Create an
+   Offer" source export (src/index.css + src/App.tsx), Sept 2026.
    ========================================================= */
 
 :root{
   /* ---- surfaces ---- */
-  --bg:#f5f5f3;
-  --surface:#ffffff;
-  --surface-2:#fafaf8;
-  --surface-3:#f2f6f7;         /* soft teal-tinted panel */
-  --border:#e3e6e0;
-  --border-strong:#cdd3ce;
+  --bg:#f5f5f3;                /* --background */
+  --surface:#ffffff;           /* --card */
+  --surface-2:#f5f5f3;         /* inputs sit on --background, even inside a white card */
+  --surface-3:#e6eef0;         /* --muted */
+  --secondary:#eef6f7;         /* --secondary: soft header bars (e.g. eligibility card header) */
+  --border:#ccdde0;            /* --border */
+  --border-strong:#b9cdd1;     /* darker decorative border (dropzone, progress dots) - not in source, derived */
+  --border-hover:#5a7a82;      /* hover:border-muted-foreground - exact source value */
 
   /* ---- text ---- */
-  --text:#33474c;
-  --text-strong:#104751;       /* headings + dark-panel bg */
-  --muted:#5b6b6e;
-  --subtle:#7c8b8d;
+  --text:#104751;              /* --foreground, used for both body and headings */
+  --text-strong:#104751;       /* alias of --text, kept for emphasis-only class names */
+  --muted:#5a7a82;             /* --muted-foreground, exact source value */
+  --subtle:#7c9499;            /* tertiary hint tone, not in source - derived, lighter than --muted */
   --on-dark:#ffffff;
   --on-dark-muted:#bcd6d9;
 
@@ -26,21 +31,21 @@
   --primary:#078c9e;
   --primary-hover:#066d7c;
   --primary-active:#055c69;
-  --primary-soft:#eff8f9;
+  --primary-soft:#eff8fa;      /* #078c9e at ~6% opacity on white, matches source's "#078c9e10" */
   --primary-soft-2:#e6eef0;
   --primary-border:#bfe4e8;
-  --primary-glow:rgba(7,140,158,.18);
+  --primary-glow:#ccfbf1;      /* Tailwind teal-100, exact source ring colour on active step */
 
-  /* ---- semantic ---- */
-  --success:#059669;
+  /* ---- semantic (aligned to Tailwind emerald/red 50/400/700, as used in source) ---- */
+  --success:#047857;
   --success-soft:#ecfdf5;
-  --success-border:#a7e8cf;
+  --success-border:#34d399;
   --warning:#b7791f;
   --warning-soft:#fbf3e3;
   --warning-border:#f2dfb7;
-  --danger:#dc2626;
+  --danger:#b91c1c;
   --danger-soft:#fef2f2;
-  --danger-border:#f5c6c6;
+  --danger-border:#f87171;
   --info:#2563eb;
   --info-soft:#eaf1ff;
   --info-border:#cfe0ff;
@@ -55,10 +60,10 @@
   --panel-dark-2:#0b363e;
   --panel-dark-border:#1c5a64;
 
-  /* ---- radius ---- */
-  --radius-sm:6px;
+  /* ---- radius (exact source scale: --radius:6px, sm/md/lg derived from it) ---- */
+  --radius-sm:4px;
   --radius-md:6px;
-  --radius-lg:6px;
+  --radius-lg:8px;
   --radius-xl:8px;
   --radius-pill:999px;
 
@@ -77,7 +82,7 @@
 
   /* ---- type ---- */
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --text-xs:14px; --text-sm:14px; --text-md:16px; --text-lg:16px;
   --text-xl:18px; --text-2xl:22px; --text-3xl:28px; --text-4xl:36px; --text-5xl:44px;
@@ -150,26 +155,33 @@ code,pre{font-family:var(--font-mono)}
 .kpi .delta{font-size:var(--text-sm);color:var(--success)}
 
 /* ---------------- Buttons ---------------- */
-/* All standard buttons are fully pill-shaped per brand guidelines. */
+/* Per the Figma source: only the primary step-navigation actions
+   (Continue / Preview & Publish) are pill-shaped. Everything else -
+   including "Save as template" - uses the standard 6px radius. */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  height:42px;padding:0 18px;border-radius:var(--radius-pill);border:1px solid transparent;
+  height:42px;padding:0 18px;border-radius:var(--radius-md);border:1px solid transparent;
   font-weight:600;font-size:var(--text-md);cursor:pointer;transition:.15s ease;white-space:nowrap;
 }
 .btn svg{width:16px;height:16px;flex:none}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-primary:hover{background:var(--primary-hover)}
-.btn-secondary{background:var(--surface);border-color:var(--border);color:var(--text-strong)}
-.btn-secondary:hover{background:var(--surface-3)}
-.btn-ghost{background:transparent;color:var(--text-strong)}
+.btn-secondary{background:var(--surface);border-color:var(--border);color:var(--text)}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn-ghost{background:transparent;color:var(--text)}
 .btn-ghost:hover{background:var(--surface-3)}
 .btn-danger{background:var(--danger);color:#fff}
-.btn-sm{height:34px;padding:0 14px;border-radius:var(--radius-pill);font-size:var(--text-sm)}
-.btn-lg{height:48px;padding:0 24px;border-radius:var(--radius-pill)}
-.btn-pill{border-radius:var(--radius-pill)} /* kept as a no-op alias; all buttons are pill by default now */
+.btn-sm{height:34px;padding:0 14px;font-size:var(--text-sm)}
+.btn-lg{height:48px;padding:0 24px}
+.btn-pill{border-radius:var(--radius-pill)}
+.btn-pill.btn-primary{box-shadow:0 4px 4px rgba(0,0,0,.25)}
 .btn-link{height:auto;padding:0;border-radius:0;background:none;color:var(--muted);font-weight:600}
-.btn-link:hover{color:var(--text-strong)}
+.btn-link:hover{color:var(--text)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* Dashed utility button, e.g. "Create a category" / "Create Tags" */
+.btn-dashed{background:none;border:1px dashed var(--border);color:var(--muted)}
+.btn-dashed:hover{color:var(--text);border-color:var(--border-hover)}
 
 /* ---------------- Inputs ---------------- */
 .input, .select, .textarea{
@@ -375,7 +387,7 @@ tr:last-child td{border-bottom:none}
 .owizard-step.done .lbl{color:var(--text-strong)}
 .owizard-step.active .circle{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-glow)}
 .owizard-step.active .lbl{color:var(--text-strong)}
-.owizard-line{width:32px;height:2px;background:var(--border);margin:0 10px;flex:none}
+.owizard-line{width:30px;height:1px;background:var(--border);margin:0 12px;flex:none}
 .owizard-line.done{background:var(--primary)}
 
 .owizard-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
@@ -392,48 +404,52 @@ tr:last-child td{border-bottom:none}
 
 /* selectable list row (checkbox pattern - categories) */
 .select-row{
-  display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-md);
-  background:var(--surface);cursor:pointer;transition:.12s ease;margin-bottom:10px;
+  display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--radius-lg);
+  background:var(--surface);cursor:pointer;transition:.12s ease;margin-bottom:8px;
 }
 .select-row:last-child{margin-bottom:0}
-.select-row .box{width:20px;height:20px;border-radius:6px;border:2px solid var(--border-strong);flex:none;display:grid;place-items:center;background:#fff}
-.select-row .box svg{width:12px;height:12px;color:#fff;opacity:0}
-.select-row .title{font-weight:700;color:var(--text-strong);flex:1}
-.select-row .info{width:22px;height:22px;border-radius:999px;border:1px solid var(--border-strong);display:grid;place-items:center;color:var(--subtle);flex:none}
+.select-row:hover:not(.selected){border-color:var(--border-hover)}
+.select-row .box{width:16px;height:16px;border-radius:var(--radius-sm);border:1px solid var(--border);flex:none;display:grid;place-items:center;background:#fff;transition:.12s ease}
+.select-row .box svg{width:10px;height:10px;color:#fff;opacity:0}
+.select-row .title{font-weight:500;color:var(--text);flex:1}
+.select-row .info{width:22px;height:22px;border-radius:999px;border:1px solid var(--border);display:grid;place-items:center;color:var(--subtle);flex:none}
 .select-row.selected{border-color:var(--primary);background:var(--primary-soft)}
 .select-row.selected .box{background:var(--primary);border-color:var(--primary)}
 .select-row.selected .box svg{opacity:1}
-.select-row.selected .title{color:var(--primary)}
+.select-row.selected .title{color:var(--primary);font-weight:600}
 .select-row.selected .info{border-color:var(--primary);color:var(--primary)}
 
 /* navigable list row (chevron pattern - "who is this offer for") */
 .nav-row{
-  display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-md);
-  background:var(--surface);cursor:pointer;transition:.12s ease;margin-bottom:10px;
+  display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg);
+  background:var(--surface);cursor:pointer;transition:.12s ease;margin-bottom:8px;
 }
 .nav-row:last-child{margin-bottom:0}
-.nav-row .title{font-weight:700;color:var(--text-strong)}
+.nav-row:hover:not(.selected){border-color:var(--border-hover)}
+.nav-row .title{font-weight:600;color:var(--text)}
 .nav-row .desc{font-size:var(--text-sm);color:var(--muted);margin-top:2px}
 .nav-row .body{flex:1}
-.nav-row .chev{color:var(--subtle);width:18px;height:18px;flex:none}
-.nav-row.selected{border-color:var(--primary);background:var(--primary-soft)}
+.nav-row .chev{color:var(--muted);width:16px;height:16px;flex:none}
+.nav-row.selected{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary)}
 .nav-row.selected .title{color:var(--primary)}
 .nav-row.selected .chev{color:var(--primary)}
 
 /* removable chip (selected group summary) */
 .chip-removable{
   display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 8px 0 14px;border-radius:999px;
-  background:var(--primary);color:#fff;font-weight:700;font-size:var(--text-sm);
+  background:var(--primary);color:#fff;font-weight:500;font-size:var(--text-sm);
 }
-.chip-removable button{width:18px;height:18px;border-radius:999px;background:rgba(255,255,255,.22);border:none;color:#fff;display:grid;place-items:center;cursor:pointer}
+.chip-removable button{width:18px;height:18px;border-radius:999px;background:none;border:none;color:#fff;display:grid;place-items:center;cursor:pointer;opacity:.7}
+.chip-removable button:hover{opacity:1}
 .chip-removable button svg{width:10px;height:10px}
 
 /* selectable tag pill (offer tags) */
 .tag-pill{
-  display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;
-  border:1px solid var(--border-strong);background:var(--surface);color:var(--text-strong);font-weight:600;font-size:var(--text-sm);
+  display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 14px;border-radius:999px;
+  border:1px solid var(--border);background:var(--bg);color:var(--text);font-weight:500;font-size:var(--text-sm);
   cursor:pointer;transition:.12s ease;
 }
+.tag-pill:hover:not(.selected){border-color:var(--border-hover)}
 .tag-pill.selected{background:var(--primary);border-color:var(--primary);color:#fff}
 .tag-pill .add{border-style:dashed;color:var(--muted)}
 .tag-pill svg{width:12px;height:12px}
@@ -448,32 +464,34 @@ tr:last-child td{border-bottom:none}
 .cols-4 > *{flex:1 1 220px;min-width:0}
 
 /* subpanel header inside a section */
-.subpanel{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:20px}
-.subpanel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--primary-soft);border-bottom:1px solid var(--border)}
-.subpanel-header .title{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text-strong)}
-.subpanel-header .title svg{width:16px;height:16px;color:var(--primary)}
+.subpanel{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:20px}
+.subpanel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface-3);border-bottom:1px solid var(--border)}
+.subpanel-header .title{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text)}
+.subpanel-header .title svg{width:14px;height:14px;color:var(--primary)}
 .subpanel-header .meta{font-size:var(--text-sm);color:var(--muted)}
-.subpanel-body{padding:18px;background:var(--surface)}
+.subpanel-body{padding:16px;background:var(--surface)}
 
 /* option card (radio-card grid - offer access route) */
 .option-card{
-  border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;cursor:pointer;background:var(--surface);transition:.12s ease;
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;background:var(--surface);transition:.12s ease;
 }
-.option-card.disabled{background:var(--surface-2);color:var(--subtle);cursor:not-allowed}
+.option-card:hover:not(.selected):not(.disabled){border-color:var(--border-hover)}
+.option-card.disabled{background:var(--surface-3);color:var(--subtle);cursor:not-allowed}
 .option-card .row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.option-card .title{font-weight:700;color:var(--text-strong)}
+.option-card .title{font-weight:600;color:var(--text)}
 .option-card.disabled .title{color:var(--subtle)}
 .option-card .desc{font-size:var(--text-sm);color:var(--muted)}
-.option-card.selected{border-color:var(--primary);background:var(--primary-soft-2)}
+.option-card.selected{border-color:var(--primary);background:var(--primary-soft)}
 .option-card.selected .title{color:var(--primary)}
 
 /* segmented yes/no toggle */
 .segmented{display:inline-flex;gap:8px}
 .seg-btn{
-  display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 16px;border-radius:var(--radius-sm);
-  border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-weight:700;font-size:var(--text-sm);cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:var(--radius-md);
+  border:1px solid var(--border);background:var(--bg);color:var(--text);font-weight:500;font-size:var(--text-sm);cursor:pointer;transition:.12s ease;
 }
-.seg-btn svg{width:14px;height:14px}
+.seg-btn:hover:not(.on){border-color:var(--border-hover)}
+.seg-btn svg{width:12px;height:12px}
 .seg-btn.yes.on{background:var(--success-soft);border-color:var(--success-border);color:var(--success)}
 .seg-btn.no.on{background:var(--danger-soft);border-color:var(--danger-border);color:var(--danger)}
 .seg-btn.on-dark{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#fff}
@@ -524,6 +542,13 @@ tr:last-child td{border-bottom:none}
 .includes-toggle.open .chev-sm{transform:rotate(180deg)}
 .includes-panel{margin-top:10px;padding:2px 0 2px 14px;border-left:2px solid var(--border-strong)}
 .includes-panel p{margin:0;color:var(--subtle);font-size:var(--text-sm)}
+
+/* eligibility question card - header bar (secondary/40 tint) + body, no shadow */
+.elig-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)}
+.elig-card-head{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(238,246,247,.6)}
+.elig-card-title{font-weight:500;color:var(--text);flex:1;font-size:var(--text-md)}
+.elig-badge{width:56px;justify-content:center;flex:none}
+.elig-card-body{padding:14px 16px}
 
 /* Tooltip trigger used for standalone "i" info icons (not the Includes control above) */
 .info-tip{position:relative;display:inline-flex;cursor:help}
