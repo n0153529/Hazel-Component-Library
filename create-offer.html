@@ -171,14 +171,38 @@ function stepWho(){
   `;
 }
 
+const QUALIFIERS = [
+  {id:'relevant', label:'Relevant', desc:'A child who is being looked after by a local authority.'},
+  {id:'former_relevant', label:'Former relevant', desc:'A young person aged 16&ndash;21 who was previously looked after.'},
+  {id:'qualifying', label:'Qualifying', desc:'A person aged 16&ndash;25 who left care before age 16 or has special circumstances.'}
+];
+let qualifiers = new Set(['relevant']);
+function toggleQualifier(id){
+  if(qualifiers.has(id)) qualifiers.delete(id); else qualifiers.add(id);
+  refreshStepBody();
+}
+
+const ELIG_ROWS = [
+  {id:'corp_in', title:'Corporate parent - living in our area', desc:'Care-experienced people for whom we are the corporate parent and who currently live in our area.'},
+  {id:'corp_out', title:'Corporate parent - living outside our area', desc:'Care-experienced people for whom we are the corporate parent but who currently live outside our area.'},
+  {id:'corp_another', title:"Another authority's corporate parent - living in our area", desc:"Care-experienced people whose corporate parent is another local authority but who currently live in our area."}
+];
+let eligAnswers = { corp_in: null, corp_out: null, corp_another: null };
+function setEligAnswer(id, val){
+  eligAnswers[id] = (eligAnswers[id] === val) ? null : val;
+  refreshStepBody();
+}
+
 function stepEligibility(){
+  const answered = ELIG_ROWS.filter(r=>eligAnswers[r.id]!==null).length;
+  const countBadgeClass = answered === ELIG_ROWS.length ? 'badge-success' : 'badge-neutral';
   return `
     <div class="h4">Eligibility</div>
     <p class="intro">Set access rules for each selected group.</p>
     <div style="display:flex;gap:10px;margin-bottom:20px">
       <span class="chip-removable" style="background:var(--primary-soft);color:var(--primary)">
         <span class="avatar avatar-sm avatar-primary" style="margin-right:2px">CL</span> Care experienced people
-        <span class="badge badge-success" style="height:20px">3/3</span>
+        <span class="badge ${countBadgeClass}" style="height:20px">${answered}/${ELIG_ROWS.length}</span>
       </span>
     </div>
     <div class="nav-row selected" style="cursor:default">
@@ -204,31 +228,27 @@ function stepEligibility(){
           <div class="title" style="color:#fff">Care status qualifier</div>
         </div>
         <div class="subpanel-body" style="display:grid;gap:10px">
-          <div class="option-card selected">
-            <div class="row"><span class="box" style="width:16px;height:16px;border-radius:4px;background:var(--primary);display:inline-grid;place-items:center;margin-right:6px">${iconCheck()}</span><span class="title">Relevant</span></div>
-            <div class="desc">A child who is being looked after by a local authority.</div>
-          </div>
-          <div class="option-card">
-            <div class="row"><span class="title">Former relevant</span></div>
-            <div class="desc">A young person aged 16&ndash;21 who was previously looked after.</div>
-          </div>
-          <div class="option-card">
-            <div class="row"><span class="title">Qualifying</span></div>
-            <div class="desc">A person aged 16&ndash;25 who left care before age 16 or has special circumstances.</div>
-          </div>
+          ${QUALIFIERS.map(q=>{
+            const active = qualifiers.has(q.id);
+            return `
+          <div class="option-card ${active?'selected':''}" onclick="toggleQualifier('${q.id}')" role="checkbox" aria-checked="${active}" tabindex="0">
+            <div class="row"><span class="box" style="width:16px;height:16px;border-radius:4px;border:1px solid ${active?'var(--primary)':'var(--border)'};background:${active?'var(--primary)':'#fff'};display:inline-grid;place-items:center;margin-right:6px;flex:none">${active?iconCheck():''}</span><span class="title">${q.label}</span></div>
+            <div class="desc">${q.desc}</div>
+          </div>`;}).join('')}
         </div>
       </div>
     </div>
 
-    ${eligRow('Corporate parent - living in our area','Care-experienced people for whom we are the corporate parent and who currently live in our area.','allowed')}
-    ${eligRow("Corporate parent - living outside our area","Care-experienced people for whom we are the corporate parent but who currently live outside our area.",'na')}
-    ${eligRow("Another authority's corporate parent - living in our area","Care-experienced people whose corporate parent is another local authority but who currently live in our area.",'allowed')}
+    ${ELIG_ROWS.map(r=>eligRow(r.id, r.title, r.desc)).join('')}
   `;
 }
-function eligRow(title, desc, state){
-  const badge = state === 'allowed' ? `<span class="badge badge-success elig-badge">Allowed</span>` : `<span class="badge badge-danger elig-badge">N/A</span>`;
-  const yesOn = state === 'allowed' ? 'on' : '';
-  const noOn = state === 'na' ? 'on' : '';
+function eligRow(id, title, desc){
+  const state = eligAnswers[id];
+  const badge = state === 'yes' ? `<span class="badge badge-success elig-badge">Allowed</span>`
+              : state === 'no' ? `<span class="badge badge-danger elig-badge">N/A</span>`
+              : `<span class="elig-badge"></span>`;
+  const yesOn = state === 'yes' ? 'on' : '';
+  const noOn = state === 'no' ? 'on' : '';
   return `
     <div class="elig-card" style="margin-top:12px">
       <div class="elig-card-head">
@@ -240,8 +260,8 @@ function eligRow(title, desc, state){
         <p class="small" style="margin:0 0 12px">${desc}</p>
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div class="segmented">
-            <button class="seg-btn yes ${yesOn}">${iconCheck()} Yes</button>
-            <button class="seg-btn no ${noOn}">${iconX()} No</button>
+            <button class="seg-btn yes ${yesOn}" onclick="setEligAnswer('${id}','yes')">${iconCheck()} Yes</button>
+            <button class="seg-btn no ${noOn}" onclick="setEligAnswer('${id}','no')">${iconX()} No</button>
           </div>
           <button type="button" class="includes-toggle" onclick="toggleIncludes(this)">
             ${iconInfo()} <span class="txt">Includes</span> ${iconChevSm()}
@@ -398,6 +418,11 @@ const CATEGORY_TAGS = {
 
 let categoriesSelected = new Set(["Housing & Accommodation"]);
 let tagsSelected = { "Housing & Accommodation": new Set(["Home Appliances"]) };
+let shareWithCouncil = null; // null | 'yes' | 'no' - deselected by default
+function setShareWithCouncil(val){
+  shareWithCouncil = (shareWithCouncil === val) ? null : val;
+  refreshStepBody();
+}
 
 function toggleCategory(label){
   if(categoriesSelected.has(label)) categoriesSelected.delete(label); else categoriesSelected.add(label);
@@ -461,13 +486,13 @@ function stepCategories(){
       </div>
       <div class="desc">Allow a local council to view, share and broker this offer in their area.</div>
       <div class="segmented">
-        <button class="seg-btn yes on-dark on">${iconCheck()} Yes</button>
-        <button class="seg-btn on-dark">${iconX()} No</button>
+        <button class="seg-btn yes on-dark ${shareWithCouncil==='yes'?'on':''}" onclick="setShareWithCouncil('yes')">${iconCheck()} Yes</button>
+        <button class="seg-btn on-dark ${shareWithCouncil==='no'?'on':''}" onclick="setShareWithCouncil('no')">${iconX()} No</button>
       </div>
       <div class="field-label">Select local authority</div>
-      <div class="searchbar">
+      <div class="searchbar" ${shareWithCouncil!=='yes' ? 'style="opacity:.5"' : ''}>
         <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input placeholder="Search for a local authority&hellip;" />
+        <input placeholder="Search for a local authority&hellip;" ${shareWithCouncil!=='yes' ? 'disabled' : ''} />
       </div>
     </div>
   `;
