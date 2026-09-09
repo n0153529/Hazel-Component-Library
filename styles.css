@@ -250,7 +250,7 @@ code,pre{font-family:var(--font-mono)}
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 table{width:100%;border-collapse:collapse}
 th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}
-th{font-size:var(--text-sm);text-transform:uppercase;letter-spacing:.06em;color:var(--subtle);background:var(--surface-2)}
+th{font-size:var(--text-sm);text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--panel-dark)}
 tr:last-child td{border-bottom:none}
 
 /* Responsive table: below 640px, rows become stacked label/value cards.
@@ -454,7 +454,8 @@ tr:last-child td{border-bottom:none}
 .tag-pill:hover:not(.selected){border-color:var(--border-hover)}
 .tag-pill.selected{background:var(--primary);border-color:var(--primary);color:#fff}
 .tag-pill .add{border-style:dashed;color:var(--muted)}
-.tag-pill svg{width:12px;height:12px}
+.tag-pill svg{width:12px;height:12px;display:none}
+.tag-pill.selected svg{display:block}
 
 /* Robust 2-column layout for wizard sections (flexbox, avoids any grid
    support ambiguity in older rendering/preview tools).
@@ -553,7 +554,7 @@ tr:last-child td{border-bottom:none}
 .elig-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)}
 .elig-card-head{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(238,246,247,.6)}
 .elig-card-title{font-weight:500;color:var(--text);flex:1;font-size:var(--text-md)}
-.elig-badge{width:56px;justify-content:center;flex:none}
+.elig-badge{justify-content:center;flex:none}
 .elig-card-body{padding:14px 16px}
 
 /* Tooltip trigger used for standalone "i" info icons (not the Includes control above) */

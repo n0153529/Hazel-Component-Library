@@ -152,19 +152,63 @@ Worth knowing this class of bug exists: a broken script can sometimes still
 produce *a* render, just not the right one, so a screenshot alone isn't proof
 a step works.
 
+## Latest pass: small fixes, plus making the component library itself interactive
+
+**Step 2 - "Allowed" badge was too narrow for its own text.** `.elig-badge`
+had a fixed `width: 56px` (sized for the shorter "N/A"), which clipped
+"Allowed". Removed the fixed width so the badge sizes to its content, same
+as every other badge in the library.
+
+**Step 3 - "Terms and Conditions" removed** from the Details step per
+request.
+
+**The components.html demos are now genuinely interactive, not just
+visual reference.** Previously several of them showed a state (e.g. "Yes"
+already selected, a tag already checked) but had no click handling at all -
+useful as a static reference, not as something you could actually try.
+Fixed:
+
+- **Segmented Yes/No toggle** - clicking Yes or No now actually switches the
+  active state (and colour) in both the light demo and the dark-panel demo.
+- **Switch** - the checkbox and radio inputs already worked out of the box
+  (they're real form elements, native browser behaviour), but the custom
+  div-based switch had no click handler at all. Added one.
+- **Chips & tags** - clicking a tag now toggles it selected/deselected. Used
+  a CSS-only approach (the checkmark SVG is always in the markup, hidden via
+  `.tag-pill:not(.selected) svg{display:none}`) rather than inserting or
+  removing DOM nodes on click, so there's nothing to get out of sync.
+- **Dark elevated panel Yes/No** - same toggle function as the light demo.
+
+Worth noting: this page's toggle logic is deliberately simpler than
+`create-offer.html`'s (plain exclusive Yes/No selection, no "click again to
+deselect" state machine) - it's a component reference, not a second copy of
+the real flow's business logic, and conflating the two would make this page
+harder to trust as a plain example of the CSS.
+
+**Table header now uses the brand dark green with white text**
+(`background: #104751; color: #fff`), applied to the shared `th` style so it
+carries into every table built from this library, not just the demo one.
+(`dashboard.html` has its own scoped `th` rule for its separate demo product
+and wasn't affected, intentionally.)
+
+**Added a "Branding colours" section to components.html**, positioned first,
+before the functional tokens section - the same colour swatches and logo
+lockups already on the overview page, so the component catalog itself opens
+with brand identity before getting into implementation detail.
+
 ## How this was actually tested
 
 Every interactive claim in this document was verified by loading the file in
 a headless DOM (jsdom) and dispatching real click events, not just
-re-rendering it as an image and eyeballing the result. This pass added 15
-new checks on top of the previous 9 (24 total, all passing): the qualifier
-checkboxes toggle independently; Yes/No buttons show the right badge and
-toggle off on a second click; the 0/3 to 3/3 counter updates correctly at
-every step including going back down when an answer is deselected; the
-council search input is disabled by default and becomes enabled exactly when
-Yes is clicked. This is also how the `Object.values()` bug above was found -
-a visual-only check would have shown a broken-looking render without
-explaining why.
+re-rendering it as an image and eyeballing the result. This pass added 13
+new checks (7 on `create-offer.html`: the counter still starts at 0/3 and
+updates correctly, Terms and Conditions is actually gone from the rendered
+output, the council search is disabled by default; 6 on `components.html`:
+the segmented toggle, switch, tag, and dark-panel toggle all genuinely change
+state on click, and the branding section renders before tokens in DOM order).
+Combined with the previous passes' checks, both files now have an automated
+regression suite behind them rather than relying on a screenshot looking
+right.
 
 ## Earlier passes (for reference)
 

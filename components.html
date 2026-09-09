@@ -37,6 +37,7 @@
 
   <div class="container lib-layout">
     <nav class="lib-nav">
+      <a href="#branding">Branding</a>
       <a href="#tokens">Tokens</a>
       <a href="#type">Typography</a>
       <a href="#buttons">Buttons</a>
@@ -64,6 +65,45 @@
     </nav>
 
     <main class="lib-main">
+
+      <div class="sec" id="branding">
+        <div class="sec-title"><div class="h4">Branding colours</div></div>
+        <p class="small" style="margin:0 0 16px">
+          Hazel's official brand colours, distinct from the functional UI tokens below.
+          Use <code>--brand-dark-green</code>, <code>--brand-light-green</code> and
+          <code>--brand-dark-grey</code> for marketing surfaces, logo lockups and anywhere the
+          brand itself needs to show up, rather than the semantic <code>--primary</code> /
+          <code>--text-strong</code> tokens used inside the product UI.
+        </p>
+        <div class="cols-3" style="margin-bottom:24px">
+          <div class="brand-swatch" style="background:var(--brand-dark-green);color:#fff">
+            <div class="name">Dark green</div>
+            <div class="hex">#104751</div>
+          </div>
+          <div class="brand-swatch" style="background:var(--brand-light-green);color:#fff">
+            <div class="name">Light green</div>
+            <div class="hex">#078c9e</div>
+          </div>
+          <div class="brand-swatch" style="background:var(--brand-dark-grey);color:#fff">
+            <div class="name">Dark grey</div>
+            <div class="hex">#151719</div>
+          </div>
+        </div>
+
+        <div class="h6" style="margin-bottom:10px">Logo lockups</div>
+        <p class="small" style="margin:0 0 16px">The cream logomark sits on the brand's dark surfaces, most often the dark green, sometimes the dark grey. Avoid placing it on light or white backgrounds.</p>
+        <div class="cols-3">
+          <div class="brand-lockup" style="background:var(--brand-dark-green)">
+            <img src="assets/hazel-logo-cream.png" alt="Hazel logo on dark green" />
+          </div>
+          <div class="brand-lockup" style="background:var(--brand-dark-grey)">
+            <img src="assets/hazel-logo-cream.png" alt="Hazel logo on dark grey" />
+          </div>
+          <div class="brand-lockup" style="background:linear-gradient(135deg,var(--brand-dark-green),var(--brand-light-green))">
+            <img src="assets/hazel-logo-cream.png" alt="Hazel logo on brand gradient" />
+          </div>
+        </div>
+      </div>
 
       <div class="sec" id="tokens">
         <div class="sec-title"><div class="h4">Functional UI tokens</div></div>
@@ -199,32 +239,33 @@
 
       <div class="sec" id="choice">
         <div class="sec-title"><div class="h4">Checkbox / radio / switch</div></div>
+        <p class="small">Native checkbox and radio inputs work as-is (real form elements). The switch is a custom component and needs a click handler, wired up below.</p>
         <div class="demo row-wrap">
           <label class="check"><input type="checkbox" class="checkbox" checked /> Checkbox</label>
           <label class="radio"><input type="radio" class="radio-input" name="r" checked /> Radio</label>
           <label class="radio"><input type="radio" class="radio-input" name="r" /> Radio</label>
-          <div class="switch on"><div class="switch-track"><div class="switch-thumb"></div></div> On</div>
-          <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div> Off</div>
+          <div class="switch on" onclick="this.classList.toggle('on')"><div class="switch-track"><div class="switch-thumb"></div></div> On</div>
+          <div class="switch" onclick="this.classList.toggle('on')"><div class="switch-track"><div class="switch-thumb"></div></div> Off</div>
         </div>
       </div>
 
       <div class="sec" id="segmented">
         <div class="sec-title"><div class="h4">Segmented Yes / No toggle</div></div>
-        <p class="small">Used for eligibility rules and the council-sharing panel. States: default, allowed (green), not-applicable (red), and an on-dark variant.</p>
+        <p class="small">Used for eligibility rules and the council-sharing panel. States: default, allowed (green), not-applicable (red), and an on-dark variant. Click Yes or No to try it.</p>
         <div class="demo row-wrap">
           <div class="segmented">
-            <button class="seg-btn yes on"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>
-            <button class="seg-btn no"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button>
+            <button class="seg-btn yes on" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>
+            <button class="seg-btn no" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button>
           </div>
           <div class="segmented">
-            <button class="seg-btn yes">Yes</button>
-            <button class="seg-btn no on"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button>
+            <button class="seg-btn yes" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>
+            <button class="seg-btn no on" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button>
           </div>
         </div>
         <div class="demo demo-dark">
           <div class="segmented">
-            <button class="seg-btn yes on-dark on">Yes</button>
-            <button class="seg-btn on-dark">No</button>
+            <button class="seg-btn yes on-dark on" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>
+            <button class="seg-btn on-dark" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button>
           </div>
         </div>
       </div>
@@ -258,11 +299,12 @@
 
       <div class="sec" id="chips">
         <div class="sec-title"><div class="h4">Chips &amp; tags</div></div>
+        <p class="small">Click a tag to select or deselect it.</p>
         <div class="demo row-wrap">
-          <span class="tag-pill selected"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Home Appliances</span>
-          <span class="tag-pill">Flooring</span>
-          <span class="tag-pill">Bedding</span>
-          <span class="chip-removable">Care experienced people <button><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
+          <span class="tag-pill selected" onclick="this.classList.toggle('selected')"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Home Appliances</span>
+          <span class="tag-pill" onclick="this.classList.toggle('selected')"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Flooring</span>
+          <span class="tag-pill" onclick="this.classList.toggle('selected')"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Bedding</span>
+          <span class="chip-removable">Care experienced people <button onclick="this.closest('.chip-removable').style.display='none'"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></span>
         </div>
       </div>
 
@@ -312,7 +354,7 @@
             </div>
           </div>
           <div class="desc">Allow a local council to view, share and broker this offer in their area.</div>
-          <div class="segmented"><button class="seg-btn yes on-dark on">Yes</button><button class="seg-btn on-dark">No</button></div>
+          <div class="segmented"><button class="seg-btn yes on-dark on" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button><button class="seg-btn on-dark" onclick="segToggle(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No</button></div>
         </div>
       </div>
 
@@ -449,5 +491,16 @@
 
     </main>
   </div>
+  <script>
+    // Shared demo interactivity for this page. The real, stateful versions
+    // of these patterns live in create-offer.html; these are simple enough
+    // (single exclusive choice within a group) to wire up inline here.
+    function segToggle(btn){
+      const group = btn.closest('.segmented');
+      if(!group) return;
+      group.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+    }
+  </script>
 </body>
 </html>
