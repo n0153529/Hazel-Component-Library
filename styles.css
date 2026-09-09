@@ -41,7 +41,7 @@
   --success:#047857;
   --success-soft:#ecfdf5;
   --success-border:#34d399;
-  --warning:#b7791f;
+  --warning:#ca8a04;
   --warning-soft:#fbf3e3;
   --warning-border:#f2dfb7;
   --danger:#b91c1c;
@@ -156,12 +156,10 @@ code,pre{font-family:var(--font-mono)}
 .kpi .delta{font-size:var(--text-sm);color:var(--success)}
 
 /* ---------------- Buttons ---------------- */
-/* Per the Figma source: only the primary step-navigation actions
-   (Continue / Preview & Publish) are pill-shaped. Everything else -
-   including "Save as template" - uses the standard 6px radius. */
+/* All standard buttons are fully pill-shaped, per explicit brand direction. */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  height:42px;padding:0 18px;border-radius:var(--radius-md);border:1px solid transparent;
+  height:42px;padding:0 18px;border-radius:var(--radius-pill);border:1px solid transparent;
   font-weight:600;font-size:var(--text-md);cursor:pointer;transition:.15s ease;white-space:nowrap;
 }
 .btn svg{width:16px;height:16px;flex:none}
@@ -174,13 +172,14 @@ code,pre{font-family:var(--font-mono)}
 .btn-danger{background:var(--danger);color:#fff}
 .btn-sm{height:34px;padding:0 14px;font-size:var(--text-sm)}
 .btn-lg{height:48px;padding:0 24px}
-.btn-pill{border-radius:var(--radius-pill)}
+.btn-pill{border-radius:var(--radius-pill)} /* kept as a no-op alias; all buttons are pill by default now */
 .btn-pill.btn-primary{box-shadow:0 4px 4px rgba(0,0,0,.25)}
 .btn-link{height:auto;padding:0;border-radius:0;background:none;color:var(--muted);font-weight:600}
 .btn-link:hover{color:var(--text)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 
-/* Dashed utility button, e.g. "Create a category" / "Create Tags" */
+/* Dashed utility button, e.g. "Create a category" / "Create Tags"
+   Inherits the pill radius from .btn above, same as every other button. */
 .btn-dashed{background:none;border:1px dashed var(--border);color:var(--muted)}
 .btn-dashed:hover{color:var(--text);border-color:var(--border-hover)}
 

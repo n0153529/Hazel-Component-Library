@@ -14,7 +14,10 @@ reference to build the real React/TypeScript components against, not a framework
   interactively (vanilla JS) to match the Figma screens. Every row, toggle,
   and dropdown on this page is genuinely wired up, not a static mockup - see
   below.
-- `dashboard.html` - existing dashboard layout, carried over from v3.
+- `dashboard.html` - member-facing dashboard: dark green sidebar with the
+  Hazel logo, working expand/collapse nav groups, and a top bar with search,
+  help, settings and profile. Now genuinely shares tokens with the rest of
+  the library (an old duplicate v3 token block was removed - see Pass 4).
 - `workflow.html` - old generic wizard example from v3, superseded.
 - `assets/hazel-logo-cream.png` - the cream logomark.
 
@@ -101,7 +104,7 @@ available, checking them too was worth doing:
   matching the source's behaviour, with the real tag lists pulled from its
   `CATEGORY_TAGS` map rather than only ever showing Housing's tags.
 
-## Latest pass: interactivity fixes and a few real bugs
+## Pass 2: interactivity fixes and a few real bugs
 
 You asked for a set of specific fixes across Steps 2, 3, 4, and 5. All of
 them are implemented and, as with the previous pass, verified by actually
@@ -152,7 +155,7 @@ Worth knowing this class of bug exists: a broken script can sometimes still
 produce *a* render, just not the right one, so a screenshot alone isn't proof
 a step works.
 
-## Latest pass: small fixes, plus making the component library itself interactive
+## Pass 3: small fixes, plus making the component library itself interactive
 
 **Step 2 - "Allowed" badge was too narrow for its own text.** `.elig-badge`
 had a fixed `width: 56px` (sized for the shorter "N/A"), which clipped
@@ -196,19 +199,74 @@ before the functional tokens section - the same colour swatches and logo
 lockups already on the overview page, so the component catalog itself opens
 with brand identity before getting into implementation detail.
 
+## Pass 4: pill buttons everywhere, warning colour, and a dashboard rebuild
+
+**All buttons are fully pill-shaped again.** An earlier pass had deliberately
+restricted pill styling to just "Continue" / "Preview & Publish" to match the
+Figma source's actual button radii. That's been reverted per explicit
+instruction this round: `.btn` is pill-shaped by default again, and every
+button in the library (including the dashed "Create a category" / "Create
+Tags" buttons, which inherit from the same base class) follows suit.
+
+**Warning colour updated to a genuine yellow.** `--warning` moved from
+`#b7791f` (a muted brownish-gold that read more "brown" than "yellow") to
+`#ca8a04`, chosen to sit in the same colour family as the existing
+`--warning-soft` / `--warning-border` tones already used in the yellow alert,
+so the "Warning" swatch and the alert box now clearly read as the same
+colour. It's still used as badge text (e.g. "Draft"), so it needed to stay
+readable rather than being the alert's very pale background tone directly.
+
+**`dashboard.html` rebuilt: sidebar, logo, navigation, and a real top bar.**
+
+- Sidebar background is now the brand dark green, with all text and icons
+  recoloured for contrast (matching the same `rgba(255,255,255,.75-1)` pattern
+  already used for the library's own topbar nav links).
+- The "Offer Studio / Admin dashboard" text block is replaced with the actual
+  Hazel logo, same asset used elsewhere.
+- Sidebar menu rebuilt to the specified items: My Profile, My Work, My Home,
+  and My Journey are working expand/collapse groups; My Support Plans,
+  Claimed Offers, My Calendar, Messages, and My Trusted Network are flat
+  items; Need help? sits in its own footer area at the bottom. **The four
+  groups' sub-items (e.g. "Personal details" and "Contact preferences" under
+  My Profile) are placeholders I invented** since none were specified -
+  swap them for the real sub-navigation whenever that's decided.
+- Added a proper top bar to the main content area: search field on the left,
+  then Help, Settings (cog), and a profile avatar circle on the right, in
+  that order.
+
+**Two real layout bugs found and fixed while building the above, both from
+the same underlying cause.** The sidebar and the KPI/chart cards were built
+with CSS Grid (`.dashboard-shell`, `.grid-3`, `.panel-grid`), which is
+correct per spec but doesn't render reliably in the older tool used for
+visual verification in this project - a pattern already known from earlier
+passes. This time it was worse than a cosmetic collapse: combining a
+`display:grid` parent with a `width:100%` button inside it (the new
+accordion toggle buttons) produced a badly broken layout, at one point
+computing an actual width of 51,200px for a sidebar item. Converted
+`.dashboard-shell`, `.sidebar-menu`, `.sidebar-group`, `.grid-3`, and
+`.panel-grid` to flexbox, which resolved it. This was caught by rendering
+the page and looking at it, not assumed - worth calling out because it's a
+good example of why "the CSS is spec-correct" isn't the same as "this will
+render correctly everywhere," and why checking rather than trusting matters.
+Also removed an entire stale, duplicate token block this file had been
+carrying since v3 (old colours, old radius scale) that was silently
+overriding the shared v4 tokens the rest of the library uses - this page now
+genuinely shares one source of truth with everything else.
+
 ## How this was actually tested
 
 Every interactive claim in this document was verified by loading the file in
 a headless DOM (jsdom) and dispatching real click events, not just
-re-rendering it as an image and eyeballing the result. This pass added 13
-new checks (7 on `create-offer.html`: the counter still starts at 0/3 and
-updates correctly, Terms and Conditions is actually gone from the rendered
-output, the council search is disabled by default; 6 on `components.html`:
-the segmented toggle, switch, tag, and dark-panel toggle all genuinely change
-state on click, and the branding section renders before tokens in DOM order).
-Combined with the previous passes' checks, both files now have an automated
+re-rendering it as an image and eyeballing the result. This pass added 14
+new checks on `dashboard.html` (the accordion groups exist and toggle open on
+click, the logo and all four topbar elements are present) to the 13 from the
+previous pass (7 on `create-offer.html`, 6 on `components.html`). Combined
+with earlier passes' checks, all three files now have an automated
 regression suite behind them rather than relying on a screenshot looking
-right.
+right - which is exactly how the `width: 51,200px` layout bug above was
+caught: the click-toggle logic tested fine in jsdom, but only a visual render
+showed the actual breakage, which is why both kinds of check matter and
+neither alone is sufficient.
 
 ## Earlier passes (for reference)
 

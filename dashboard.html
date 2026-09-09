@@ -6,97 +6,52 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
+    /* This file previously duplicated the entire v4 token set with stale v3
+       values (old colours, old 8/12/16/24px radius scale). Removed that
+       duplicate block entirely so this page now genuinely inherits the same
+       tokens as the rest of the library from styles.css, fixing a
+       long-standing inconsistency. Only the two layout constants specific
+       to this page's sidebar remain here. */
     :root{
-  --bg:#f7f7f3;
-  --surface:#ffffff;
-  --surface-2:#fbfbf8;
-  --surface-3:#f4f5f1;
-  --border:#e4e3dc;
-  --border-strong:#cfd0c6;
-  --text:#132126;
-  --text-strong:#0d171a;
-  --muted:#5f6d72;
-  --subtle:#7f8a8f;
-  --primary:#118a93;
-  --primary-hover:#0f7880;
-  --primary-soft:rgba(17,138,147,.10);
-  --success:#1f8a4c;
-  --success-soft:#e7f6ed;
-  --warning:#b7791f;
-  --warning-soft:#fbf3e3;
-  --danger:#c2413a;
-  --danger-soft:#fdecec;
-  --info:#2563eb;
-  --info-soft:#eaf1ff;
-
-  --radius-sm:8px;
-  --radius-md:12px;
-  --radius-lg:16px;
-  --radius-xl:24px;
-
-  --shadow-sm:0 1px 2px rgba(19,33,38,.06);
-  --shadow-md:0 10px 30px rgba(19,33,38,.08);
-  --shadow-lg:0 20px 50px rgba(19,33,38,.12);
-
-  --container:1180px;
-  --wizard:760px;
-
-  --text-xs:12px;
-  --text-sm:13px;
-  --text-md:14px;
-  --text-lg:16px;
-  --text-xl:18px;
-  --text-2xl:22px;
-  --text-3xl:28px;
-  --text-4xl:36px;
-  --text-5xl:44px;
-
-  --leading-tight:1.15;
-  --leading-snug:1.3;
-  --leading-normal:1.5;
-  --leading-relaxed:1.7;
-
-  --space-1:4px;
-  --space-2:8px;
-  --space-3:12px;
-  --space-4:16px;
-  --space-5:20px;
-  --space-6:24px;
-  --space-8:32px;
-  --space-10:40px;
-  --space-12:48px;
-
-  --sidebar-width:280px;
-  --sidebar-collapsed:84px;
-}
+      --sidebar-width:280px;
+      --sidebar-collapsed:84px;
+    }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-sans)}
 a{text-decoration:none;color:inherit}
 button,input,select,textarea{font:inherit}
 img{max-width:100%;display:block}
 
 .app-shell{min-height:100vh}
 
-/* layout */
+/* layout - flexbox rather than CSS grid, deliberately: this matches the
+   fix applied elsewhere in the library after finding that some rendering
+   tools handle a flex two-column split more reliably than a CSS grid one.
+   Real browsers support both fine, but flexbox removes any doubt. */
 .dashboard-shell{
-  display:grid;
-  grid-template-columns:var(--sidebar-width) 1fr;
+  display:flex;
   min-height:100vh;
 }
-.dashboard-shell.is-collapsed{
-  grid-template-columns:var(--sidebar-collapsed) 1fr;
+.dashboard-shell .dashboard-sidebar{
+  width:var(--sidebar-width);
+  flex:none;
+}
+.dashboard-shell.is-collapsed .dashboard-sidebar{
+  width:var(--sidebar-collapsed);
+}
+.dashboard-shell .dashboard-main{
+  flex:1;
+  min-width:0;
 }
 
 .dashboard-sidebar{
-  background:rgba(255,255,255,.92);
-  border-right:1px solid var(--border);
+  background:linear-gradient(180deg,var(--brand-dark-green),var(--panel-dark-2));
   position:sticky;
   top:0;
   height:100vh;
   display:flex;
   flex-direction:column;
-  box-shadow:var(--shadow-sm);
   overflow:hidden;
 }
 
@@ -105,8 +60,8 @@ img{max-width:100%;display:block}
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  padding:22px 18px 18px;
-  border-bottom:1px solid var(--border);
+  padding:20px 18px;
+  border-bottom:1px solid rgba(255,255,255,.14);
 }
 
 .brand{
@@ -115,66 +70,63 @@ img{max-width:100%;display:block}
   gap:12px;
   min-width:0;
 }
-.brand-mark{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:linear-gradient(135deg,var(--primary),#63c1c7);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);
-  flex:0 0 auto;
-}
-.brand-text{min-width:0}
-.brand-title{font-weight:700;line-height:1.1}
-.brand-subtitle{font-size:var(--text-sm);color:var(--subtle);margin-top:3px}
+.brand-logo{height:26px;width:auto;flex:0 0 auto}
 
 .sidebar-collapse{
   width:34px;
   height:34px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--surface);
+  border-radius:var(--radius-pill);
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(255,255,255,.1);
   display:grid;
   place-items:center;
-  color:var(--muted);
+  color:#fff;
   cursor:pointer;
-  box-shadow:var(--shadow-sm);
+  flex:0 0 auto;
 }
 
 .sidebar-section{
-  padding:18px 12px 0;
+  padding:14px 12px 0;
 }
 .sidebar-label{
   font-size:var(--text-sm);
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:var(--subtle);
+  color:rgba(255,255,255,.55);
   padding:0 12px 10px;
 }
 
 .sidebar-menu{
-  display:grid;
-  gap:6px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 .sidebar-item,
 .sidebar-subitem{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px 12px;
-  border-radius:12px;
-  color:var(--muted);
+  padding:11px 12px;
+  border-radius:var(--radius-md);
+  color:rgba(255,255,255,.78);
   font-weight:600;
+  font-size:var(--text-md);
   position:relative;
+  cursor:pointer;
+  background:none;
+  border:none;
+  width:100%;
+  text-align:left;
 }
 .sidebar-item:hover,
 .sidebar-subitem:hover{
-  background:var(--surface-2);
-  color:var(--text);
+  background:rgba(255,255,255,.08);
+  color:#fff;
 }
 .sidebar-item.active,
 .sidebar-subitem.active{
-  background:var(--primary-soft);
-  color:var(--primary);
+  background:rgba(255,255,255,.12);
+  color:#fff;
 }
 .sidebar-item.active::before,
 .sidebar-subitem.active::before{
@@ -199,78 +151,93 @@ img{max-width:100%;display:block}
 .sidebar-chevron{
   margin-left:auto;
   font-size:var(--text-sm);
-  opacity:.7;
+  opacity:.75;
+  transition:transform .15s ease;
+  flex:none;
 }
+.sidebar-group.open .sidebar-chevron{transform:rotate(180deg)}
 .sidebar-group{
-  display:grid;
-  gap:6px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 .sidebar-group-body{
   margin-left:14px;
   padding-left:12px;
-  border-left:1px solid var(--border);
-  display:grid;
-  gap:6px;
+  border-left:1px solid rgba(255,255,255,.16);
+  display:none;
+  flex-direction:column;
+  gap:4px;
 }
+.sidebar-group.open .sidebar-group-body{display:flex}
 
 .sidebar-footer{
   margin-top:auto;
-  padding:16px;
-  border-top:1px solid var(--border);
+  padding:14px 12px;
 }
-.profile-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:var(--surface);
+.help-link{
+  color:rgba(255,255,255,.7);
 }
+.help-link:hover{color:#fff}
+
 .avatar{
   width:40px;
   height:40px;
   border-radius:999px;
   background:linear-gradient(135deg,#d9e9ea,#b9dfe3);
+  flex:none;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  color:var(--text-strong);
+  font-size:var(--text-sm);
 }
-.profile-meta{
-  min-width:0;
-  flex:1;
-}
-.profile-name{font-weight:700;line-height:1.1}
-.profile-role{font-size:var(--text-sm);color:var(--subtle);margin-top:3px}
 
 .dashboard-main{
   padding:24px;
   min-width:0;
 }
 
-.main-topbar{
+.dashboard-topbar{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  margin-bottom:20px;
+  margin-bottom:24px;
 }
 .searchbar{
   flex:1;
-  max-width:520px;
+  max-width:420px;
   display:flex;
   align-items:center;
   gap:10px;
   padding:0 14px;
   height:44px;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:var(--radius-pill);
   background:var(--surface);
   color:var(--subtle);
   box-shadow:var(--shadow-sm);
 }
+.searchbar input{border:none;background:none;outline:none;flex:1;color:var(--text);font-size:var(--text-md)}
+.searchbar input::placeholder{color:var(--subtle)}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex:none}
+.icon-btn{
+  width:40px;height:40px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);display:grid;place-items:center;color:var(--text);
+  cursor:pointer;flex:none;box-shadow:var(--shadow-sm);
+}
+.icon-btn:hover{border-color:var(--primary);color:var(--primary)}
+.icon-btn svg{width:18px;height:18px}
+.topbar-avatar{cursor:pointer}
+
+.main-heading{margin-bottom:20px}
 
 .action-center,
 .card{
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:var(--radius-lg);
   background:linear-gradient(180deg,#fff,var(--surface-2));
   box-shadow:var(--shadow-sm);
 }
@@ -294,7 +261,7 @@ img{max-width:100%;display:block}
 }
 .action-card{
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:var(--radius-lg);
   background:var(--surface);
   padding:16px;
   display:flex;
@@ -303,12 +270,12 @@ img{max-width:100%;display:block}
   gap:16px;
 }
 
-.grid{display:grid;gap:16px}
-.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid{display:flex;flex-wrap:wrap;gap:16px}
+.grid-3 > *{flex:1 1 260px;min-width:0}
 .kpi{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:var(--radius-lg);
   padding:18px;
   box-shadow:var(--shadow-sm);
 }
@@ -317,14 +284,16 @@ img{max-width:100%;display:block}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
 .panel-grid{
-  display:grid;
-  grid-template-columns:1.4fr .9fr;
+  display:flex;
+  flex-wrap:wrap;
   gap:20px;
   margin-top:20px;
 }
+.panel-grid > *:first-child{flex:1.4 1 420px;min-width:0}
+.panel-grid > *:last-child{flex:.9 1 280px;min-width:0}
 .chart-placeholder{
   height:280px;
-  border-radius:18px;
+  border-radius:var(--radius-lg);
   border:1px dashed var(--border-strong);
   background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(251,251,248,.95));
   display:grid;
@@ -349,7 +318,7 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
   gap:8px;
   height:44px;
   padding:0 16px;
-  border-radius:12px;
+  border-radius:var(--radius-pill);
   border:1px solid transparent;
   cursor:pointer;
   font-weight:700;
@@ -382,10 +351,9 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
 .h6{font-size:var(--text-md);font-weight:700}
 
 @media (max-width: 1100px){
-  .dashboard-shell{grid-template-columns:1fr}
   .dashboard-sidebar{display:none}
-  .grid-3,.panel-grid{grid-template-columns:1fr}
-  .main-topbar{flex-wrap:wrap}
+  .grid-3 > *,.panel-grid > *{flex-basis:100%}
+  .dashboard-topbar{flex-wrap:wrap}
   .searchbar{max-width:none;order:3;width:100%}
 }
 
@@ -396,65 +364,81 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
     <aside class="dashboard-sidebar">
       <div class="sidebar-top">
         <div class="brand">
-          <div class="brand-mark"></div>
-          <div class="brand-text">
-            <div class="brand-title">Offer Studio</div>
-            <div class="brand-subtitle">Admin dashboard</div>
-          </div>
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
         </div>
         <button class="sidebar-collapse" aria-label="Collapse sidebar">☰</button>
       </div>
 
       <div class="sidebar-section">
-        <div class="sidebar-label">Workspace</div>
         <nav class="sidebar-menu">
-          <a class="sidebar-item active" href="#"><span class="sidebar-icon">▣</span><span>Overview</span></a>
-
-          <div class="sidebar-group">
-            <a class="sidebar-item" href="#">
-              <span class="sidebar-icon">✦</span><span>Offers</span><span class="sidebar-chevron">▾</span>
-            </a>
+          <div class="sidebar-group" id="grp-profile">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-profile')">
+              <span class="sidebar-icon">&#9685;</span><span>My Profile</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem active" href="#"><span class="sidebar-icon">◌</span><span>All offers</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">◌</span><span>Drafts</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">◌</span><span>Published</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Personal details</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Contact preferences</span></a>
             </div>
           </div>
 
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">◫</span><span>Audience</span></a>
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">⟟</span><span>Experiments</span></a>
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">◌</span><span>Analytics</span></a>
-        </nav>
-      </div>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Career goals</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Training &amp; courses</span></a>
+            </div>
+          </div>
 
-      <div class="sidebar-section">
-        <div class="sidebar-label">Management</div>
-        <nav class="sidebar-menu">
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">▦</span><span>Templates</span></a>
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">◉</span><span>Approvals</span></a>
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">⚙</span><span>Settings</span></a>
+          <div class="sidebar-group" id="grp-home">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Housing details</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Local support</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Care history</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Pathway plan</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item active" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9723;</span><span>My Trusted Network</span></a>
         </nav>
       </div>
 
       <div class="sidebar-footer">
-        <div class="profile-card">
-          <div class="avatar"></div>
-          <div class="profile-meta">
-            <div class="profile-name">Anna Park</div>
-            <div class="profile-role">Growth Team</div>
-          </div>
-        </div>
+        <a class="sidebar-item help-link" href="#"><span class="sidebar-icon">?</span><span>Need help?</span></a>
       </div>
     </aside>
 
     <main class="dashboard-main">
-      <div class="main-topbar">
-        <div>
-          <div class="caption">Dashboard</div>
-          <div class="h3">Admin overview</div>
+      <div class="dashboard-topbar">
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
         </div>
-        <div class="searchbar">⌕ Search offers, users, campaigns...</div>
-        <button class="btn btn-primary">Create offer</button>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1h-.2a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="avatar topbar-avatar" title="Your profile">AP</div>
+        </div>
       </div>
 
       <section class="action-center padded">
@@ -569,5 +553,10 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
       </section>
     </main>
   </div>
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
