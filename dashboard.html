@@ -61,6 +61,7 @@ img{max-width:100%;display:block}
   justify-content:space-between;
   gap:12px;
   padding:20px 18px;
+  min-height:82px;
   border-bottom:1px solid rgba(255,255,255,.14);
 }
 
@@ -70,7 +71,7 @@ img{max-width:100%;display:block}
   gap:12px;
   min-width:0;
 }
-.brand-logo{height:26px;width:auto;flex:0 0 auto}
+.brand-logo{height:42px;width:auto;flex:0 0 auto}
 
 .sidebar-collapse{
   width:34px;
@@ -85,9 +86,30 @@ img{max-width:100%;display:block}
   flex:0 0 auto;
 }
 
+/* Collapsed sidebar: icon-only rail. The main content area grows to fill
+   the freed space automatically since it's flex:1 in the flex row below. */
+.dashboard-shell.is-collapsed .brand-logo{display:none}
+.dashboard-shell.is-collapsed .sidebar-top{justify-content:center}
+.dashboard-shell.is-collapsed .sidebar-label{display:none}
+.dashboard-shell.is-collapsed .sidebar-item > span:not(.sidebar-icon),
+.dashboard-shell.is-collapsed .sidebar-subitem > span:not(.sidebar-icon){display:none}
+.dashboard-shell.is-collapsed .sidebar-group-body{display:none !important}
+.dashboard-shell.is-collapsed .sidebar-item,
+.dashboard-shell.is-collapsed .sidebar-subitem{justify-content:center;padding:11px 0;gap:0}
+.dashboard-shell.is-collapsed .sidebar-section{padding:14px 8px 0}
+.dashboard-shell.is-collapsed .sidebar-footer{display:flex;justify-content:center}
+.dashboard-shell.is-collapsed .sidebar-item.active::before,
+.dashboard-shell.is-collapsed .sidebar-subitem.active::before{display:none}
+
 .sidebar-section{
   padding:14px 12px 0;
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  scrollbar-width:none; /* Firefox */
+  -ms-overflow-style:none; /* legacy Edge/IE */
 }
+.sidebar-section::-webkit-scrollbar{display:none} /* Chrome/Safari */
 .sidebar-label{
   font-size:var(--text-sm);
   letter-spacing:.08em;
@@ -140,14 +162,16 @@ img{max-width:100%;display:block}
   background:var(--primary);
 }
 .sidebar-icon{
-  width:18px;
-  height:18px;
+  width:20px;
+  height:20px;
   display:grid;
   place-items:center;
-  font-size:14px;
+  font-size:18px;
+  line-height:1;
   opacity:.9;
   flex:0 0 auto;
 }
+.sidebar-icon svg{width:18px;height:18px}
 .sidebar-chevron{
   margin-left:auto;
   font-size:var(--text-sm);
@@ -208,7 +232,6 @@ img{max-width:100%;display:block}
 }
 .searchbar{
   flex:1;
-  max-width:420px;
   display:flex;
   align-items:center;
   gap:10px;
@@ -233,6 +256,61 @@ img{max-width:100%;display:block}
 .topbar-avatar{cursor:pointer}
 
 .main-heading{margin-bottom:20px}
+
+/* ---- "Your Hazel Card" status section ---- */
+.hazel-status{margin-bottom:24px}
+.card.hazel-status{background:var(--surface)} /* override the default gradient card background - solid white per request */
+.hazel-progress-badge{
+  background:var(--primary-soft);border:1px solid var(--primary-border);border-radius:var(--radius-lg);
+  padding:12px 20px;text-align:right;flex:none;
+}
+.hazel-progress-badge .pct{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1}
+.hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
+.hazel-progress-track{height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+.hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
+.hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
+.hazel-step{
+  flex:1 1 150px;min-width:0;background:var(--success-soft);border:1px solid var(--success-border);
+  border-radius:var(--radius-lg);padding:14px;
+}
+.hazel-step .badge{margin-bottom:10px}
+.hazel-step .h6{margin-bottom:2px}
+.hazel-approved-banner{
+  background:var(--success-soft);border:1px solid var(--success-border);color:var(--success);
+  font-weight:700;border-radius:var(--radius-md);padding:14px 16px;margin-bottom:20px;
+}
+.hazel-detail-list{display:flex;flex-direction:column;gap:16px}
+.hazel-detail-list .caption{margin-bottom:4px}
+.hazel-membership-panel{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px;
+}
+.hazel-id-card{
+  position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
+  padding:20px;color:#fff;
+}
+.hazel-id-watermark{
+  position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
+  background:url('assets/hazel-logo-cream.png') no-repeat center/contain;pointer-events:none;
+}
+.hazel-id-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative}
+.hazel-id-logo{height:50px;width:auto}
+.hazel-id-body{display:flex;gap:16px;align-items:flex-start;position:relative}
+.hazel-id-avatar{
+  width:115px;height:145px;border-radius:var(--radius-md);flex:none;
+  background:linear-gradient(160deg,#8fa9b0,#3f5a63);
+}
+.hazel-id-info{flex:1;min-width:0}
+.hazel-id-info .name{font-size:var(--text-xl);font-weight:800;margin-bottom:8px}
+.hazel-id-info .line{font-size:var(--text-sm);color:rgba(255,255,255,.85);line-height:1.6}
+.hazel-id-qr{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center}
+.qr-box{
+  width:120px;height:120px;background:#fff;border-radius:10px;display:grid;place-items:center;
+  padding:8px;margin-bottom:6px;
+}
+.qr-box svg{width:100%;height:100%}
+.qr-label{font-size:10px;color:rgba(255,255,255,.8);max-width:120px;line-height:1.3;text-align:center}
 
 .action-center,
 .card{
@@ -268,6 +346,20 @@ img{max-width:100%;display:block}
   align-items:flex-start;
   justify-content:space-between;
   gap:16px;
+}
+.action-card.danger{background:var(--danger);border-color:var(--danger);animation:hazel-danger-pulse 2.6s ease-in-out infinite}
+@keyframes hazel-danger-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(185,28,28,.35)}
+  50%{box-shadow:0 0 0 10px rgba(185,28,28,0)}
+}
+.action-card.warning{background:var(--warning);border-color:var(--warning)}
+.action-card.success{background:var(--success);border-color:var(--success)}
+.action-card.danger .h6,.action-card.danger .small,
+.action-card.warning .h6,.action-card.warning .small,
+.action-card.success .h6,.action-card.success .small{color:#fff}
+.action-card.danger .small,.action-card.warning .small,.action-card.success .small{opacity:.9}
+.action-card.danger .btn-secondary,.action-card.warning .btn-secondary,.action-card.success .btn-secondary{
+  background:#fff;border-color:#fff;color:var(--text-strong);
 }
 
 .grid{display:flex;flex-wrap:wrap;gap:16px}
@@ -309,7 +401,9 @@ th,td{
   text-align:left;
   font-size:var(--text-md);
 }
-th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
+th{color:#fff;background:var(--panel-dark);font-size:var(--text-sm);font-weight:700;border-bottom-color:var(--panel-dark)}
+th:first-child{border-top-left-radius:var(--radius-md)}
+th:last-child{border-top-right-radius:var(--radius-md)}
 
 .btn{
   display:inline-flex;
@@ -360,13 +454,13 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
   </style>
 </head>
 <body class="app-shell">
-  <div class="dashboard-shell">
+  <div class="dashboard-shell" id="dashboardShell">
     <aside class="dashboard-sidebar">
       <div class="sidebar-top">
         <div class="brand">
           <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
         </div>
-        <button class="sidebar-collapse" aria-label="Collapse sidebar">☰</button>
+        <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
       </div>
 
       <div class="sidebar-section">
@@ -376,8 +470,9 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
               <span class="sidebar-icon">&#9685;</span><span>My Profile</span><span class="sidebar-chevron">&#9662;</span>
             </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Personal details</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Contact preferences</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Account &amp; Privacy</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Membership Card</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
             </div>
           </div>
 
@@ -386,8 +481,8 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
               <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
             </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Career goals</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Training &amp; courses</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Work Essentials</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
             </div>
           </div>
 
@@ -396,8 +491,9 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
               <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
             </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Housing details</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Local support</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Home Goals</span></a>
             </div>
           </div>
 
@@ -406,8 +502,9 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
               <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
             </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Care history</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Pathway plan</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
             </div>
           </div>
 
@@ -415,12 +512,12 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
           <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
           <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
           <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
-          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9723;</span><span>My Trusted Network</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
         </nav>
       </div>
 
       <div class="sidebar-footer">
-        <a class="sidebar-item help-link" href="#"><span class="sidebar-icon">?</span><span>Need help?</span></a>
+        <a class="sidebar-item help-link" href="#"><span class="sidebar-icon">?</span><span>Need help</span></a>
       </div>
     </aside>
 
@@ -451,26 +548,124 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
         </div>
 
         <div class="grid grid-3">
-          <div class="action-card">
+          <div class="action-card danger">
             <div>
               <div class="h6">Review offer draft</div>
               <div class="small">Spring promo is ready for approval.</div>
             </div>
             <button class="btn btn-secondary btn-sm">Open</button>
           </div>
-          <div class="action-card">
+          <div class="action-card warning">
             <div>
               <div class="h6">Fix audience rule</div>
               <div class="small">One segment has missing eligibility.</div>
             </div>
             <button class="btn btn-secondary btn-sm">Fix</button>
           </div>
-          <div class="action-card">
+          <div class="action-card success">
             <div>
               <div class="h6">Publish scheduled</div>
               <div class="small">3 campaigns will go live today.</div>
             </div>
             <button class="btn btn-secondary btn-sm">View</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card padded hazel-status">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
+          <div>
+            <div class="caption" style="color:var(--primary)">Application</div>
+            <div class="h5" style="margin:6px 0 4px">Your Hazel Card is active</div>
+            <div class="small">Your verified digital card is ready to use, and your application record is complete.</div>
+          </div>
+          <div class="hazel-progress-badge">
+            <div class="pct">83%</div>
+            <div class="cap">5/6 COMPLETE</div>
+          </div>
+        </div>
+
+        <div class="hazel-progress-track" style="margin:20px 0">
+          <div class="hazel-progress-fill" style="width:83%"></div>
+        </div>
+
+        <div class="hazel-steps-row">
+          <div class="hazel-step">
+            <span class="badge badge-success">Done</span>
+            <div class="h6">Profile</div>
+            <div class="small">Personal details added</div>
+          </div>
+          <div class="hazel-step">
+            <span class="badge badge-success">Done</span>
+            <div class="h6">Address</div>
+            <div class="small">Current address recorded</div>
+          </div>
+          <div class="hazel-step">
+            <span class="badge badge-success">Done</span>
+            <div class="h6">Care details</div>
+            <div class="small">Care experience details added</div>
+          </div>
+          <div class="hazel-step">
+            <span class="badge badge-primary">Next</span>
+            <div class="h6">Evidence</div>
+            <div class="small">0/3 required documents uploaded</div>
+          </div>
+          <div class="hazel-step">
+            <span class="badge badge-success">Done</span>
+            <div class="h6">Review</div>
+            <div class="small">Approved</div>
+          </div>
+          <div class="hazel-step">
+            <span class="badge badge-success">Done</span>
+            <div class="h6">Card</div>
+            <div class="small">Digital card is active</div>
+          </div>
+        </div>
+
+        <div class="cols-2" style="margin-top:24px">
+          <div>
+            <p class="small" style="margin:0 0 16px">Your application has been approved and your digital card is now active.</p>
+            <div class="hazel-approved-banner">Application approved - card issued</div>
+            <div class="hazel-detail-list">
+              <div><div class="caption">Member ID</div><div class="h6">CECARD-51274992</div></div>
+              <div><div class="caption">Home authority (care authority)</div><div class="h6">Hazelton City Council</div></div>
+              <div><div class="caption">Resident in</div><div class="h6">Westbridge Borough Council</div></div>
+              <div><div class="caption">Upper-tier authority</div><div class="h6">Hazelshire County Council</div></div>
+              <div><div class="caption">Valid until</div><div class="h6">17/08/2029</div></div>
+            </div>
+          </div>
+
+          <div class="hazel-membership-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div class="caption" style="color:var(--primary)">Your membership card</div>
+              <span class="badge badge-success">Active</span>
+            </div>
+            <div class="hazel-id-card">
+              <div class="hazel-id-watermark"></div>
+              <div class="hazel-id-top">
+                <img class="hazel-id-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+                <span class="badge" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">Verified</span>
+              </div>
+              <div class="hazel-id-body">
+                <div class="hazel-id-avatar"></div>
+                <div class="hazel-id-info">
+                  <div class="name">Sunny Barker</div>
+                  <div class="line">Member ID: CECARD-51274992</div>
+                  <div class="line">Home authority: Hazelton City Council</div>
+                  <div class="line">Resident in: Westbridge Borough Council</div>
+                  <div class="line">Upper tier: Hazelshire County Council</div>
+                  <div class="line">Valid until: 17/08/2029</div>
+                </div>
+                <div class="hazel-id-qr">
+                  <div class="qr-box"><svg viewBox="0 0 21 21" width="72" height="72" fill="#151719"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="10" y="0" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="16" y="0" width="1" height="1"/><rect x="17" y="0" width="1" height="1"/><rect x="18" y="0" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="11" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="11" y="4" width="1" height="1"/><rect x="14" y="4" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="17" y="4" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="20" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="9" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="14" y="5" width="1" height="1"/><rect x="20" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="14" y="6" width="1" height="1"/><rect x="15" y="6" width="1" height="1"/><rect x="16" y="6" width="1" height="1"/><rect x="17" y="6" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="1" y="8" width="1" height="1"/><rect x="2" y="8" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="5" y="8" width="1" height="1"/><rect x="6" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="9" y="8" width="1" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="18" y="8" width="1" height="1"/><rect x="19" y="8" width="1" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="6" y="9" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="9" y="9" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="17" y="9" width="1" height="1"/><rect x="18" y="9" width="1" height="1"/><rect x="20" y="9" width="1" height="1"/><rect x="2" y="10" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="7" y="10" width="1" height="1"/><rect x="8" y="10" width="1" height="1"/><rect x="12" y="10" width="1" height="1"/><rect x="13" y="10" width="1" height="1"/><rect x="18" y="10" width="1" height="1"/><rect x="1" y="11" width="1" height="1"/><rect x="3" y="11" width="1" height="1"/><rect x="8" y="11" width="1" height="1"/><rect x="10" y="11" width="1" height="1"/><rect x="13" y="11" width="1" height="1"/><rect x="16" y="11" width="1" height="1"/><rect x="0" y="12" width="1" height="1"/><rect x="1" y="12" width="1" height="1"/><rect x="2" y="12" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="7" y="12" width="1" height="1"/><rect x="10" y="12" width="1" height="1"/><rect x="12" y="12" width="1" height="1"/><rect x="15" y="12" width="1" height="1"/><rect x="18" y="12" width="1" height="1"/><rect x="8" y="13" width="1" height="1"/><rect x="11" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="17" y="13" width="1" height="1"/><rect x="18" y="13" width="1" height="1"/><rect x="19" y="13" width="1" height="1"/><rect x="0" y="14" width="1" height="1"/><rect x="1" y="14" width="1" height="1"/><rect x="2" y="14" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="5" y="14" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="8" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="10" y="14" width="1" height="1"/><rect x="12" y="14" width="1" height="1"/><rect x="15" y="14" width="1" height="1"/><rect x="16" y="14" width="1" height="1"/><rect x="18" y="14" width="1" height="1"/><rect x="19" y="14" width="1" height="1"/><rect x="0" y="15" width="1" height="1"/><rect x="6" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="13" y="15" width="1" height="1"/><rect x="20" y="15" width="1" height="1"/><rect x="0" y="16" width="1" height="1"/><rect x="2" y="16" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="6" y="16" width="1" height="1"/><rect x="8" y="16" width="1" height="1"/><rect x="9" y="16" width="1" height="1"/><rect x="11" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="15" y="16" width="1" height="1"/><rect x="16" y="16" width="1" height="1"/><rect x="0" y="17" width="1" height="1"/><rect x="2" y="17" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="4" y="17" width="1" height="1"/><rect x="6" y="17" width="1" height="1"/><rect x="8" y="17" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="16" y="17" width="1" height="1"/><rect x="17" y="17" width="1" height="1"/><rect x="18" y="17" width="1" height="1"/><rect x="19" y="17" width="1" height="1"/><rect x="0" y="18" width="1" height="1"/><rect x="2" y="18" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="6" y="18" width="1" height="1"/><rect x="8" y="18" width="1" height="1"/><rect x="16" y="18" width="1" height="1"/><rect x="17" y="18" width="1" height="1"/><rect x="0" y="19" width="1" height="1"/><rect x="6" y="19" width="1" height="1"/><rect x="9" y="19" width="1" height="1"/><rect x="13" y="19" width="1" height="1"/><rect x="15" y="19" width="1" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="19" y="19" width="1" height="1"/><rect x="20" y="19" width="1" height="1"/><rect x="0" y="20" width="1" height="1"/><rect x="1" y="20" width="1" height="1"/><rect x="2" y="20" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="5" y="20" width="1" height="1"/><rect x="6" y="20" width="1" height="1"/><rect x="9" y="20" width="1" height="1"/><rect x="12" y="20" width="1" height="1"/><rect x="16" y="20" width="1" height="1"/><rect x="18" y="20" width="1" height="1"/><rect x="19" y="20" width="1" height="1"/></svg></div>
+                  <div class="qr-label">Scan to verify membership</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:16px">
+              <button class="btn btn-secondary" style="flex:1">Verify card</button>
+              <button class="btn btn-primary" style="flex:2">Download PDF</button>
+            </div>
           </div>
         </div>
       </section>
@@ -488,7 +683,6 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
           <div class="card-header">
             <div>
               <div class="h5">Performance</div>
-              <div class="small">Main content example area</div>
             </div>
             <span class="badge badge-primary">Last 30 days</span>
           </div>
@@ -524,38 +718,14 @@ th{color:var(--subtle);font-size:var(--text-sm);font-weight:700}
           </div>
         </div>
       </section>
-
-      <section style="margin-top:24px" class="card">
-        <div class="card-header">
-          <div class="h5">Offers table</div>
-          <button class="btn btn-secondary btn-sm">Export</button>
-        </div>
-        <div class="card-body">
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Offer</th>
-                  <th>Status</th>
-                  <th>Audience</th>
-                  <th>Owner</th>
-                  <th>Updated</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Spring Promo</td><td><span class="badge badge-success">Live</span></td><td>All users</td><td>Anna</td><td>Today</td></tr>
-                <tr><td>Trial Upgrade</td><td><span class="badge badge-warning">Draft</span></td><td>New signups</td><td>Mark</td><td>Yesterday</td></tr>
-                <tr><td>Winback Flow</td><td><span class="badge badge-primary">Review</span></td><td>Churn risk</td><td>Lena</td><td>2d ago</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
     </main>
   </div>
   <script>
     function sidebarGroupToggle(id){
       document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
     }
   </script>
 </body>

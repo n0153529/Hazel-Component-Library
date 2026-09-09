@@ -253,20 +253,161 @@ carrying since v3 (old colours, old radius scale) that was silently
 overriding the shared v4 tokens the rest of the library uses - this page now
 genuinely shares one source of truth with everything else.
 
+## Pass 5: sidebar collapse, full menu with sub-items, and Action Center colours
+
+**Sidebar collapse now actually works.** The collapse button existed
+visually before but did nothing. It now toggles an `is-collapsed` class on
+the shell: the sidebar shrinks to an icon-only rail (labels, chevrons, and
+open sub-menus all hidden), and the main content area grows to fill the
+freed space automatically, since it was already `flex:1` from the earlier
+flexbox fix.
+
+**Search bar now fills the available space** in the top bar (removed the
+`max-width: 420px` cap it had), rather than sitting at a fixed width with
+empty space next to it before the Help/Settings/avatar cluster.
+
+**Action Center cards now use solid colour**, mapped to urgency: "Review
+offer draft" is red (`--danger`), "Fix audience rule" is yellow
+(`--warning`), "Publish scheduled" is green (`--success`). Text and the
+"Open" / "Fix" / "View" buttons switch to white-on-colour for contrast. This
+is scoped to `.action-card.danger/.warning/.success` specifically, so the
+plain white cards used in "Recent activity" below (same base `.action-card`
+class, no colour) are untouched.
+
+**Offers table header is now white text on the dark green background** -
+this dashboard has always kept its own scoped table styling separate from
+the shared library (a deliberate choice, since it represents a different
+demo product), and that scoped style had never actually been given a
+background colour at all before. Fixed directly in its own `th` rule.
+
+**Sidebar menu updated with the full item list and real sub-items**,
+replacing the placeholder sub-items from the previous pass: My Profile
+(Account & Privacy, Membership Card, Documents & Readiness), My Work (Work
+Essentials, CV Builder), My Home (Home Essentials, Life Skills, Home Goals),
+My Journey (My Growth Map, Evaluation, Opportunities), plus the five flat
+items and "Need help" (no question mark, matching the latest list exactly).
+
+**Sidebar logo increased to 42px tall** (was 26px), and its `img` element is
+now specifically hidden (not just shrunk) when the sidebar is collapsed,
+since it wouldn't be legible at the 84px collapsed rail width.
+
+## Pass 6: sidebar scroll, bigger icons, a real people icon, and "Your Hazel Card"
+
+**Sidebar now scrolls when the expanded dropdowns push content past the
+bottom of the screen.** The nav area (`.sidebar-section`) was `overflow:
+hidden` at the parent level with no scroll mechanism of its own, so
+expanding all four groups at once simply clipped everything below the fold
+with no way to reach it. It's now `overflow-y: auto` with the scrollbar
+hidden across all three engines (`scrollbar-width: none` for Firefox,
+`-ms-overflow-style` for legacy Edge, `::-webkit-scrollbar{display:none}`
+for Chrome/Safari), so the content scrolls but no scrollbar is visible, per
+the request. The logo at the top and "Need help" at the bottom stay fixed in
+place; only the nav list in between scrolls. Worth flagging: the tool used
+for visual verification in this project shows a thin horizontal bar at the
+bottom of the scroll area that doesn't fully match a normal scrollbar's
+appearance - based on the pattern of similar rendering quirks found
+elsewhere in this project with that same tool, this looks like another tool
+artifact rather than a real issue, but it's worth a quick check in an actual
+browser to be certain, since I can't fully rule it out from here.
+
+**Sidebar icons increased to 18px**, up from 14px, with the icon's own box
+enlarged slightly (18px to 20px) so the larger glyph doesn't feel cramped.
+This applies identically whether the sidebar is expanded or collapsed, since
+the collapsed state only hides the text label, not the icon itself.
+
+**"My Trusted Network" now uses an actual two-person icon** (an inline SVG)
+instead of the generic square placeholder every other unassigned icon in
+this list still uses.
+
+**Added the "Your Hazel Card" application-status section**, positioned
+between the KPI cards and the Performance/Recent Activity panels, matching
+the attached screenshot: the application progress badge (83%, 5/6 complete)
+with a progress bar; the six status chips (Profile, Address, Care details,
+Evidence, Review, Card) each showing "Done" or "Next"; the approved banner
+and member detail list; and the dark membership card itself with a photo
+placeholder, member details, a QR code, and Verify card / Download PDF
+buttons. A few notes on how this was built:
+
+- The QR code is a generated placeholder pattern (finder squares in three
+  corners plus pseudo-random fill), not a real scannable code - there's
+  nothing to encode yet since this is a static mockup, but it's built as a
+  proper SVG so swapping in a real QR generator later just means replacing
+  that one element.
+- The screenshot's approved banner reads "Application approved" with an em
+  dash before "card issued". Per the project's standing instruction to
+  remove and never reintroduce em dashes, this was typed as "Application
+  approved - card issued" instead, even though it's replicating an existing
+  screenshot rather than newly authored copy.
+- Colours and the dark card background were pulled from the library's
+  existing tokens (`--success`, `--success-soft`, `--primary`, and
+  `--brand-dark-grey` for the near-black membership card) rather than
+  introducing new one-off values, so this section stays visually consistent
+  with everything else on the page.
+- Found the same bug pattern as before while building this: the shared
+  `svg{width:16px;height:16px}` reset in `styles.css` was silently shrinking
+  the QR pattern down to 16x16px despite its own explicit width/height
+  attributes, because CSS always wins over presentational HTML attributes,
+  even from a low-specificity rule. Added a scoped `.qr-box svg{width:100%;
+  height:100%}` override, the same fix pattern already used for the sidebar
+  icon SVG earlier in this file.
+
+## Pass 7: layout polish on the dashboard
+
+**Fixed a real layout-shift bug on sidebar collapse.** Collapsing the
+sidebar hides the logo, and the logo (42px tall) was taller than the
+collapse button next to it (34px), so `.sidebar-top`'s height was
+determined by whichever child happened to be visible - shrinking by about
+8px whenever the logo disappeared, and nudging everything below it up
+slightly. Fixed with an explicit `min-height: 82px` on `.sidebar-top` so the
+row holds its height regardless of which child is showing.
+
+**Reordered the dashboard sections**: Active offers / Pending approvals /
+Live audiences now sit below "Your Hazel Card" rather than above it.
+
+**"Your Hazel Card" card background is now solid white**, not the
+`linear-gradient(180deg,#fff,var(--surface-2))` every other `.card` uses by
+default. Overrode with a `.card.hazel-status` compound selector rather than
+just restyling `.hazel-status` alone, since the base `.card` gradient rule
+appears later in the stylesheet and would otherwise still win the
+tie-breaking on source order despite matching specificity.
+
+**Membership card visual elements resized**: the photo placeholder is now
+115x145px (was 64x80), the logo on the dark card is 50px tall (was 20px),
+and the QR code box is 120x120px (was 88x88), with its "Scan to verify
+membership" caption's max-width updated to match so it still wraps and
+centres correctly under the larger box rather than under the old, narrower
+one.
+
+**Removed the "Offers table" section and the "Main content example area"
+placeholder text** in the Performance card, both per request.
+
+**Added a slow pulsating glow to the red Action Center card**, a 2.6-second
+`box-shadow` ring animation (expanding and fading, then repeating) using the
+card's own `--danger` colour at low opacity, so it doesn't introduce a new
+one-off colour just for this effect.
+
 ## How this was actually tested
 
 Every interactive claim in this document was verified by loading the file in
 a headless DOM (jsdom) and dispatching real click events, not just
-re-rendering it as an image and eyeballing the result. This pass added 14
-new checks on `dashboard.html` (the accordion groups exist and toggle open on
-click, the logo and all four topbar elements are present) to the 13 from the
-previous pass (7 on `create-offer.html`, 6 on `components.html`). Combined
-with earlier passes' checks, all three files now have an automated
-regression suite behind them rather than relying on a screenshot looking
-right - which is exactly how the `width: 51,200px` layout bug above was
-caught: the click-toggle logic tested fine in jsdom, but only a visual render
-showed the actual breakage, which is why both kinds of check matter and
-neither alone is sufficient.
+re-rendering it as an image and eyeballing the result. This pass added 10
+new checks (all four dropdown groups can be open simultaneously without
+interfering with each other, "My Trusted Network" genuinely has an SVG icon
+now, the "Your Hazel Card" section renders with its 6 status chips, the
+membership card, and the QR pattern all present, and the approved banner
+uses a hyphen rather than an em dash) to the 11 from the previous pass.
+Also visually re-rendered the sidebar with all four groups expanded at once
+to confirm the scroll behaviour actually works rather than just trusting the
+CSS, which is also how the QR-code sizing bug above was caught: it looked
+fine in the DOM check (the SVG element existed) but was invisible in the
+actual render until inspected. This pass added a further 5 checks (Offers
+table and the Performance placeholder text are genuinely gone from the
+rendered output, the Hazel Card section still renders, and the KPI section
+now appears after it in DOM order, not just visually) plus a pixel-level
+check on the actual rendered output confirming the sidebar's internal
+divider sits within 1px of the same position whether the sidebar is
+expanded or collapsed, rather than trusting the CSS `min-height` fix by
+inspection alone.
 
 ## Earlier passes (for reference)
 
