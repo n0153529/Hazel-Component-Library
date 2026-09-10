@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard - Organisation</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <div class="sidebar-group" id="grp-organisation">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-organisation')">
+              <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="11" height="18" rx="1" stroke="currentColor" stroke-width="2"/><path d="M15 9h5v12h-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 7h1M11 7h1M7.5 11h1M11 11h1M7.5 15h1M11 15h1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Organisation</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Structure</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Staff</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Permissions</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Care leavers</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Foster care families</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Activity</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Bulk import</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item active" href="#"><span class="sidebar-icon">&#9632;</span><span>Overview &amp; offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9636;</span><span>Curriculum Centre</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Create offer</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9733;</span><span>Saved offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10003;</span><span>Offer claims</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#8962;</span><span>Local Offer management</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Offer messages</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <div class="topbar-user">
+          <div class="name">Hazelton City Council</div>
+          <div class="type">Local Authority</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1h-.2a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Organisation profile" onclick="toggleProfileMenu(event)">HCC</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Organisation Profile</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="action-center padded">
+        <div class="section-title">
+          <div>
+            <div class="h5">Action center</div>
+            <div class="small">Items that need review, updates, or attention.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <a href="#" class="btn-link" style="font-size:var(--text-sm)">See all</a>
+            <span class="badge badge-warning">3 to review</span>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="action-card danger">
+            <div>
+              <div class="h6">Offer waiting approval!</div>
+              <div class="small">Winter taster session offer approval pending.</div>
+            </div>
+            <button class="btn btn-secondary btn-sm">Open</button>
+          </div>
+          <div class="action-card warning">
+            <div>
+              <div class="h6">Message received from applicant.</div>
+              <div class="small">You have outstanding messages from offer applicants.</div>
+            </div>
+            <button class="btn btn-secondary btn-sm">View</button>
+          </div>
+          <div class="action-card success">
+            <div>
+              <div class="h6">Your latest offer has been accepted!</div>
+              <div class="small">Join partnership with the organisation has been accepted.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card padded" style="margin-top:24px">
+        <div style="display:flex;gap:16px;align-items:flex-start">
+          <div class="org-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="11" height="18" rx="1" stroke="currentColor" stroke-width="2"/><path d="M15 9h5v12h-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 7h1M11 7h1M7.5 11h1M11 11h1M7.5 15h1M11 15h1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="caption" style="color:var(--primary)">Local authority profile</div>
+            <div class="h5" style="margin:6px 0 4px">Hazelton City Council</div>
+            <div class="small">Synthetic Hazelton City Council demo organisation for training and product walkthroughs.</div>
+          </div>
+        </div>
+
+        <div class="grid grid-4" style="margin-top:20px">
+          <div class="org-info-tile">
+            <div class="caption">Provider type</div>
+            <div class="h6">Local Authority - Local authority</div>
+            <div class="small">No public profile URL added yet.</div>
+          </div>
+          <div class="org-info-tile">
+            <div class="caption">Account contact</div>
+            <div class="h6">Terry Galloway, Economic Development Officer</div>
+            <div class="small">07838317574</div>
+          </div>
+          <div class="org-info-tile">
+            <div class="caption">Email</div>
+            <div class="h6">hazelton.city.council@hazelton.demo</div>
+            <div class="small">Used for Hazel Card account and offer conversations.</div>
+          </div>
+          <div class="org-info-tile">
+            <div class="caption">Address</div>
+            <div class="h6">Hazelton Civic Centre, Station Street, Hazelton</div>
+            <div class="small">Used as the organisation or individual profile address.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top:24px">
+        <div class="card-header" style="flex-wrap:wrap">
+          <div>
+            <div class="h5">Saved offers workspace</div>
+            <div class="small">The 5 most recently added offers from your library.</div>
+          </div>
+          <div class="offer-status-inline">
+            <div class="offer-status-item"><span class="status-dot success"></span>Live <strong>10</strong></div>
+            <div class="offer-status-item"><span class="status-dot warning"></span>Awaiting approval <strong>0</strong></div>
+            <div class="offer-status-item"><span class="status-dot neutral"></span>Drafts <strong>0</strong></div>
+            <div class="offer-status-item"><span class="status-dot neutral"></span>Archived <strong>0</strong></div>
+            <a href="#" class="btn-link offer-library-link">See offer library</a>
+            <button class="btn btn-primary">Create offer</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="offer-list">
+            <div class="offer-row">
+              <div class="offer-thumb" aria-hidden="true"></div>
+              <div class="offer-info">
+                <div class="offer-title-row">
+                  <div class="h6">Meet Your Housing Provider Before Release</div>
+                  <span class="badge badge-neutral">Custody</span>
+                </div>
+                <div class="small offer-desc">Meet the people who will support or house you before you leave custody. See photos and videos of where you will be living, ask questions and, where relevant, start building your support plan together before you arrive.</div>
+              </div>
+              <div class="offer-meta">
+                <span class="badge badge-success">Live</span>
+                <span class="badge badge-neutral">Now onwards</span>
+                <div class="offer-redemptions">0 redemptions</div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View offer</button>
+            </div>
+
+            <div class="offer-row">
+              <div class="offer-thumb" aria-hidden="true"></div>
+              <div class="offer-info">
+                <div class="offer-title-row">
+                  <div class="h6">First Tenancy Starter Pack</div>
+                  <span class="badge badge-neutral">Housing</span>
+                </div>
+                <div class="small offer-desc">A starter pack of essential household items for care leavers moving into their first tenancy, including kitchenware, bedding and cleaning supplies.</div>
+              </div>
+              <div class="offer-meta">
+                <span class="badge badge-success">Live</span>
+                <span class="badge badge-neutral">Now onwards</span>
+                <div class="offer-redemptions">2 redemptions</div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View offer</button>
+            </div>
+
+            <div class="offer-row">
+              <div class="offer-thumb" aria-hidden="true"></div>
+              <div class="offer-info">
+                <div class="offer-title-row">
+                  <div class="h6">Retail Taster Day at Hazelton Market</div>
+                  <span class="badge badge-neutral">Employment</span>
+                </div>
+                <div class="small offer-desc">A one day taster placement working alongside independent traders at Hazelton Market, with travel and lunch covered.</div>
+              </div>
+              <div class="offer-meta">
+                <span class="badge badge-success">Live</span>
+                <span class="badge badge-neutral">Now onwards</span>
+                <div class="offer-redemptions">5 redemptions</div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View offer</button>
+            </div>
+
+            <div class="offer-row">
+              <div class="offer-thumb" aria-hidden="true"></div>
+              <div class="offer-info">
+                <div class="offer-title-row">
+                  <div class="h6">Budgeting &amp; Bills Workshop</div>
+                  <span class="badge badge-neutral">Independent Living</span>
+                </div>
+                <div class="small offer-desc">A practical, small-group session covering household budgeting, setting up bills and avoiding common tenancy costs.</div>
+              </div>
+              <div class="offer-meta">
+                <span class="badge badge-success">Live</span>
+                <span class="badge badge-neutral">Now onwards</span>
+                <div class="offer-redemptions">1 redemption</div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View offer</button>
+            </div>
+
+            <div class="offer-row">
+              <div class="offer-thumb" aria-hidden="true"></div>
+              <div class="offer-info">
+                <div class="offer-title-row">
+                  <div class="h6">College Enrolment Support Sessions</div>
+                  <span class="badge badge-neutral">Education</span>
+                </div>
+                <div class="small offer-desc">Drop-in sessions to help with college applications, funding forms and enrolment appointments ahead of the new term.</div>
+              </div>
+              <div class="offer-meta">
+                <span class="badge badge-success">Live</span>
+                <span class="badge badge-neutral">Now onwards</span>
+                <div class="offer-redemptions">2 redemptions</div>
+              </div>
+              <button class="btn btn-secondary btn-sm">View offer</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if(menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

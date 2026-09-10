@@ -578,6 +578,106 @@ different button height, gradient cards, and gradient avatar from leaking
 into the rest of the library. All three pages rendered pixel-identical to
 their prior versions.
 
+## Pass 11: dashboard-org.html built, and a real CSS bug fixed
+
+**New file: `dashboard-org.html`**, the organisation-facing dashboard. Built
+heavily off `dashboard.html`, reusing the same `.dashboard-shell` wrapper
+(and therefore all its scoped `.btn`/`.card`/`.badge`/`.grid`/etc.
+overrides) rather than introducing a second visual identity, since this
+pass was for the same look with different content, not a redesign.
+
+- Top bar shows the organisation name ("Hazelton City Council") and member
+  type ("Local Authority") in place of an individual member's name/type.
+  Profile dropdown items changed to Organisation Profile / Account &
+  Privacy / Logout.
+- Sidebar rebuilt for the organisation persona: a new "Organisation" expand
+  group (Structure, Staff, Permissions, Care leavers, Foster care families,
+  Activity, Bulk import) plus flat items (Overview & offers, Curriculum
+  Centre, Create offer, Saved offers, Offer claims, Local Offer management,
+  Offer messages). "Overview & offers" is the active item, matching this
+  page. Sidebar footer "Need support?" card carried over unchanged.
+- Action Center reused with three organisation-relevant items (offer
+  approval pending, a message from an applicant, a partnership offer
+  accepted). Note the middle card intentionally uses the plain, uncoloured
+  `.action-card` (no `.danger`/`.warning`/`.success` modifier) since it is
+  informational rather than urgent or positive, and the third card has no
+  button since none was specified.
+- "Your Hazel Card is active" panel replaced with a "Local authority
+  profile" card: an org summary line plus four info tiles (Provider type,
+  Account contact, Email, Address). New `.org-info-tile` class added to
+  `styles.css`, unscoped since the class name is unique to this content and
+  won't collide with the shared library, following the same pattern as
+  `.kpi` / `.journey-stat` / `.action-card`.
+- New full-width "Saved offers workspace" card: a status-count row (Live /
+  Awaiting approval / Drafts / Archived, with a "See offer library" link),
+  then a list of the 5 latest offers as `.offer-row` items (thumbnail, title
+  with a category tag, description, status + valid-date chips, redemption
+  count, "View offer" button). Only the first offer ("Meet Your Housing
+  Provider Before Release") was supplied content; the other four are
+  invented placeholders in the same style, worth swapping for real data.
+- Calendar / Recent activity from the member dashboard was deliberately not
+  carried over, since nothing was specified for this page yet.
+- Tested the same way as prior passes: jsdom click-event tests confirmed
+  sidebar collapse, the new Organisation group expand/collapse, and the
+  profile dropdown all update the DOM correctly, and a `wkhtmltoimage`
+  render was cross-checked for layout.
+- One new tool-only rendering quirk found and confirmed harmless: this
+  project's old WebKit screenshot tool doesn't support flexbox `gap` at all
+  (isolated with a minimal test case), so the offer status-count row's
+  spacing looks collapsed in screenshots. Real Chrome/Firefox/Safari all
+  support flex `gap` and render it correctly; left the CSS as-is.
+
+**Real bug found and fixed in `styles.css`**: the shared `.action-center,
+.dashboard-shell .card` rule had a stray `background:#fff;);` (an extra
+`);` left over from an earlier edit). Running the stylesheet through an
+actual CSS parser (rather than just checking brace balance, which this
+error passed) surfaced it immediately: `undefined:921:19: missing '}'`.
+Depending on a given browser's error-recovery behaviour this kind of
+malformed declaration can knock out far more than the one rule, which
+lines up with the "no styles are loading" report from the end of the
+previous session that could not be reproduced at the time. Confirmed fixed
+by re-parsing the whole file (540 rules, zero parsing errors) and
+re-rendering both `dashboard.html` and `dashboard-org.html`. **Lesson for
+next time: use a real CSS parser to validate `styles.css` after any edit,
+not just a brace-count check**, since brace-matching alone missed this.
+
+**`index.html` nav updated**: the existing "Dashboard (ORG)" link (already
+present as a `href="#"` placeholder) now points to `dashboard-org.html`.
+"Dashboard (Admin)" is still a placeholder, nothing built for it yet.
+
+## Pass 12: dashboard-org.html refinements
+
+Four small, targeted changes to `dashboard-org.html`, all reusing existing
+library CSS/components rather than introducing new visual patterns:
+
+- **Action Center is now red/yellow/green** (`.danger`/`.warning`/`.success`
+  on the three cards, in that order), matching the pattern already
+  established on the member `dashboard.html`. The first card now also
+  carries the pulsing glow animation that comes with `.danger`, same as the
+  member dashboard's urgent card.
+- **"Create offer" sidebar icon fixed.** It was a plain Unicode heavy-plus
+  glyph (`&#10133;`), which some fonts/platforms render with an emoji
+  colour presentation regardless of the surrounding text colour. Replaced
+  with an inline `stroke="currentColor"` SVG, the same approach already
+  used for the Organisation group icon and the member dashboard's Trusted
+  Network icon, so it always matches the sidebar label colour.
+- **Local authority profile card** now has a square logo tile on the left
+  (new `.org-logo` class, 64px, bordered, `--surface-3` background)
+  indenting the org name and description. Reuses the same building SVG
+  already used for the Organisation sidebar group, since there's no real
+  logo asset yet.
+- **Saved offers workspace header restructured.** The status counts (Live
+  / Awaiting approval / Drafts / Archived), the "See offer library" link,
+  and the "Create offer" button now all sit on one line in the card
+  header, in that left-to-right order. Renamed `.offer-status-row` to
+  `.offer-status-inline` and dropped its border/margin, since it's now
+  inline in the header rather than a separate row above the offer list.
+- Re-validated with the same process as Pass 11: parsed `styles.css` with a
+  real parser (542 rules, zero errors), re-ran and extended the jsdom
+  interactivity tests (18 assertions, all passing, including new checks for
+  card colour order and the header's element order), and re-rendered the
+  page to confirm layout.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px
