@@ -871,7 +871,8 @@ tr:last-child td{border-bottom:none}
   color:var(--subtle);
   box-shadow:var(--shadow-sm);
 }
-.dashboard-shell .searchbar input{border:none;background:none;outline:none;flex:1;color:var(--text);font-size:var(--text-md)}
+.dashboard-shell .searchbar svg{flex:none}
+.dashboard-shell .searchbar input{border:none;background:none;outline:none;flex:1;min-width:0;color:var(--text);font-size:var(--text-md)}
 .dashboard-shell .searchbar input::placeholder{color:var(--subtle)}
 .topbar-actions{display:flex;align-items:center;gap:10px;flex:none}
 .topbar-user{flex:none;text-align:right;line-height:1.3}

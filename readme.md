@@ -983,6 +983,34 @@ jsdom suite still at 64 passing assertions, zero JS errors across every
 page, and visually confirmed on both dashboards at mobile width (search
 bar correctly fills the row) and desktop width (unchanged).
 
+## Pass 19: fixed horizontal overflow from Pass 18's search bar change
+
+Pass 18 gave `.dashboard-shell .searchbar` `flex:1;min-width:0` so it
+could shrink to share the top row on mobile, but missed that its child
+`<input>` still had no `min-width:0` of its own. A flex item's automatic
+minimum size defaults to its content size unless overridden - the input's
+placeholder text ("Search offers, users, campaigns...") has a real
+intrinsic width, and without `min-width:0` the input refused to shrink
+below that, forcing the search bar (and the whole topbar row) wider than
+the viewport. That's what caused the placeholder text spilling out of
+the pill and the horizontal scrollbar.
+
+Fixed by adding `min-width:0` to `.dashboard-shell .searchbar input` as
+well, and `flex:none` to the search icon `<svg>` so it can't get squeezed
+either. Both are additive, desktop-safe changes (the search bar has
+plenty of room at desktop widths regardless).
+
+Checked specifically for recurrence this time: scanned the full page's
+right-hand edge pixel column across its entire height in the rendered
+mobile screenshot for any bleed past the 390px canvas (found none, solid
+background throughout), and spot-checked the Action Center and Offer
+Library header sections too.
+
+Re-validated: `styles.css` parses clean (565 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed no overflow on both dashboards at mobile
+width.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px
