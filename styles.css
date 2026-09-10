@@ -893,10 +893,7 @@ tr:last-child td{border-bottom:none}
 /* ---- "Your Hazel Card" status section ---- */
 .hazel-status{margin-bottom:24px}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
-.hazel-progress-badge{
-  background:var(--primary-soft);border:1px solid var(--primary-border);border-radius:var(--radius-lg);
-  padding:12px 20px;text-align:right;flex:none;
-}
+.hazel-progress-badge{padding:12px 20px;text-align:right;flex:none;}
 .hazel-progress-badge .pct{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1}
 .hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
 .hazel-progress-track{height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
