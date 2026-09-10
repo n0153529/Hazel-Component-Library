@@ -6,7 +6,10 @@ reference to build the real React/TypeScript components against, not a framework
 
 ## Files
 
-- `styles.css` - all design tokens and component CSS. Start here.
+- `styles.css` - all design tokens and component CSS for the whole library,
+  including a dedicated section at the end for `dashboard.html`'s own
+  layout and components (see Pass 10). This is the only stylesheet in the
+  project; no page carries its own embedded `<style>` block anymore.
 - `index.html` - landing page: hero, brand identity and logo lockups.
 - `components.html` - full catalog of every component, including the
   functional UI tokens and typography scale.
@@ -16,8 +19,10 @@ reference to build the real React/TypeScript components against, not a framework
   below.
 - `dashboard.html` - member-facing dashboard: dark green sidebar with the
   Hazel logo, working expand/collapse nav groups, and a top bar with search,
-  help, settings and profile. Now genuinely shares tokens with the rest of
-  the library (an old duplicate v3 token block was removed - see Pass 4).
+  a user info block, and a profile dropdown menu. Fully shares tokens with
+  the rest of the library and, as of Pass 10, has no CSS of its own left in
+  the file at all - everything lives in `styles.css`, scoped under
+  `.dashboard-shell` wherever it needed to differ from the shared defaults.
 - `workflow.html` - old generic wizard example from v3, superseded.
 - `assets/hazel-logo-cream.png` - the cream logomark.
 
@@ -479,6 +484,44 @@ library's existing `.dropdown` / `.menu` / `.menu-item` components rather
 than new one-off markup. Tested: the menu is hidden by default, opens on
 clicking the avatar, and closes again when clicking anywhere outside it.
 
+## Pass 10: all of dashboard.html's CSS moved into styles.css
+
+`dashboard.html` had carried its own embedded `<style>` block since v1,
+roughly 500 lines. Moved all of it into `styles.css` so there's genuinely
+one stylesheet for the whole library, `dashboard.html` now only has a
+`<link rel="stylesheet" href="styles.css">` and nothing else.
+
+This wasn't a plain copy-paste, and here's why: dashboard.html's embedded
+block had accumulated its own versions of several classes that also exist in
+the shared stylesheet - `.btn`, `.badge`, `.card`, `.avatar`, `.grid`,
+`.h3`/`.h5`/`.h6`, `.small`, and `.searchbar` - each with genuinely different
+values (different button height and font-weight, a gradient card background
+instead of flat, a gradient avatar instead of a flat one, flexbox instead of
+grid for `.grid-3`, and so on). Appending all of that to the end of
+`styles.css` unscoped would have made dashboard's versions win the cascade
+everywhere, on every page that links the same stylesheet, silently changing
+how buttons, badges, and cards look on `index.html`, `components.html`, and
+`create-offer.html` too.
+
+Instead, every one of those colliding selectors was scoped under
+`.dashboard-shell` (the dashboard's own outer wrapper element, which no
+other page has), so they only apply inside the dashboard and can't leak
+anywhere else. Classes that are already unique to the dashboard
+(`.sidebar-*`, `.hazel-*`, `.calendar-*`/`.cal-*`, `.journey-*`, `.kpi`,
+`.action-card`, `.topbar-*`, and so on) needed no scoping and were moved
+across as-is. A handful of genuinely duplicate global rules (`*`,
+`html,body`, `a`, `img`, `button,input,select,textarea`, and an unused
+leftover table style from the "Offers table" section removed a few passes
+ago) were dropped entirely rather than moved, since the shared stylesheet
+already covers them identically. The two dashboard-only layout constants
+(`--sidebar-width`, `--sidebar-collapsed`) were added to the main `:root`
+block rather than kept in a separate one.
+
+The new dashboard section in `styles.css` has its own header comment
+explaining this scoping decision, so it's clear later why some rules there
+look like near-duplicates of ones higher up in the file rather than reused
+directly.
+
 ## How this was actually tested
 
 Every interactive claim in this document was verified by loading the file in
@@ -519,6 +562,21 @@ heading text missing); "Work Essentials" and the old "Reminders: ..." line
 are both genuinely gone from the page text; exactly three reminder badges
 and five Recent Activity items exist; and the sidebar help icon has been
 removed from the DOM entirely while "Chat to us" still renders correctly.
+
+Moving all of dashboard.html's CSS into the shared stylesheet was tested two
+ways. First, confirmed the file itself has zero `<style>` elements left and
+correctly links `styles.css`, then re-ran the full existing dashboard
+interaction suite (profile menu, sidebar collapse, all three dropdown
+groups, and the banner dismiss) against the file with its CSS removed, to
+make sure none of that broke in the move. Second, and more importantly,
+rendered `index.html`, `components.html`, and `create-offer.html` and
+compared them against known-good screenshots from before this change -
+buttons, badges, cards, and avatars on those pages needed to look exactly
+as they did before, since the whole point of scoping every colliding
+selector under `.dashboard-shell` was to prevent dashboard's slightly
+different button height, gradient cards, and gradient avatar from leaking
+into the rest of the library. All three pages rendered pixel-identical to
+their prior versions.
 
 ## Earlier passes (for reference)
 
