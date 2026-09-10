@@ -1030,7 +1030,7 @@ tr:last-child td{border-bottom:none}
 .org-info-tile .h6{margin-bottom:4px;line-height:1.35}
 
 .org-logo{
-  width:64px;height:64px;flex:none;border-radius:var(--radius-lg);
+  width:80px;height:80px;flex:none;border-radius:var(--radius-lg);
   border:1px solid var(--border);background:var(--surface-3);
   display:grid;place-items:center;color:var(--subtle);
 }
