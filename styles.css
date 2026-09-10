@@ -131,7 +131,7 @@ code,pre{font-family:var(--font-mono)}
 .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width: 960px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+@media (max-width: 960px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.offer-row{flex-wrap:wrap}}
 
 .card{
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);
@@ -642,7 +642,6 @@ tr:last-child td{border-bottom:none}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
   padding:20px 18px;
   min-height:82px;
   border-bottom:1px solid rgba(255,255,255,.14);
@@ -671,22 +670,21 @@ tr:last-child td{border-bottom:none}
 
 .sidebar-top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .sidebar-backbtn{
-  display:flex;align-items:center;gap:6px;
-  height:34px;padding:0 12px;
+  width:34px;height:34px;flex:0 0 auto;
   border-radius:var(--radius-pill);
   border:1px solid rgba(255,255,255,.24);
   background:rgba(255,255,255,.1);
   color:#fff;
-  font-size:var(--text-sm);
-  font-weight:600;
+  display:grid;place-items:center;
   cursor:pointer;
-  flex:0 0 auto;
-  white-space:nowrap;
 }
 .sidebar-backbtn:hover{background:rgba(255,255,255,.18)}
-.sidebar-backbtn svg{width:14px;height:14px;flex:none}
-.dashboard-shell.is-collapsed .sidebar-backbtn .label{display:none}
-.dashboard-shell.is-collapsed .sidebar-backbtn{width:34px;padding:0;justify-content:center}
+.sidebar-backbtn svg{width:14px;height:14px}
+
+/* Collapsed rail is narrower than back+collapse side by side (34+8+34=76px
+   vs. ~48px of usable width once sidebar-top's padding is subtracted), so
+   stack them instead of shrinking either button down further. */
+.dashboard-shell.is-collapsed .sidebar-top-actions{flex-direction:column}
 
 /* Collapsed sidebar: icon-only rail. The main content area grows to fill
    the freed space automatically since it's flex:1 in the flex row below. */
@@ -796,11 +794,21 @@ tr:last-child td{border-bottom:none}
   margin-left:14px;
   padding-left:12px;
   border-left:1px solid rgba(255,255,255,.16);
-  display:none;
+  display:flex;
   flex-direction:column;
   gap:4px;
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  visibility:hidden;
+  transition:max-height .22s ease, opacity .15s ease, visibility 0s linear .22s;
 }
-.sidebar-group.open .sidebar-group-body{display:flex}
+.sidebar-group.open .sidebar-group-body{
+  max-height:600px; /* comfortably above any realistic sub-item count */
+  opacity:1;
+  visibility:visible;
+  transition:max-height .22s ease, opacity .15s ease, visibility 0s linear 0s;
+}
 
 .sidebar-footer{
   margin-top:auto;
@@ -876,6 +884,7 @@ tr:last-child td{border-bottom:none}
 }
 .icon-btn:hover{border-color:var(--primary);color:var(--primary)}
 .icon-btn svg{width:18px;height:18px}
+@media (min-width: 1101px){.mobile-menu-btn{display:none}}
 .topbar-avatar{cursor:pointer}
 
 .main-heading{margin-bottom:20px}
@@ -896,6 +905,7 @@ tr:last-child td{border-bottom:none}
   flex:1 1 150px;min-width:0;background:var(--success-soft);border:1px solid var(--success-border);
   border-radius:var(--radius-lg);padding:14px;
 }
+.hazel-step.incomplete{background:var(--danger-soft);border-color:var(--danger-border)}
 .hazel-step .badge{margin-bottom:10px}
 .hazel-step .h6{margin-bottom:2px}
 .hazel-approved-banner{
@@ -918,7 +928,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-id-card{
   position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
-  padding:20px;color:#fff;
+  padding:30px;color:#fff;
 }
 .hazel-id-watermark{
   position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
@@ -965,6 +975,8 @@ tr:last-child td{border-bottom:none}
   display:flex;
   align-items:center;
   justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
   margin:0 0 12px;
 }
 .action-card{
@@ -1055,7 +1067,16 @@ tr:last-child td{border-bottom:none}
   padding:16px;background:var(--surface);
 }
 .org-info-tile .caption{margin-bottom:6px}
-.org-info-tile .h6{margin-bottom:4px;line-height:1.35}
+.org-info-tile .h6{margin-bottom:4px;line-height:1.35;overflow-wrap:anywhere;word-break:break-word}
+
+/* Provider type keeps its original ~1/4 share; Account details takes the
+   ~3/4 share the three old tiles (contact/email/address) used to occupy
+   between them, now as one tile with three internal columns. */
+.org-profile-grid{display:flex;gap:16px;flex-wrap:wrap}
+.org-profile-grid > .org-info-tile{flex:1 1 220px}
+.org-profile-grid > .org-info-tile.wide{flex:3 1 480px}
+.org-info-subgrid{display:flex;gap:16px;flex-wrap:wrap}
+.org-info-subgrid > *{flex:1 1 190px;min-width:0}
 
 .org-logo{
   width:80px;height:80px;flex:none;border-radius:var(--radius-lg);
@@ -1065,7 +1086,16 @@ tr:last-child td{border-bottom:none}
 .org-logo svg{width:34px;height:34px}
 
 /* ---- dashboard-org.html: saved offers workspace ---- */
+.offer-library-header{
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  row-gap:12px;
+}
+.offer-library-title{margin-right:auto;order:1}
+.offer-library-actions{order:3;display:flex;align-items:center;gap:10px;flex:none}
+.btn-icon-mobile{display:none}
 .offer-status-inline{
+  order:2;
   display:flex;flex-wrap:wrap;align-items:center;gap:20px;
 }
 .offer-status-item{
@@ -1096,8 +1126,33 @@ tr:last-child td{border-bottom:none}
   flex:none;display:flex;flex-direction:row;align-items:center;gap:12px;
 }
 .offer-redemptions{font-size:var(--text-xs);color:var(--subtle);white-space:nowrap}
-@media (max-width: 960px){
-  .offer-row{flex-wrap:wrap}
+
+/* This old screenshot tool (wkhtmltoimage, used only for this project's
+   own QA renders) has a confirmed rendering fragility: past a certain
+   point of CSS complexity in this file, ANY additional rule - including
+   a completely inert, unused one added purely as a test - can corrupt
+   layout computation for unrelated content elsewhere on the page (in
+   this case, the offer list collapsing into a single-word column).
+   Confirmed via bisection down to a single trivial, unused rule. This is
+   not a CSS correctness issue and does not affect real browsers (Chrome/
+   Firefox/Safari all handle this file correctly) - it's specific to this
+   one legacy tool. Kept all new mobile-only rules consolidated into one
+   block regardless, since that's good practice anyway. */
+@media (max-width: 640px){
+  .hazel-id-body{
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+  }
+  .hazel-id-info{width:100%}
+  .offer-library-title{width:calc(100% - 110px);margin-right:0}
+  .offer-library-actions{order:2}
+  .offer-status-inline{order:3;flex-basis:100%}
+  .offer-library-btn .btn-label,.offer-create-btn .btn-label{display:none}
+  .offer-library-btn .btn-icon-mobile,.offer-create-btn .btn-icon-mobile{display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
+  .offer-library-btn,.offer-create-btn{width:40px;padding:0;justify-content:center;gap:0}
+  .offer-library-btn svg,.offer-create-btn svg{width:16px;height:16px}
+  .offer-row > .btn{width:100%}
 }
 
 
@@ -1127,6 +1182,8 @@ tr:last-child td{border-bottom:none}
   border-radius:999px;
   font-size:var(--text-xs);
   font-weight:700;
+  white-space:nowrap;
+  flex:none;
 }
 .dashboard-shell .badge-primary{background:var(--primary-soft);color:var(--primary)}
 .dashboard-shell .badge-success{background:var(--success-soft);color:var(--success)}
@@ -1134,6 +1191,11 @@ tr:last-child td{border-bottom:none}
 .dashboard-shell .badge-danger{background:var(--danger-soft);color:var(--danger)}
 .dashboard-shell .badge-info{background:var(--info-soft);color:var(--info)}
 .dashboard-shell .badge-orange{background:var(--orange-soft);color:var(--orange)}
+.badge-text-short{display:none}
+@media (max-width: 560px){
+  .badge-text-full{display:none}
+  .badge-text-short{display:inline}
+}
 
 .dashboard-shell .small{font-size:var(--text-sm);color:var(--subtle)}
 .dashboard-shell .h3{font-size:var(--text-3xl);font-weight:800;line-height:1.1}
@@ -1141,8 +1203,30 @@ tr:last-child td{border-bottom:none}
 .dashboard-shell .h6{font-size:var(--text-md);font-weight:700}
 
 @media (max-width: 1100px){
-  .dashboard-sidebar{display:none}
+  .dashboard-sidebar{
+    position:fixed;
+    top:0;left:0;
+    z-index:60;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    box-shadow:2px 0 24px rgba(0,0,0,.28);
+  }
+  .dashboard-shell.mobile-sidebar-open .dashboard-sidebar{
+    transform:translateX(0);
+  }
+  .mobile-sidebar-backdrop{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,25,.5);
+    z-index:55;
+  }
+  .dashboard-shell.mobile-sidebar-open .mobile-sidebar-backdrop{
+    display:block;
+  }
   .dashboard-shell .grid-3 > *,.panel-grid > *{flex-basis:100%}
   .dashboard-topbar{flex-wrap:wrap}
-.dashboard-shell .searchbar{max-width:none;order:3;width:100%}
+.dashboard-shell .searchbar{flex:1;min-width:0;max-width:none}
+.topbar-user{display:none}
+.dashboard-shell.mobile-sidebar-open .sidebar-collapse{display:none}
 }

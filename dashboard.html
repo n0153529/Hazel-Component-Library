@@ -13,7 +13,12 @@
         <div class="brand">
           <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
         </div>
-        <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
       </div>
 
       <div class="sidebar-section">
@@ -82,8 +87,13 @@
       </div>
     </aside>
 
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
     <main class="dashboard-main">
       <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div class="topbar-user">
           <div class="name">Sunny Barker</div>
           <div class="type">Hazel Card Member</div>
@@ -95,9 +105,6 @@
         <div class="topbar-actions">
           <button type="button" class="icon-btn" aria-label="Help">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
-          </button>
-          <button type="button" class="icon-btn" aria-label="Settings">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1h-.2a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </button>
           <div class="dropdown">
             <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
@@ -119,7 +126,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:14px">
             <a href="#" class="btn-link" style="font-size:var(--text-sm)">See all</a>
-            <span class="badge badge-warning">4 pending</span>
+            <span class="badge badge-warning"><span class="badge-text-full">4 pending</span><span class="badge-text-short">4</span></span>
           </div>
         </div>
 
@@ -181,8 +188,8 @@
             <div class="h6">Care details</div>
             <div class="small">Care experience details added</div>
           </div>
-          <div class="hazel-step">
-            <span class="badge badge-primary">Next</span>
+          <div class="hazel-step incomplete">
+            <span class="badge badge-danger">Next</span>
             <div class="h6">Evidence</div>
             <div class="small">0/3 required documents uploaded</div>
           </div>
@@ -200,7 +207,6 @@
 
         <div class="cols-2" style="margin-top:24px">
           <div>
-            <p class="small" style="margin:0 0 16px">Your application has been approved and your digital card is now active.</p>
             <div class="hazel-approved-banner" id="approvedBanner">
               <span>Application approved - card issued</span>
               <button type="button" class="hazel-banner-dismiss" aria-label="Dismiss" onclick="document.getElementById('approvedBanner').style.display='none'">
@@ -342,15 +348,17 @@
           <div class="card-body" style="display:grid;gap:14px">
             <div class="action-card">
               <div>
-                <div class="h6">Offer published</div>
-                <div class="small">Holiday bundle went live 12 min ago.</div>
+                <div class="h6">Claimed offer</div>
+                <div class="small">Receptionist Taster Session offer claimed. Please complete application.</div>
               </div>
+              <button class="btn btn-secondary btn-sm">View</button>
             </div>
             <div class="action-card">
               <div>
-                <div class="h6">Audience synced</div>
-                <div class="small">Segment refresh completed successfully.</div>
+                <div class="h6">CV Update Saved</div>
+                <div class="small">Updated current CV template with new taster session experience</div>
               </div>
+              <button class="btn btn-secondary btn-sm">View</button>
             </div>
             <div class="action-card">
               <div>
@@ -381,6 +389,11 @@
     }
     function sidebarCollapseToggle(){
       document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
     }
     function toggleProfileMenu(e){
       e.stopPropagation();

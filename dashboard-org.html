@@ -16,7 +16,6 @@
         <div class="sidebar-top-actions">
           <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
             <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="label" style="color:#fff;">Back</span>
           </button>
           <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
         </div>
@@ -31,6 +30,7 @@
             <div class="sidebar-group-body">
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Structure</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Staff</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Team Members</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Permissions</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Care leavers</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Foster care families</span></a>
@@ -62,8 +62,13 @@
       </div>
     </aside>
 
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
     <main class="dashboard-main">
       <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div class="topbar-user">
           <div class="name">Hazelton City Council</div>
           <div class="type">Local Authority</div>
@@ -75,9 +80,6 @@
         <div class="topbar-actions">
           <button type="button" class="icon-btn" aria-label="Help">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
-          </button>
-          <button type="button" class="icon-btn" aria-label="Settings">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1h-.2a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </button>
           <div class="dropdown">
             <div class="avatar topbar-avatar" title="Organisation profile" onclick="toggleProfileMenu(event)">HCC</div>
@@ -99,7 +101,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:14px">
             <a href="#" class="btn-link" style="font-size:var(--text-sm)">See all</a>
-            <span class="badge badge-warning">3 to review</span>
+            <span class="badge badge-warning"><span class="badge-text-full">3 to review</span><span class="badge-text-short">3</span></span>
           </div>
         </div>
 
@@ -123,6 +125,7 @@
               <div class="h6">Your latest offer has been accepted!</div>
               <div class="small">Join partnership with the organisation has been accepted.</div>
             </div>
+            <button class="btn btn-secondary btn-sm">View</button>
           </div>
         </div>
       </section>
@@ -139,43 +142,57 @@
           </div>
         </div>
 
-        <div class="grid grid-4" style="margin-top:20px">
+        <div class="org-profile-grid" style="margin-top:20px">
           <div class="org-info-tile">
             <div class="caption">Provider type</div>
             <div class="h6">Local Authority - Local authority</div>
             <div class="small">No public profile URL added yet.</div>
           </div>
-          <div class="org-info-tile">
-            <div class="caption">Account contact</div>
-            <div class="h6">Terry Galloway, Economic Development Officer</div>
-            <div class="small">07838317574</div>
-          </div>
-          <div class="org-info-tile">
-            <div class="caption">Email</div>
-            <div class="h6">hazelton.city.council@hazelton.demo</div>
-            <div class="small">Used for Hazel Card account and offer conversations.</div>
-          </div>
-          <div class="org-info-tile">
-            <div class="caption">Address</div>
-            <div class="h6">Hazelton Civic Centre, Station Street, Hazelton</div>
-            <div class="small">Used as the organisation or individual profile address.</div>
+          <div class="org-info-tile wide">
+            <div class="org-info-subgrid">
+              <div>
+                <div class="caption" style="margin-bottom:4px">Contact</div>
+                <div class="h6">Terry Galloway, Economic Development Officer</div>
+                <div class="small">07838317574</div>
+              </div>
+              <div>
+                <div class="caption" style="margin-bottom:4px">Email</div>
+                <div class="h6">hazelton.city.council@hazelton.demo</div>
+                <div class="small">Used for Hazel Card account and offer conversations.</div>
+              </div>
+              <div>
+                <div class="caption" style="margin-bottom:4px">Address</div>
+                <div class="h6">Hazelton Civic Centre, Station Street, Hazelton</div>
+                <div class="small">Used as the organisation or individual profile address.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="card" style="margin-top:24px">
-        <div class="card-header" style="flex-wrap:wrap">
-          <div>
+        <div class="card-header offer-library-header">
+          <div class="offer-library-title">
             <div class="h5">Latest Offer Library</div>
             <div class="small">The 5 most recently added offers from your library.</div>
+          </div>
+          <div class="offer-library-actions">
+            <button class="btn btn-secondary btn-sm offer-library-btn" aria-label="See offer library">
+              <span class="btn-icon-mobile" aria-hidden="true">&#9733;</span>
+              <span class="btn-label">See offer library</span>
+            </button>
+            <button class="btn btn-primary offer-create-btn" aria-label="Create offer">
+              <span class="btn-icon-mobile" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="btn-label">Create offer</span>
+            </button>
           </div>
           <div class="offer-status-inline">
             <div class="offer-status-item"><span class="status-dot success"></span>Live <strong>10</strong></div>
             <div class="offer-status-item"><span class="status-dot warning"></span>Awaiting approval <strong>0</strong></div>
             <div class="offer-status-item"><span class="status-dot neutral"></span>Drafts <strong>0</strong></div>
             <div class="offer-status-item"><span class="status-dot neutral"></span>Archived <strong>0</strong></div>
-            <button class="btn btn-secondary btn-sm">See offer library</button>
-            <button class="btn btn-primary">Create offer</button>
           </div>
         </div>
         <div class="card-body">
@@ -275,6 +292,11 @@
     }
     function sidebarCollapseToggle(){
       document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
     }
     function toggleProfileMenu(e){
       e.stopPropagation();

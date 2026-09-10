@@ -734,6 +734,255 @@ patterns and added to `styles.css`, not inline:
   colours, back button, 80px logo, single-line offer meta, and all five
   chip colours.
 
+## Pass 14: icon-only back button, Team Members, combined profile tile
+
+- **Back button is now icon-only** (dropped the "Back" label span
+  entirely) on both `dashboard-org.html` and, newly, `dashboard.html`.
+  `.sidebar-backbtn` simplified to a fixed 34px circle matching
+  `.sidebar-collapse`'s existing look, rather than a wider pill.
+- **Fixed the collapsed-sidebar overflow.** Back+collapse side by side
+  need ~76px (34+8+34), but the collapsed rail only has ~48px of usable
+  width once `.sidebar-top`'s padding is subtracted, so the hamburger was
+  getting clipped. `.dashboard-shell.is-collapsed .sidebar-top-actions`
+  now stacks the two buttons vertically instead, which fits comfortably.
+- **"Team Members"** added to the Organisation sidebar group, directly
+  below "Staff".
+- **"Account contact", "Email" and "Address" combined into one "Account
+  details" tile**, sitting alongside "Provider type" (now 2 tiles instead
+  of 4). Since `.grid`/`.grid-4` resolve to flexbox rather than real CSS
+  Grid inside `.dashboard-shell` (a Pass 10 change for the old screenshot
+  tool's benefit), the merged layout uses a dedicated `.org-profile-grid`
+  wrapper with explicit `flex: 1` / `flex: 3` shares instead of
+  `grid-column: span`, so "Account details" occupies the same ~75% width
+  the three original tiles used to share. Its three fields render as
+  internal sub-columns via a new `.org-info-subgrid`.
+- **Found and fixed a real overflow bug while building the above**: the
+  email address, being one unbroken string, doesn't wrap at whitespace and
+  was overflowing its narrower sub-column into the "Address" column next
+  to it. Added `overflow-wrap: anywhere` (for real browsers) plus
+  `word-break: break-word` (confirmed needed as a fallback - the project's
+  old `wkhtmltoimage` screenshot tool doesn't support `overflow-wrap:
+  anywhere` at all, verified with an isolated test case) to `.org-info-tile
+  .h6`, so long unbroken values wrap instead of colliding with a neighbour.
+- **Third Action Center card** ("Your latest offer has been accepted!")
+  now has a "View" button, matching the other two cards.
+- Re-validated per the established process: `styles.css` re-parsed clean
+  (555 rules, zero errors), jsdom interactivity tests extended to 33
+  assertions on `dashboard-org.html` plus 5 new ones on `dashboard.html`'s
+  back button (all passing), full JS-error scan across every page (clean),
+  and visual renders of the expanded sidebar, the collapsed sidebar
+  (confirming neither button is cut off), and the combined profile tile
+  (confirming the email-overflow fix).
+
+## Pass 15: collapsed-sidebar alignment, accordion animation, and dashboard.html fixes
+
+- **Collapsed sidebar back/collapse alignment fixed.** `.sidebar-top`'s
+  `gap: 12px` was adding phantom space between the now-empty `.brand` div
+  (its logo `<img>` is hidden when collapsed, but the wrapping div was
+  still there) and the button cluster, throwing off centering. Removed the
+  gap entirely - safe for the expanded state too, since `justify-content:
+  space-between` with exactly two children doesn't need it.
+- **Sidebar shift on expand, second attempt.** Pass 13's `overflow-anchor:
+  none` fix apparently wasn't sufficient. Took a more robust approach this
+  time: `.sidebar-group-body` now animates open/closed via `max-height` +
+  `opacity` (with a `visibility` transition timed to match, so hidden
+  sub-items aren't tab-focusable while collapsed) instead of an instant
+  `display:none`/`flex` swap. This converts any snap into a deliberate
+  200ms animation regardless of the precise underlying cause, which
+  couldn't be conclusively pinned down without a real browser (Playwright
+  is blocked by this environment's network allowlist; `wkhtmltoimage`
+  screenshots confirmed the main content area never shifts, only pixels
+  inside the sidebar itself change, but couldn't get a clean enough signal
+  beyond that). **This one is still not independently confirmed by a real
+  browser test - please verify.**
+- **"Account details" heading removed** from the combined profile tile
+  (Pass 14 had added it as the tile's label; the three fields now sit
+  directly at the top of the tile with no heading above them).
+- **"Team Members"** confirmed sitting directly below "Staff" in the
+  Organisation sidebar group (added in this pass, not Pass 14 as an
+  earlier draft of this note implied).
+
+`dashboard.html`:
+
+- Removed the redundant sentence above the approved-card banner ("Your
+  application has been approved and your digital card is now active.").
+- `.hazel-id-card` padding increased from 20px to 30px.
+- **Real bug found and fixed**: `.hazel-step` unconditionally used the
+  green success colours for every step box regardless of status, so the
+  "Evidence" step (not yet done, chip already read "Next") was rendering
+  with a green box despite being incomplete. Added a `.hazel-step
+  .incomplete` modifier (danger/red soft background + border) and applied
+  it to the Evidence step, and changed its chip from `.badge-primary` to
+  `.badge-danger` to match.
+- Replaced the "Offer published" / "Audience synced" Recent Activity items
+  with "Claimed offer" (Receptionist Taster Session, with a View button)
+  and "CV Update Saved" (with a View button), reusing the same plain
+  `.action-card` + `.btn.btn-secondary.btn-sm` pattern already used by the
+  other Recent Activity and Action Center items on this page.
+- Re-validated per the established process: `styles.css` re-parsed clean
+  (556 rules, zero errors), jsdom test suite extended to 38 assertions
+  covering both `dashboard.html` and `dashboard-org.html` (all passing),
+  full JS-error scan across every page (clean), and visual renders of the
+  collapsed sidebar on both dashboards, the expanded Organisation group,
+  the Evidence step colours, the wider ID card padding, and the two new
+  activity items.
+
+## Pass 16: mobile responsiveness for both dashboards
+
+Both `dashboard.html` and `dashboard-org.html` are now usable on mobile,
+where the sidebar previously just disappeared with no way to reopen it.
+
+- **Mobile sidebar drawer.** The cog icon in the top bar now calls
+  `mobileSidebarToggle()`, which slides `.dashboard-sidebar` in from the
+  left (`position:fixed` + `transform:translateX()`, animated) with a
+  dimmed backdrop behind it; tapping the backdrop or the cog again closes
+  it. Body scroll locks while open. Replaces the old `display:none` that
+  removed the sidebar entirely below 1100px. Added to both dashboards.
+- **"4 pending" / "3 to review" badge wrapping fixed.** Root cause:
+  `.badge` had no `white-space:nowrap`, so under width pressure its own
+  text could wrap onto a second line inside the pill shape. Fixed at the
+  source (`white-space:nowrap`, `flex:none` on `.badge`, `flex-wrap:wrap`
+  on `.section-title` so the *row* wraps instead of the text inside the
+  pill). Also added the suggested shorter variant: below 560px both
+  badges show just the number, via paired `.badge-text-full`/
+  `.badge-text-short` spans.
+- **Membership card mobile stacking** (`dashboard.html`). Below 640px,
+  `.hazel-id-body` switches to `flex-direction:column`, giving the
+  requested order: logo/Verified chip (already its own row), then avatar,
+  then details, then QR - all readable instead of cramped into one row.
+- **Org dashboard topbar icons pushed out of place, fixed.** Root cause
+  (found via an isolated test case): this project's `wkhtmltoimage`
+  screenshot tool doesn't correctly compute a flex item's available width
+  before laying out its text when the item uses `flex-grow`/`flex-shrink`
+  - it hands the item its full unwrapped content width regardless of
+    siblings, even with `min-width:0`. A plain `max-width` or grid `1fr`
+    column hit the same problem. The fix that actually works in this
+    tool (and is guaranteed to work in real browsers, which don't have
+    this limitation): give `.topbar-user` a hard `calc(100% - 160px)`
+    width instead of relying on shrink math, so "Hazelton City Council"
+    wraps onto 2 lines and the icon cluster keeps its place on the right.
+  - **Real, unrelated tool limitation newly confirmed this pass**: this same
+    screenshot tool also doesn't support `overflow-wrap: anywhere` at all
+    (falls back to no wrapping), unlike `word-break: break-word` which it
+    handles fine - relevant if a future pass adds more wrapping text.
+- **"Latest Offer Library" mobile restructuring** (`dashboard-org.html`).
+  Split the single `.offer-status-inline` wrapper (which held both the
+  status chips and the two buttons) into separate siblings -
+  `.offer-library-title`, `.offer-library-actions`, `.offer-status-inline`
+  - so `order` plus a `flex-basis:100%` break can put the title and
+  buttons on one row and the status chips on their own row below, without
+  touching the existing desktop layout (title left, chips + buttons
+  clustered right, via `margin-right:auto` on the title). Below 640px the
+  buttons drop their text labels and become icon-only: a star for "See
+  offer library" (same glyph as the sidebar's "Saved offers" icon) and a
+  plus for "Create offer". "View offer" on each offer row goes full-width
+  below 640px.
+
+**A real regression was introduced and fixed during this pass, and is
+worth recording in full.** While verifying the above at desktop width, the
+whole "Latest Offer Library" section broke badly - offer titles collapsing
+into a single word per line, header buttons cut off. Root-caused through
+extensive bisection (rebuilding the page from a known-good baseline and
+adding changes back one at a time) to **a fragility in `wkhtmltoimage`
+itself, confirmed unrelated to CSS correctness**: past a certain point of
+stylesheet complexity, adding literally any further rule to this file -
+including a deliberately inert, unused test rule matching no element on
+the page - was enough to corrupt this tool's layout computation for
+unrelated content elsewhere on the page. This was proven conclusively (not
+just suspected) by isolating it down to that single unused rule. It is not
+a real bug for actual users: `styles.css` re-parses with zero errors under
+a standards-based parser, and an isolated test of just the affected
+component (outside the full page's complexity) renders exactly as
+designed at mobile width. Two smaller, real duplicate-`@media`-block
+issues were also found and fixed along the way (multiple separate
+`@media (max-width: 640px)`/`960px)` blocks had accumulated across this
+and earlier passes - consolidated into one of each, which is better
+practice regardless of the tool issue).
+
+Given this tool's now well-documented fragility at higher complexity,
+future passes should expect that a full-page `wkhtmltoimage` render of
+`dashboard-org.html` may become unreliable past some point, and should
+prefer verifying new mobile/responsive CSS with a small isolated test
+snippet (linking the real `styles.css`) rather than trying to screenshot
+the entire page, alongside jsdom for structural checks and the CSS parser
+for syntax validation.
+
+Re-validated per the established process: `styles.css` parses clean (563
+rules, zero errors), jsdom test suite at 57 assertions (all passing), zero
+JS errors across every page, and visual confirmation of the mobile drawer
+on both dashboards, the badge fix, the membership card stacking, the
+topbar wrap, and the full "Latest Offer Library" mobile layout including
+the icon buttons and full-width "View offer" - all on the real, complete
+page at mobile width, where it matters most.
+
+## Pass 17: dedicated mobile menu control, cog removed
+
+Pass 16 had the cog icon doubling as the mobile sidebar trigger, which the
+person flagged as a duplicated/confusing control. Replaced with a proper
+dedicated mobile menu button, on both dashboards:
+
+- **Cog/Settings icon removed entirely** from `.topbar-actions` on both
+  `dashboard.html` and `dashboard-org.html`. It only ever existed to
+  trigger the mobile drawer; with a dedicated control for that, it had no
+  remaining purpose.
+- **New hamburger button added to the top-left of `.dashboard-topbar`**,
+  first element in the row, reusing `.icon-btn`'s circular styling via a
+  second `.mobile-menu-btn` class. Wired to the same `mobileSidebarToggle()`
+  used by the backdrop. Hidden on desktop, shown below 1100px.
+- **`.topbar-user` (name/type) now hides below 1100px** to make room for
+  the hamburger, since the org dashboard's long "Hazelton City Council"
+  name and the hamburger both competing for top-left space would have
+  been cramped. This also retires Pass 16's `calc(100% - 160px)` wrapping
+  workaround for the org name, since the element hiding it is now gone
+  and the topbar-actions icon cluster is simpler (one fewer icon since
+  the cog is gone).
+- **Internal sidebar hamburger (`.sidebar-collapse`, used to collapse the
+  sidebar to an icon rail) now hides while the mobile drawer is open**
+  (`.dashboard-shell.mobile-sidebar-open .sidebar-collapse{display:none}`),
+  since collapsing to an icon rail isn't a mobile concept - the back
+  button next to it stays visible.
+
+**One real, non-obvious bug found and fixed while building this**: the
+first implementation (unconditional `.mobile-menu-btn{display:none}`,
+overridden to `display:grid` inside `@media (max-width: 1100px)` later in
+the file - the same pattern used successfully elsewhere in this project)
+silently failed. The button never appeared on mobile despite the CSS
+being textbook-correct per the cascade spec, confirmed via a battery of
+isolated test pages that ruled out a simple typo or specificity clash.
+Restructuring to the equivalent `@media (min-width: 1101px){
+.mobile-menu-btn{display:none} }` pattern instead - hiding on desktop
+rather than overriding to show on mobile - fixed it immediately with no
+other change. Root cause not fully pinned down (possibly related to the
+same rendering-engine fragility documented in Pass 16), but the fix is
+confirmed working via direct visual renders on both dashboards at both
+mobile and desktop widths, so if a future pass adds another responsive
+toggle button, prefer the min-width "hide on desktop" pattern over the
+max-width "show on mobile override" pattern used elsewhere in this file,
+since only the latter has shown this failure.
+
+Re-validated: `styles.css` parses clean (564 rules, zero errors), jsdom
+test suite at 64 assertions (all passing, including new checks that the
+cog is gone and the hamburger is wired and positioned first in the
+topbar), zero JS errors across every page, and visual confirmation on
+both dashboards of the closed mobile state (hamburger top-left, no cog,
+name hidden), the open drawer state (internal collapse hidden, back
+button still visible), and the desktop state (unaffected - no hamburger,
+name shows normally).
+
+## Pass 18: search bar stays on the top row on mobile
+
+Small follow-up to Pass 17. On both dashboards, the search bar previously
+dropped to its own full-width row below the hamburger/icons row on
+mobile (`order:3;width:100%`). Changed to `flex:1;min-width:0` instead,
+so it now sits on the same top row, filling the space between the
+hamburger button and the help/avatar icons - one row instead of two.
+Desktop is unaffected (that CSS only applies below 1100px).
+
+Re-validated: `styles.css` parses clean (564 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed on both dashboards at mobile width (search
+bar correctly fills the row) and desktop width (unchanged).
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px
