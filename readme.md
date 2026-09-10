@@ -678,6 +678,62 @@ library CSS/components rather than introducing new visual patterns:
   card colour order and the header's element order), and re-rendered the
   page to confirm layout.
 
+## Pass 13: sidebar shift investigation, back button, and offer-list refinements
+
+**Sidebar "shifts slightly" when expanding a group.** Root-caused as
+CSS scroll anchoring: browsers try to auto-compensate scroll position when
+content changes above the visible area, and the "Organisation" group's 7
+subitems (vs 2-3 per group on the member dashboard) are large enough to
+tip `.sidebar-section` into needing that compensation, where the member
+dashboard's smaller groups never do. Fixed by adding `overflow-anchor:
+none` to `.sidebar-section` (shared CSS, so both dashboards benefit).
+**Caveat worth flagging: this could not be visually confirmed pixel-for-
+pixel**, since Playwright's Chromium download is blocked by this
+environment's network egress allowlist (`cdn.playwright.dev` isn't on it)
+and `wkhtmltoimage`'s screenshot diffs proved too noisy (non-deterministic
+font antialiasing between runs) to use as a substitute. This is the
+standard, correct fix for this exact symptom, but flagging the unverified
+step explicitly rather than presenting it as confirmed.
+
+Other `dashboard-org.html` changes, all reusing existing library CSS
+patterns and added to `styles.css`, not inline:
+
+- **Back button** added to `sidebar-top`, next to the collapse control.
+  New `.sidebar-backbtn` class (translucent pill, matches the collapse
+  button's existing style), wired to `history.back()`. Collapses to an
+  icon-only circle when the sidebar itself is collapsed, same treatment as
+  the rest of the sidebar's collapsed state.
+- **Action Center** cards now map to `.danger`/`.warning`/`.success` (red/
+  yellow/green) in that order, same modifiers used on the member
+  dashboard, just applied to different cards.
+- **`.org-logo`** bumped from 64px to 80px, icon scaled up to match.
+- **"Saved offers workspace" renamed to "Latest Offer Library."**
+- **Offer meta row** (`Live` / `Now onwards` / redemptions) changed from a
+  stacked column to a single inline row, so it reads as one line next to
+  the status chip as asked.
+- **`.offer-desc`** max-width increased from 60ch to 100ch.
+- **Category chips are now colour-coded**: Custody=grey (`.badge-neutral`,
+  unchanged), Housing=red (`.badge-danger`), Employment=green
+  (`.badge-success`), Independent Living=yellow (`.badge-warning`),
+  Education=orange. No orange badge existed in the library before this,
+  so added `--orange`/`--orange-soft`/`--orange-border` tokens and a
+  `.badge-orange` class (base + `.dashboard-shell`-scoped pill variant),
+  following the exact same pattern as the other badge colours.
+- **"See offer library"** converted from a `.btn-link` text link to a real
+  `<button class="btn btn-secondary btn-sm">`, matching the project's
+  existing convention of using `<button>` rather than styled `<a>` tags
+  for in-page actions.
+- Removed the now-dead `.offer-library-link` CSS rule and simplified a
+  responsive rule that became redundant once `.offer-meta` defaulted to a
+  row layout.
+- Re-validated the same way as prior passes: `styles.css` re-parsed with a
+  real parser (549 rules, zero errors), jsdom interactivity tests extended
+  to 24 assertions covering the new button, badge colours, and element
+  order (all passing), full JS-error scan across every page in the
+  project (clean), and a visual render confirming the action center
+  colours, back button, 80px logo, single-line offer meta, and all five
+  chip colours.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px

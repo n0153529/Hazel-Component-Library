@@ -50,6 +50,9 @@
   --info:#2563eb;
   --info-soft:#eaf1ff;
   --info-border:#cfe0ff;
+  --orange:#c2410c;
+  --orange-soft:#fff1e6;
+  --orange-border:#fdba8c;
 
   /* ---- brand identity (named, for logo/marketing use) ---- */
   --brand-dark-green:#104751;
@@ -231,6 +234,7 @@ code,pre{font-family:var(--font-mono)}
 .badge-warning{background:var(--warning-soft);color:var(--warning);border-color:var(--warning-border)}
 .badge-danger{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
 .badge-info{background:var(--info-soft);color:var(--info);border-color:var(--info-border)}
+.badge-orange{background:var(--orange-soft);color:var(--orange);border-color:var(--orange-border)}
 .badge-soon{background:var(--surface);color:var(--subtle);border-color:var(--border)}
 .badge-active{background:var(--primary-soft);color:var(--primary);border-color:var(--primary-border)}
 .pill-counter{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:999px;background:var(--surface-3);color:var(--muted);font-size:var(--text-sm);font-weight:700;white-space:nowrap;flex:none}
@@ -665,6 +669,25 @@ tr:last-child td{border-bottom:none}
   flex:0 0 auto;
 }
 
+.sidebar-top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.sidebar-backbtn{
+  display:flex;align-items:center;gap:6px;
+  height:34px;padding:0 12px;
+  border-radius:var(--radius-pill);
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  font-size:var(--text-sm);
+  font-weight:600;
+  cursor:pointer;
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+.sidebar-backbtn:hover{background:rgba(255,255,255,.18)}
+.sidebar-backbtn svg{width:14px;height:14px;flex:none}
+.dashboard-shell.is-collapsed .sidebar-backbtn .label{display:none}
+.dashboard-shell.is-collapsed .sidebar-backbtn{width:34px;padding:0;justify-content:center}
+
 /* Collapsed sidebar: icon-only rail. The main content area grows to fill
    the freed space automatically since it's flex:1 in the flex row below. */
 .dashboard-shell.is-collapsed .brand-logo{display:none}
@@ -685,6 +708,11 @@ tr:last-child td{border-bottom:none}
   flex:1 1 auto;
   min-height:0;
   overflow-y:auto;
+  overflow-anchor:none; /* stops the browser silently compensating scroll
+    position when an accordion above the fold changes height - the likely
+    cause of the "slight shift" seen on dashboard-org.html's larger
+    Organisation group, since scroll anchoring only kicks in once a
+    scrollable region has real overflow to correct for. */
   scrollbar-width:none; /* Firefox */
   -ms-overflow-style:none; /* legacy Edge/IE */
 }
@@ -1034,7 +1062,7 @@ tr:last-child td{border-bottom:none}
   border:1px solid var(--border);background:var(--surface-3);
   display:grid;place-items:center;color:var(--subtle);
 }
-.org-logo svg{width:28px;height:28px}
+.org-logo svg{width:34px;height:34px}
 
 /* ---- dashboard-org.html: saved offers workspace ---- */
 .offer-status-inline{
@@ -1049,7 +1077,6 @@ tr:last-child td{border-bottom:none}
 .status-dot.success{background:var(--success)}
 .status-dot.warning{background:var(--warning)}
 .status-dot.neutral{background:var(--subtle)}
-.offer-library-link{font-size:var(--text-sm)}
 
 .offer-list{display:flex;flex-direction:column}
 .offer-row{
@@ -1064,14 +1091,13 @@ tr:last-child td{border-bottom:none}
 }
 .offer-info{flex:1;min-width:0}
 .offer-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
-.offer-desc{line-height:1.5;max-width:60ch}
+.offer-desc{line-height:1.5;max-width:100ch}
 .offer-meta{
-  flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+  flex:none;display:flex;flex-direction:row;align-items:center;gap:12px;
 }
-.offer-redemptions{font-size:var(--text-xs);color:var(--subtle)}
+.offer-redemptions{font-size:var(--text-xs);color:var(--subtle);white-space:nowrap}
 @media (max-width: 960px){
   .offer-row{flex-wrap:wrap}
-  .offer-meta{flex-direction:row;align-items:center}
 }
 
 
@@ -1107,6 +1133,7 @@ tr:last-child td{border-bottom:none}
 .dashboard-shell .badge-warning{background:var(--warning-soft);color:var(--warning)}
 .dashboard-shell .badge-danger{background:var(--danger-soft);color:var(--danger)}
 .dashboard-shell .badge-info{background:var(--info-soft);color:var(--info)}
+.dashboard-shell .badge-orange{background:var(--orange-soft);color:var(--orange)}
 
 .dashboard-shell .small{font-size:var(--text-sm);color:var(--subtle)}
 .dashboard-shell .h3{font-size:var(--text-3xl);font-weight:800;line-height:1.1}

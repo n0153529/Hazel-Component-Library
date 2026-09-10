@@ -13,7 +13,13 @@
         <div class="brand">
           <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
         </div>
-        <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="label" style="color:#fff;">Back</span>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
       </div>
 
       <div class="sidebar-section">
@@ -160,7 +166,7 @@
       <section class="card" style="margin-top:24px">
         <div class="card-header" style="flex-wrap:wrap">
           <div>
-            <div class="h5">Saved offers workspace</div>
+            <div class="h5">Latest Offer Library</div>
             <div class="small">The 5 most recently added offers from your library.</div>
           </div>
           <div class="offer-status-inline">
@@ -168,7 +174,7 @@
             <div class="offer-status-item"><span class="status-dot warning"></span>Awaiting approval <strong>0</strong></div>
             <div class="offer-status-item"><span class="status-dot neutral"></span>Drafts <strong>0</strong></div>
             <div class="offer-status-item"><span class="status-dot neutral"></span>Archived <strong>0</strong></div>
-            <a href="#" class="btn-link offer-library-link">See offer library</a>
+            <button class="btn btn-secondary btn-sm">See offer library</button>
             <button class="btn btn-primary">Create offer</button>
           </div>
         </div>
@@ -196,7 +202,7 @@
               <div class="offer-info">
                 <div class="offer-title-row">
                   <div class="h6">First Tenancy Starter Pack</div>
-                  <span class="badge badge-neutral">Housing</span>
+                  <span class="badge badge-danger">Housing</span>
                 </div>
                 <div class="small offer-desc">A starter pack of essential household items for care leavers moving into their first tenancy, including kitchenware, bedding and cleaning supplies.</div>
               </div>
@@ -213,7 +219,7 @@
               <div class="offer-info">
                 <div class="offer-title-row">
                   <div class="h6">Retail Taster Day at Hazelton Market</div>
-                  <span class="badge badge-neutral">Employment</span>
+                  <span class="badge badge-success">Employment</span>
                 </div>
                 <div class="small offer-desc">A one day taster placement working alongside independent traders at Hazelton Market, with travel and lunch covered.</div>
               </div>
@@ -230,7 +236,7 @@
               <div class="offer-info">
                 <div class="offer-title-row">
                   <div class="h6">Budgeting &amp; Bills Workshop</div>
-                  <span class="badge badge-neutral">Independent Living</span>
+                  <span class="badge badge-warning">Independent Living</span>
                 </div>
                 <div class="small offer-desc">A practical, small-group session covering household budgeting, setting up bills and avoiding common tenancy costs.</div>
               </div>
@@ -247,7 +253,7 @@
               <div class="offer-info">
                 <div class="offer-title-row">
                   <div class="h6">College Enrolment Support Sessions</div>
-                  <span class="badge badge-neutral">Education</span>
+                  <span class="badge badge-orange">Education</span>
                 </div>
                 <div class="small offer-desc">Drop-in sessions to help with college applications, funding forms and enrolment appointments ahead of the new term.</div>
               </div>
