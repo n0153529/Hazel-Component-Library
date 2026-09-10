@@ -386,6 +386,99 @@ placeholder text** in the Performance card, both per request.
 card's own `--danger` colour at low opacity, so it doesn't introduce a new
 one-off colour just for this effect.
 
+## Pass 8: sidebar help card, dismissable banner, "My journey" and "My Calendar"
+
+You attached an updated `dashboard.html` from a zip this round. Diffed it
+against my last output first: everything else in the zip (styles.css,
+components.html, create-offer.html, index.html, workflow.html) was byte-for-
+byte identical, and dashboard.html had a small set of manual edits - the "My
+Profile" dropdown group commented out, a couple of sub-items moved between
+groups, and the Action Center copy rewritten to be member-facing rather than
+admin-facing ("Review offer starting soon!", "Your card is now active", and
+so on). Adopted that file as the new baseline rather than my own last
+version, so none of those edits were lost.
+
+**Sidebar footer rebuilt as a proper card.** The plain "Need help" text link
+is now a bordered card with a chat icon, "Need support?" heading, "We're
+here if you need help with anything." body copy, and a full-width "Chat to
+us" button. When the sidebar is collapsed, the card collapses down to just
+the chat icon as a circular button - this took two passes to get right:
+my first attempt left both the decorative header icon and the button's own
+icon visible at once when collapsed, since I'd only hidden the text labels.
+Caught by rendering the collapsed state and looking at it, not assumed.
+
+**"See all" link added** next to the "4 pending" badge in Action Center,
+using the existing `.btn-link` utility rather than a new one-off style.
+
+**"Application approved - card issued" banner is now dismissable.** Added an
+X button that hides the whole banner on click. Tested: the banner is visible
+by default, and clicking the dismiss button sets it to hidden, confirmed via
+its actual `display` value in a headless DOM rather than just checking the
+button exists.
+
+**KPI cards replaced with a "My journey" panel** - heading, an "Edit my
+plan" link, an intro sentence, and three stat cards (Opportunities
+completed, Skills developed, Verified hours) each with their own icon and a
+count starting at 0, using the library's existing success/warning/info
+colour tokens for the three icon circles rather than new ones.
+
+**"Performance" replaced with "My Calendar"** - "View calendar" link plus an
+"Add Event" button in the header, and three example calendar entries below,
+each with a coloured dot indicating its type, a title, a date/time line, a
+description, a location, and its reminder schedule. Defined dot colours for
+all five types you specified (Reminder = yellow, Appointment = green,
+Deadline = red, Offer = purple, Activity = light green) even though the
+three example entries only use three of them, so the other two are ready to
+use without needing new CSS. Reused `--danger` for Deadline and introduced
+two new one-off colours (a purple and a lighter green) specifically for
+Offer and Activity, since the existing token set doesn't have anything in
+that family already.
+
+One small deliberate deviation: your example event time read "09:00-17:00"
+with what could be read as an en dash; typed as a plain hyphen throughout,
+consistent with the project's standing rule against em dashes and to avoid
+introducing a different dash character elsewhere in the codebase.
+
+## Pass 9: commenting out "My journey", reminder badges, and a profile menu
+
+**"My journey" is commented out, not deleted**, wrapped in a single HTML
+comment block per request, ready to bring back when you're ready to revisit
+it. Confirmed via a headless DOM check that none of its content actually
+renders (no `.journey-stat` elements exist in the live page) rather than
+just eyeballing that the text disappeared.
+
+**Calendar reminders moved into a badge on the title row**, right-aligned,
+replacing the separate "Reminders: ..." line entirely. The three example
+events now show "Starting in 2 hours" (red, most urgent), "Reminder: 1 day
+to go" (yellow), and "Reminder: 3 days to go" (neutral grey) - varying the
+badge colour by urgency rather than using one flat style throughout.
+
+**Recent activity now has 5 items**, up from 3 (added "Document uploaded"
+and "Message received").
+
+**Removed the SVG icon from "Need support?"** - both the decorative circle
+above the heading and the icon inside the "Chat to us" button. Since there's
+no icon left to shrink to, simplified the collapsed-sidebar behaviour for
+this card to just hide entirely rather than leaving an empty circle behind,
+which is what my first pass at "remove the icon" would have produced if I
+hadn't checked the collapsed state again.
+
+**Removed "Work Essentials"** from the sidebar. Worth noting where it
+actually was: your uploaded file had moved it under "My Home" (alongside
+Home Essentials, Life Skills, Home Goals) rather than "My Work", likely
+mid-reorganisation - removed it from that location since that's where it
+existed in the file I was given.
+
+**"See all" now sits to the left of the "4 pending" badge**, swapped from
+the previous pass.
+
+**Top bar rebuilt** with two more pieces: "Sunny Barker" / "Hazel Card
+Member" to the left of the search field, and a working dropdown menu on the
+profile avatar (Membership card, Account & Privacy, Logout) built from the
+library's existing `.dropdown` / `.menu` / `.menu-item` components rather
+than new one-off markup. Tested: the menu is hidden by default, opens on
+clicking the avatar, and closes again when clicking anywhere outside it.
+
 ## How this was actually tested
 
 Every interactive claim in this document was verified by loading the file in
@@ -408,6 +501,24 @@ check on the actual rendered output confirming the sidebar's internal
 divider sits within 1px of the same position whether the sidebar is
 expanded or collapsed, rather than trusting the CSS `min-height` fix by
 inspection alone.
+
+This pass added a further 17 checks: the dismiss button genuinely hides the
+approved banner (checked its computed `display`, not just that the button
+exists); the sidebar help card's text is present and the old "Need help"
+wording is gone; the KPI cards are fully removed and replaced by exactly
+three `.journey-stat` elements; the Performance heading is gone and exactly
+three `.calendar-item` elements exist with the correct dot classes; and the
+sidebar collapse still works after all of the above. Also re-rendered the
+collapsed sidebar specifically to check the new help card, which is how the
+duplicated-icon bug mentioned above was actually caught.
+
+This pass added a further 17 checks: the profile menu is hidden by default,
+opens on avatar click, and closes on an outside click; "My journey" no
+longer renders (zero `.journey-stat` elements in the live DOM, not just the
+heading text missing); "Work Essentials" and the old "Reminders: ..." line
+are both genuinely gone from the page text; exactly three reminder badges
+and five Recent Activity items exist; and the sidebar help icon has been
+removed from the DOM entirely while "Chat to us" still renders correctly.
 
 ## Earlier passes (for reference)
 

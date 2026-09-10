@@ -199,10 +199,23 @@ img{max-width:100%;display:block}
   margin-top:auto;
   padding:14px 12px;
 }
-.help-link{
-  color:rgba(255,255,255,.7);
+.sidebar-help-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius-lg);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-.help-link:hover{color:#fff}
+.sidebar-help-text .title{color:#fff;font-weight:700;font-size:var(--text-md);margin-bottom:2px}
+.sidebar-help-text .desc{color:rgba(255,255,255,.68);font-size:var(--text-sm);line-height:1.4}
+.sidebar-help-btn{width:100%;justify-content:center}
+
+/* No compact icon-only representation for this card anymore since the icon
+   was removed, so it simply hides in the collapsed rail rather than
+   shrinking to an empty circle. */
+.dashboard-shell.is-collapsed .sidebar-help-card{display:none}
 
 .avatar{
   width:40px;
@@ -246,6 +259,9 @@ img{max-width:100%;display:block}
 .searchbar input{border:none;background:none;outline:none;flex:1;color:var(--text);font-size:var(--text-md)}
 .searchbar input::placeholder{color:var(--subtle)}
 .topbar-actions{display:flex;align-items:center;gap:10px;flex:none}
+.topbar-user{flex:none;text-align:right;line-height:1.3}
+.topbar-user .name{font-weight:700;color:var(--text);font-size:var(--text-2xl)}
+.topbar-user .type{font-size:var(--text-xs);color:var(--subtle);margin-top:1px;text-align: left;}
 .icon-btn{
   width:40px;height:40px;border-radius:999px;border:1px solid var(--border);
   background:var(--surface);display:grid;place-items:center;color:var(--text);
@@ -278,7 +294,14 @@ img{max-width:100%;display:block}
 .hazel-approved-banner{
   background:var(--success-soft);border:1px solid var(--success-border);color:var(--success);
   font-weight:700;border-radius:var(--radius-md);padding:14px 16px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
+.hazel-banner-dismiss{
+  background:none;border:none;color:var(--success);opacity:.7;cursor:pointer;
+  width:22px;height:22px;display:grid;place-items:center;flex:none;border-radius:999px;
+}
+.hazel-banner-dismiss:hover{opacity:1;background:rgba(5,150,105,.12)}
+.hazel-banner-dismiss svg{width:14px;height:14px}
 .hazel-detail-list{display:flex;flex-direction:column;gap:16px}
 .hazel-detail-list .caption{margin-bottom:4px}
 .hazel-membership-panel{
@@ -375,6 +398,14 @@ img{max-width:100%;display:block}
 .kpi .value{font-size:32px;font-weight:800;line-height:1.1;margin-top:8px}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
+.journey-stat{border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.journey-icon{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;margin-bottom:12px}
+.journey-icon.success{background:var(--success-soft);color:var(--success)}
+.journey-icon.warning{background:var(--warning-soft);color:var(--warning)}
+.journey-icon.info{background:var(--info-soft);color:var(--info)}
+.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1;margin-bottom:4px}
+.journey-stat .label{font-size:var(--text-sm);color:var(--subtle)}
+
 .panel-grid{
   display:flex;
   flex-wrap:wrap;
@@ -392,6 +423,24 @@ img{max-width:100%;display:block}
   place-items:center;
   color:var(--subtle);
 }
+
+/* My Calendar list */
+.calendar-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.calendar-item:first-child{padding-top:0}
+.calendar-item:last-child{border-bottom:none;padding-bottom:0}
+.cal-dot{width:10px;height:10px;border-radius:999px;flex:none;margin-top:6px}
+.cal-dot.reminder{background:#eab308}
+.cal-dot.appointment{background:#059669}
+.cal-dot.deadline{background:var(--danger)}
+.cal-dot.offer{background:#9333ea}
+.cal-dot.activity{background:#4ade80}
+.cal-body{min-width:0;flex:1}
+.cal-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
+.cal-title{font-weight:700;color:var(--text)}
+.cal-reminder-badge{flex:none;white-space:nowrap}
+.cal-time{font-size:var(--text-sm);color:var(--primary);font-weight:600;margin-bottom:6px}
+.cal-desc{font-size:var(--text-sm);color:var(--muted);margin-bottom:6px;line-height:1.5}
+.cal-meta{font-size:var(--text-xs);color:var(--subtle);line-height:1.6}
 
 .table-wrap{overflow:auto}
 table{width:100%;border-collapse:collapse}
@@ -465,7 +514,7 @@ th:last-child{border-top-right-radius:var(--radius-md)}
 
       <div class="sidebar-section">
         <nav class="sidebar-menu">
-          <div class="sidebar-group" id="grp-profile">
+<!--           <div class="sidebar-group" id="grp-profile">
             <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-profile')">
               <span class="sidebar-icon">&#9685;</span><span>My Profile</span><span class="sidebar-chevron">&#9662;</span>
             </button>
@@ -474,15 +523,15 @@ th:last-child{border-top-right-radius:var(--radius-md)}
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Membership Card</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
             </div>
-          </div>
+          </div> -->
 
           <div class="sidebar-group" id="grp-work">
             <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
               <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
             </button>
             <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Work Essentials</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
             </div>
           </div>
 
@@ -517,12 +566,24 @@ th:last-child{border-top-right-radius:var(--radius-md)}
       </div>
 
       <div class="sidebar-footer">
-        <a class="sidebar-item help-link" href="#"><span class="sidebar-icon">?</span><span>Need help</span></a>
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
       </div>
     </aside>
 
     <main class="dashboard-main">
       <div class="dashboard-topbar">
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
         <div class="searchbar">
           <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input placeholder="Search offers, users, campaigns&hellip;" />
@@ -534,7 +595,15 @@ th:last-child{border-top-right-radius:var(--radius-md)}
           <button type="button" class="icon-btn" aria-label="Settings">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1h-.2a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.6v-.2a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.6 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </button>
-          <div class="avatar topbar-avatar" title="Your profile">AP</div>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -544,28 +613,31 @@ th:last-child{border-top-right-radius:var(--radius-md)}
             <div class="h5">Action center</div>
             <div class="small">Items that need review, updates, or attention.</div>
           </div>
-          <span class="badge badge-warning">4 pending</span>
+          <div style="display:flex;align-items:center;gap:14px">
+            <a href="#" class="btn-link" style="font-size:var(--text-sm)">See all</a>
+            <span class="badge badge-warning">4 pending</span>
+          </div>
         </div>
 
         <div class="grid grid-3">
           <div class="action-card danger">
             <div>
-              <div class="h6">Review offer draft</div>
-              <div class="small">Spring promo is ready for approval.</div>
+              <div class="h6">Review offer starting soon!</div>
+              <div class="small">Winter taster session offer starting soon.</div>
             </div>
             <button class="btn btn-secondary btn-sm">Open</button>
           </div>
           <div class="action-card warning">
             <div>
-              <div class="h6">Fix audience rule</div>
-              <div class="small">One segment has missing eligibility.</div>
+              <div class="h6">Updated offer - Requires documentation.</div>
+              <div class="small">One segment has missing documents. Please complete.</div>
             </div>
             <button class="btn btn-secondary btn-sm">Fix</button>
           </div>
           <div class="action-card success">
             <div>
-              <div class="h6">Publish scheduled</div>
-              <div class="small">3 campaigns will go live today.</div>
+              <div class="h6">Your card is now active</div>
+              <div class="small">Just show your digital card & QR code to access offers!</div>
             </div>
             <button class="btn btn-secondary btn-sm">View</button>
           </div>
@@ -625,7 +697,12 @@ th:last-child{border-top-right-radius:var(--radius-md)}
         <div class="cols-2" style="margin-top:24px">
           <div>
             <p class="small" style="margin:0 0 16px">Your application has been approved and your digital card is now active.</p>
-            <div class="hazel-approved-banner">Application approved - card issued</div>
+            <div class="hazel-approved-banner" id="approvedBanner">
+              <span>Application approved - card issued</span>
+              <button type="button" class="hazel-banner-dismiss" aria-label="Dismiss" onclick="document.getElementById('approvedBanner').style.display='none'">
+                <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+              </button>
+            </div>
             <div class="hazel-detail-list">
               <div><div class="caption">Member ID</div><div class="h6">CECARD-51274992</div></div>
               <div><div class="caption">Home authority (care authority)</div><div class="h6">Hazelton City Council</div></div>
@@ -670,24 +747,86 @@ th:last-child{border-top-right-radius:var(--radius-md)}
         </div>
       </section>
 
-      <section style="margin-top:24px">
+      <!-- Commented out for now, per request - will revisit. Not deleted.
+      <section class="card padded" style="margin-top:24px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div class="h5">My journey</div>
+          <a href="#" class="btn-link" style="font-size:var(--text-sm)">Edit my plan</a>
+        </div>
+        <p class="small" style="margin:6px 0 20px">See what you have achieved, the skills you are building and what comes next.</p>
         <div class="grid grid-3">
-          <div class="kpi"><div class="label">Active offers</div><div class="value">128</div><div class="delta">+12% this month</div></div>
-          <div class="kpi"><div class="label">Pending approvals</div><div class="value">7</div><div class="delta">3 urgent</div></div>
-          <div class="kpi"><div class="label">Live audiences</div><div class="value">46</div><div class="delta">+5 today</div></div>
+          <div class="journey-stat">
+            <div class="journey-icon success">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="value">0</div>
+            <div class="label">Opportunities completed</div>
+          </div>
+          <div class="journey-stat">
+            <div class="journey-icon warning">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="value">0</div>
+            <div class="label">Skills developed</div>
+          </div>
+          <div class="journey-stat">
+            <div class="journey-icon info">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="value">0</div>
+            <div class="label">Verified hours</div>
+          </div>
         </div>
       </section>
+      -->
 
       <section class="panel-grid">
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="h5">Performance</div>
+              <div class="h5">My Calendar</div>
             </div>
-            <span class="badge badge-primary">Last 30 days</span>
+            <div style="display:flex;align-items:center;gap:14px">
+              <a href="#" class="btn-link" style="font-size:var(--text-sm)">View calendar</a>
+              <button class="btn btn-primary btn-sm">Add Event</button>
+            </div>
           </div>
           <div class="card-body">
-            <div class="chart-placeholder">Chart / graph placeholder</div>
+            <div class="calendar-item">
+              <span class="cal-dot activity"></span>
+              <div class="cal-body">
+                <div class="cal-title-row">
+                  <div class="cal-title">Receptionist Taster Session</div>
+                  <span class="badge badge-danger cal-reminder-badge">Starting in 2 hours</span>
+                </div>
+                <div class="cal-time">Tue, 8 Sept 2026 - 09:00-17:00</div>
+                <div class="cal-desc">All equipment will be provided, please arrive by 9am, look forward to seeing you.</div>
+                <div class="cal-meta">Location: Pulse Leisure, Bramcote, NG9 8NB</div>
+              </div>
+            </div>
+            <div class="calendar-item">
+              <span class="cal-dot appointment"></span>
+              <div class="cal-body">
+                <div class="cal-title-row">
+                  <div class="cal-title">Support Worker Check-in</div>
+                  <span class="badge badge-warning cal-reminder-badge">Reminder: 1 day to go</span>
+                </div>
+                <div class="cal-time">Wed, 9 Sept 2026 - 14:00-14:30</div>
+                <div class="cal-desc">Monthly catch-up to discuss progress and any support you need.</div>
+                <div class="cal-meta">Location: Hazelton City Council Offices</div>
+              </div>
+            </div>
+            <div class="calendar-item">
+              <span class="cal-dot reminder"></span>
+              <div class="cal-body">
+                <div class="cal-title-row">
+                  <div class="cal-title">CV Submission Reminder</div>
+                  <span class="badge badge-neutral cal-reminder-badge">Reminder: 3 days to go</span>
+                </div>
+                <div class="cal-time">Fri, 11 Sept 2026 - All day</div>
+                <div class="cal-desc">Submit your updated CV before the application window closes.</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -715,6 +854,18 @@ th:last-child{border-top-right-radius:var(--radius-md)}
                 <div class="small">Two drafts are waiting approval.</div>
               </div>
             </div>
+            <div class="action-card">
+              <div>
+                <div class="h6">Document uploaded</div>
+                <div class="small">Proof of address added to your application.</div>
+              </div>
+            </div>
+            <div class="action-card">
+              <div>
+                <div class="h6">Message received</div>
+                <div class="small">Your support worker sent you a new message.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -727,6 +878,17 @@ th:last-child{border-top-right-radius:var(--radius-md)}
     function sidebarCollapseToggle(){
       document.getElementById('dashboardShell').classList.toggle('is-collapsed');
     }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if(menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
   </script>
 </body>
 </html>
