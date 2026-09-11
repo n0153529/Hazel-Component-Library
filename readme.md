@@ -1011,6 +1011,31 @@ jsdom suite still at 64 passing assertions, zero JS errors across every
 page, and visually confirmed no overflow on both dashboards at mobile
 width.
 
+## Pass 20: heading rename, circular mobile icon buttons, green hamburger
+
+- **`dashboard-org.html`**: "Latest Offer Library" heading renamed to
+  "Manage latest Offers".
+- **Mobile icon buttons weren't actually circles.** Both "See offer
+  library" and "Create offer" had been forced to the same `width:40px`
+  on mobile, but they don't share a height: "See offer library" carries
+  `.btn-sm` (34px tall in this shell), "Create offer" is a regular `.btn`
+  (44px tall) - so one rendered as a short oval and the other a tall one.
+  Fixed by matching each button's width to its own height (34px and 44px
+  respectively), which combined with the existing pill border-radius
+  gives a true circle for each.
+- **Mobile hamburger button now uses the brand teal/green
+  (`var(--primary)`) as its background with a white icon**, on both
+  dashboards, instead of the default `.icon-btn` white-with-border look.
+  Hover state darkens to `var(--primary-hover)`, matching the same
+  pattern already used on primary buttons elsewhere.
+
+Re-validated: `styles.css` parses clean (567 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed on both dashboards - the coloured hamburger
+at mobile width, the two mobile icon buttons now rendering as true
+circles, the renamed heading, and desktop unaffected (hamburger still
+hidden, buttons still show full text).
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px
