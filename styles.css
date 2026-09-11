@@ -901,7 +901,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-progress-badge .pct{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1}
 .hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
-.hazel-progress-track{height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+.hazel-progress-track{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
 .hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
 .hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
 .hazel-step{
