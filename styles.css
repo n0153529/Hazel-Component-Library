@@ -896,7 +896,6 @@ tr:last-child td{border-bottom:none}
 .hazel-status{margin-bottom:24px}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
 .hazel-progress-badge{
-  background:var(--primary-soft);border:1px solid var(--primary-border);border-radius:var(--radius-lg);
   padding:12px 20px;text-align:right;flex:none;
 }
 .hazel-progress-badge .pct{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1}
