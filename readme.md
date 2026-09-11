@@ -1036,6 +1036,95 @@ at mobile width, the two mobile icon buttons now rendering as true
 circles, the renamed heading, and desktop unaffected (hamburger still
 hidden, buttons still show full text).
 
+## Pass 21: larger card headings (h5 to h3), local edits merged
+
+The person made these edits locally and uploaded the changed files;
+merged in directly since they matched this project's working state
+exactly (confirmed via diff before applying, so nothing else had drifted):
+
+- `dashboard.html`: "Your Hazel Card is active" now `h3` (was `h5`, with
+  the "Application" eyebrow caption above it removed), "My Calendar" now
+  `h3`, "Recent activity" now `h3`, and `.hazel-progress-track` dropped
+  its inline `margin:20px 0`.
+- `dashboard-org.html`: "Manage latest Offers" now `h3`.
+- `styles.css`: `.hazel-progress-track` height 6px to 10px.
+
+**Checked whether `components.html` needed updating to match** (the
+person likes the larger heading and wanted the component library to
+reflect it "where appropriate"): it already correctly documents `h3` as
+"Card title" and `h5` as "Subheading" in its typography reference, so
+this change is really just correctly applying the existing type scale
+rather than introducing a new one - no change needed there. Also checked
+`workflow.html` (already uses `h3` for its own section heading) and
+`create-offer.html` (uses an unrelated h2/h4 convention for its wizard
+steps) - neither needed anything. `index.html`'s four homepage nav cards
+("Logo lockups", "Component catalog", "Create an Offer", "Dashboard
+layout") are still `h5` and are arguably the same pattern, but were left
+alone since changing the homepage wasn't asked for - worth a look if full
+consistency across the whole library is wanted later.
+
+**Real bug found and fixed while merging**: on `dashboard-org.html`'s
+"Manage latest Offers" header at mobile widths, the "See offer library"/
+"Create offer" icon buttons dropped down away from the heading instead of
+sitting beside it. Root cause: the shared `.dashboard-shell .card-header`
+rule uses `align-items:center`, so when the heading grew from `h5` to
+`h3` (taller line-height), the buttons - vertically centered against that
+now-taller box - visually drifted down from the top edge. Fixed by adding
+`align-items:flex-start` to the header's own `.offer-library-header`
+rule, so the buttons stay pinned to the top regardless of how tall the
+title block is.
+
+Re-validated: `styles.css` parses clean (567 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed the buttons now sit at the top of the mobile
+header next to the heading, with desktop unaffected.
+
+## Pass 22: actually fixed the offer-library-actions top alignment
+
+Pass 21's fix for the mobile button drift didn't work - confirmed by a
+screenshot showing the two circle buttons still sitting level with the
+second line of "Manage latest Offers" rather than the top. Root cause was
+a specificity mistake, not a wrong property: Pass 21 added `align-items:
+flex-start` to `.offer-library-header` (one class, specificity 0-1-0),
+but the rule it needed to beat is `.dashboard-shell .card-header{
+align-items: center }` (two classes, specificity 0-2-0) - the higher-
+specificity rule always wins regardless of which one appears later in the
+file, so `center` was winning the whole time.
+
+Fixed by matching specificity: `.dashboard-shell .offer-library-header`
+(also two classes), which now correctly wins on source order since it's
+the same specificity and appears later in the file. This is the proper
+fix - not a `margin-top` offset nudging the buttons into place, which
+would only have been correct at one specific heading height and broken
+again the next time the title's line count changed.
+
+Re-validated: `styles.css` parses clean (567 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed the buttons now sit level with the first
+line of the heading at mobile width, with desktop unaffected.
+
+## Pass 23: scoped Pass 22's fix to mobile only
+
+Pass 22's `align-items:flex-start` fix was correct for mobile but was
+applied unconditionally, so it also flattened the desktop layout: the
+status row (Live/Awaiting approval/Drafts/Archived) and the two buttons
+moved to the top of the header box on desktop too, instead of staying
+vertically centered against the title block as before.
+
+Moved `align-items:flex-start` off the base `.dashboard-shell
+.offer-library-header` rule and into the existing `@media (max-width:
+640px)` block (matching specificity there too, so it actually applies).
+Desktop now falls back to the shared `.dashboard-shell .card-header`
+rule's default `align-items:center`, unchanged from before Pass 22;
+mobile keeps the top-alignment fix that keeps the buttons next to the
+first line of the heading.
+
+Re-validated: `styles.css` parses clean (567 rules, zero errors), full
+jsdom suite still at 64 passing assertions, zero JS errors across every
+page, and visually confirmed both states side by side - desktop shows
+the status row and buttons vertically centered against the two-line
+title again, mobile still shows the buttons pinned to the top.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px

@@ -1089,7 +1089,7 @@ tr:last-child td{border-bottom:none}
 .org-logo svg{width:34px;height:34px}
 
 /* ---- dashboard-org.html: saved offers workspace ---- */
-.offer-library-header{
+.dashboard-shell .offer-library-header{
   flex-wrap:wrap;
   justify-content:flex-start;
   row-gap:12px;
@@ -1148,9 +1148,10 @@ tr:last-child td{border-bottom:none}
     gap:20px;
   }
   .hazel-id-info{width:100%}
+  .dashboard-shell .offer-library-header{align-items:flex-start}
   .offer-library-title{width:calc(100% - 110px);margin-right:0}
   .offer-library-actions{order:2}
-  .offer-status-inline{order:3;flex-basis:100%}
+  .offer-status-inline{order:3;flex-basis:100%; line-height: 0.2em;}
   .offer-library-btn .btn-label,.offer-create-btn .btn-label{display:none}
   .offer-library-btn .btn-icon-mobile,.offer-create-btn .btn-icon-mobile{display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
   .offer-library-btn,.offer-create-btn{padding:0;justify-content:center;gap:0}
