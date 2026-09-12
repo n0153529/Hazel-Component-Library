@@ -1013,13 +1013,14 @@ tr:last-child td{border-bottom:none}
 .hazel-detail-list{display:flex;flex-direction:column;gap:16px}
 .hazel-detail-list .caption{margin-bottom:4px}
 .hazel-membership-panel{
-  background:#fff;
+/*  background:#fff;
   border:1px solid var(--border);
-  border-radius:var(--radius-lg);padding:20px;
+  border-radius:var(--radius-lg);*/
+  padding:24px;
 }
 .hazel-id-card{
   position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
-  padding:30px;color:#fff;
+  padding:26px;color:#fff;
 }
 .hazel-id-watermark{
   position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
@@ -1027,7 +1028,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-id-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative}
 .hazel-id-logo{height:50px;width:auto}
-.hazel-id-body{display:flex;gap:16px;align-items:flex-start;position:relative}
+.hazel-id-body{display:flex;gap:14px;align-items:flex-start;position:relative}
 .hazel-id-avatar{
   width:120px;height:150px;border-radius:var(--radius-md);flex:none;
   background:linear-gradient(160deg,#8fa9b0,#3f5a63);
@@ -1112,7 +1113,7 @@ tr:last-child td{border-bottom:none}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
 .journey-stat{
-  border:1px solid var(--border);border-radius:var(--radius-lg);padding:10px;
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px;
   display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:4px;
 }
 .journey-stat-top{display:flex;align-items:center;gap:14px}
@@ -1124,6 +1125,8 @@ tr:last-child td{border-bottom:none}
 .journey-icon.primary{background:var(--primary-soft);color:var(--primary)}
 .journey-stat .value{font-size:24px;font-weight:800;color:var(--text-strong);line-height:1.1}
 .journey-stat .label{font-size:var(--text-sm);color:var(--subtle);text-align:right}
+
+.journey-stat:hover {border: 1px solid var(--primary); cursor: pointer;}
 
 /* Real CSS Grid, deliberately NOT using the shared .grid/.grid-3 classes:
    those resolve to flexbox inside .dashboard-shell (see the note further
