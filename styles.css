@@ -895,17 +895,17 @@ tr:last-child td{border-bottom:none}
 .dashboard-shell.is-collapsed .sidebar-help-card{display:none}
 
 .dashboard-shell .avatar{
-  width:40px;
-  height:40px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#d9e9ea,#b9dfe3);
-  flex:none;
-  overflow:hidden;
-  display:grid;
-  place-items:center;
-  font-weight:700;
-  color:var(--text-strong);
-  font-size:var(--text-sm);
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: #0f434c;
+    flex: none;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: var(--text-md);
 }
 
 .dashboard-main{
@@ -955,12 +955,12 @@ tr:last-child td{border-bottom:none}
 .main-heading{margin-bottom:20px}
 
 /* ---- "Your Hazel Card" status section ---- */
-.hazel-status{margin-bottom:24px}
+.hazel-status{margin:12px 24px}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
 .hazel-progress-badge{
-  padding:12px 20px;text-align:right;flex:none;
+  padding:4px 20px;text-align:right;flex:none;
 }
-.hazel-progress-badge .pct{font-size:28px;font-weight:800;color:var(--primary);line-height:1.1}
+.hazel-progress-badge .pct{font-size:42px;font-weight:800;color:var(--primary);line-height:1.1}
 .hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
 .hazel-progress-track{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
 .hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
@@ -992,7 +992,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-id-card{
   position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
-  padding:30px;color:#fff;
+  padding:22px 30px;color:#fff;
 }
 .hazel-id-watermark{
   position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
@@ -1002,11 +1002,11 @@ tr:last-child td{border-bottom:none}
 .hazel-id-logo{height:50px;width:auto}
 .hazel-id-body{display:flex;gap:16px;align-items:flex-start;position:relative}
 .hazel-id-avatar{
-  width:115px;height:145px;border-radius:var(--radius-md);flex:none;
+  width:120px;height:150px;border-radius:var(--radius-md);flex:none;
   background:linear-gradient(160deg,#8fa9b0,#3f5a63);
 }
 .hazel-id-info{flex:1;min-width:0}
-.hazel-id-info .name{font-size:var(--text-xl);font-weight:800;margin-bottom:8px}
+.hazel-id-info .name{font-size:var(--text-2xl);font-weight:800;margin-bottom:8px}
 .hazel-id-info .line{font-size:var(--text-sm);color:rgba(255,255,255,.85);line-height:1.6}
 .hazel-id-qr{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center}
 .qr-box{
@@ -1082,8 +1082,8 @@ tr:last-child td{border-bottom:none}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
 .journey-stat{
-  border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;
-  display:flex;flex-direction:row;justify-content:space-between;gap:6px;
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px;
+  display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:6px;
 }
 .journey-stat-top{display:flex;align-items:center;gap:14px}
 .journey-icon{width:60px;height:60px;border-radius:999px;display:grid;place-items:center;flex:none}
@@ -1093,7 +1093,33 @@ tr:last-child td{border-bottom:none}
 .journey-icon.info{background:var(--info-soft);color:var(--info)}
 .journey-icon.primary{background:var(--primary-soft);color:var(--primary)}
 .journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1}
-.journey-stat .label{font-size:var(--text-sm);color:var(--subtle)}
+.journey-stat .label{font-size:var(--text-sm);color:var(--subtle);text-align:right}
+
+/* Real CSS Grid, deliberately NOT using the shared .grid/.grid-3 classes:
+   those resolve to flexbox inside .dashboard-shell (see the note further
+   down about older tooling), and flexbox's "wrap when it runs out of
+   room" behaviour can't guarantee a fixed column count - it's exactly
+   why a 6th tile jumped up onto the row above when the sidebar was
+   collapsed and freed up width. Grid's fixed column count holds
+   regardless of how much space is available; items just get narrower or
+   wider instead of the count changing. */
+.org-metrics-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+/* ---- My Support Plan items: reuse the same subtle colour tokens as the
+   documented Alerts component (info/success/warning/danger soft
+   backgrounds), so status meaning stays consistent across the library. ---- */
+.support-item{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+  padding:14px 16px;border-radius:var(--radius-lg);border:1px solid transparent;
+}
+.support-item.status-danger{background:var(--danger-soft);border-color:var(--danger-border)}
+.support-item.status-warning{background:var(--warning-soft);border-color:var(--warning-border)}
+.support-item.status-info{background:var(--info-soft);border-color:var(--info-border)}
+.support-item.status-success{background:var(--success-soft);border-color:var(--success-border)}
+.support-item-title{font-weight:700;color:var(--text-strong)}
+.support-item-sub{font-size:var(--text-xs);color:var(--subtle);margin:2px 0 6px}
+.support-item-quote{font-size:var(--text-sm);color:var(--text);font-style:italic}
+.support-item-actions{display:flex;align-items:center;gap:10px;flex:none}
 
 .panel-grid{
   display:flex;
@@ -1127,9 +1153,9 @@ tr:last-child td{border-bottom:none}
 .cal-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
 .cal-title{font-weight:700;color:var(--text)}
 .cal-reminder-badge{flex:none;white-space:nowrap}
-.cal-time{font-size:var(--text-sm);color:var(--primary);font-weight:600;margin-bottom:6px}
+.cal-time{font-size:var(--text-sm);color:var(--primary);font-weight:600;}
 .cal-desc{font-size:var(--text-sm);color:var(--muted);margin-bottom:6px;line-height:1.5}
-.cal-meta{font-size:var(--text-xs);color:var(--subtle);line-height:1.6}
+.cal-meta{font-size:var(--text-xs);color:var(--subtle);font-weight: bold;line-height:1.6}
 
 /* ---- dashboard-org.html: organisation profile tiles ---- */
 .org-info-tile{
@@ -1298,6 +1324,7 @@ tr:last-child td{border-bottom:none}
     display:block;
   }
   .dashboard-shell .grid-3 > *,.panel-grid > *{flex-basis:100%}
+  .org-metrics-grid{grid-template-columns:1fr}
   .dashboard-topbar{flex-wrap:wrap}
 .dashboard-shell .searchbar{flex:1;min-width:0;max-width:none}
 .topbar-user{display:none}

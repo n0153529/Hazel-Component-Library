@@ -1491,6 +1491,196 @@ confirmed via a real Chromium render that the icons are visibly larger,
 the number sits beside the circle, and each label aligns to the bottom
 of its tile.
 
+## Pass 31: My Journey condensed to a row layout, My Support Plan added
+
+Several changes to `dashboard.html`, applied together:
+
+- **`.journey-stat` switched to a row layout** per the person's own local
+  edit: `flex-direction:row;justify-content:space-between;align-items:
+  center`, icon+number on the left via the existing `.journey-stat-top`,
+  label right-aligned on the right. Considerably more compact than the
+  previous column layout, and - as a direct result - all six tiles now
+  fit three-per-row even in a fairly narrow column, instead of stacking
+  vertically the way they had been.
+- **Labels updated**: "Badges earned" to "Certificates earned", "Hours"
+  to "Session Hours".
+- **Two more metrics added**: "Offers claimed" (tag icon, green) and
+  "CV's Sent" (paper-plane icon, blue) - six stats total now.
+- **My Journey split into its own separate `<section class="card
+  padded">`**, no longer sharing a `.cols-2` row with the membership
+  card. The membership card lost its flex-row partner, so
+  `.hazel-membership-panel` picked up a `max-width:560px` to keep it
+  looking like a deliberate card rather than stretching to the full
+  section width now that nothing sits beside it.
+- **"Evidence" step renamed to "Verification"**, its description changed
+  to "0/4 required documents", and its chip from "Next" to "Fix" (still
+  red/`.badge-danger`, still using the `.incomplete` modifier from Pass
+  15).
+- **"Recent activity" replaced with "My Support Plan"**, five realistic
+  items instead of the previous generic activity log entries. Each new
+  `.support-item` reuses the same soft background/border tokens as the
+  documented Alerts component (`--danger-soft`/`--warning-soft`/
+  `--info-soft`/`--success-soft` and their border pairs) via a new
+  `status-danger`/`status-warning`/`status-info`/`status-success`
+  modifier, so the same semantic colour language is consistent between
+  the Alerts showcase and this real usage of it. Colour per item follows
+  the mapping given: the two blocking issues (incorrect NI details,
+  driving licence stopping progress right now) are red, "not sure what I
+  need" is orange, "awaiting next step" is blue, and the
+  resolved/no-longer-a-barrier item is green with an "Update" button
+  instead of "View". Corrected "National Isurance" to "National
+  Insurance" (clear typo, not an intentional name).
+
+Re-synced the CSS changes into `components.html`'s embedded stylesheet
+copy as usual. Re-validated: jsdom confirms six `.journey-stat` tiles,
+five `.support-item`s with status classes in the expected order
+(danger, danger, warning, info, success), "My Support Plan" and
+"Verification" headings present, `.cols-2` no longer present on the
+page, and the membership card still intact; zero JS errors across every
+page; visually confirmed via a real Chromium render that the journey
+tiles are visibly more compact and now fit three-across, and that each
+support-plan item shows the correct subtle background colour matching
+its status.
+
+## Pass 32: membership card and My Journey back to a true 50/50 row
+
+Pass 31 misread the ask - it made both boxes fully standalone/stacked,
+when the actual request was for them to stay side by side, just each in
+its own separate card rather than sharing one outer card like before
+Pass 29. Fixed: `.hazel-membership-panel` and My Journey's `.card padded`
+are now the two children of a `<section class="cols-2">`, giving a true
+50/50 split (`.cols-2 > *{flex:1 1 320px}` with equal grow/shrink on
+both sides, confirmed 50/50 in a real render). Removed the
+`max-width:560px` added to `.hazel-membership-panel` in Pass 30, since
+that was only needed while it was standalone and would have fought
+against equal-width sharing now that it's back in a row.
+
+**Worth being upfront about**: this edit went wrong on the first attempt
+- restructuring left a duplicated copy of the entire membership card
+markup and a stray unmatched closing `</div>`, both caught before
+shipping by writing an actual tag-balance checker (walking every
+`<div>`/`<section>` open and close tag with a stack, not just eyeballing
+the diff) rather than assuming a large manual restructure was clean.
+Both issues were in the same edit and are now fixed; the checker found
+zero remaining imbalances afterwards.
+
+Also added two more `My Calendar` items (Driving Theory Test - deliberately
+referencing the Provisional driving licence support-plan item for a bit
+of narrative consistency between the two panels - and Housing Officer
+Meeting), per the person's request that more calendar content should
+help `My Calendar` and `My Support Plan` end up matching in height.
+Confirmed via a real render: `.panel-grid` has no `align-items`
+override (unlike `.cols-2`, which deliberately opts out of stretch - see
+the comment already in `styles.css` from that decision), so the two
+cards' outer borders were already stretching to match each other's
+height before this pass; the two new items mean `My Calendar`'s content
+now fills most of that height too, rather than leaving a large empty gap
+at the bottom.
+
+Re-synced the CSS change into `components.html`'s embedded stylesheet
+copy as usual. Re-validated: a from-scratch tag-balance check (zero
+errors), jsdom confirms exactly one `.hazel-membership-panel` (no
+duplicate), `.cols-2` with exactly two children in the right order, five
+`.calendar-item`s including both new ones, and five `.support-item`s
+still intact; zero JS errors across every page; visually confirmed via a
+real Chromium render that the two cards sit genuinely side by side at
+equal width and that the calendar/support-plan card borders now align.
+
+## Pass 33: Hazel Card merged into Action Center; Key Metrics on org dashboard
+
+**Adopted the person's own local edits to `dashboard.html` and
+`styles.css`** as the new baseline, per their instruction. The main
+content change: "Your Hazel Card" (previously its own separate section)
+is now merged directly into the Action Center section, making that one
+area the main hub for onboarding-style notifications - its own heading
+dropped the `card padded` wrapper classes since it's no longer a
+standalone card, and its copy changed to reflect an in-progress state
+("Your Hazel Card" / "verification records require uploading") rather
+than "is active" / "complete". Style tweaks that came with it: a bigger,
+solid-colour topbar avatar (52px, `#0f434c` background, white text - was
+40px with a light gradient), a larger progress percentage figure (42px,
+was 28px), tighter padding on `.hazel-id-card`/`.journey-stat`, and a
+couple of small calendar text tweaks. Re-synced the CSS into
+`components.html`'s embedded stylesheet copy as usual, and re-validated
+both files (tag-balance check, CSS parse, jsdom, real Chromium render)
+before building on top of them.
+
+**New "Key Metrics" section added to `dashboard-org.html`**, reusing the
+same `.journey-stat`/`.journey-icon` tile component "My Journey" uses on
+the member dashboard, since the person specifically wanted that visual
+language carried across - just re-labelled and re-purposed for an
+organisation audience rather than a personal one. Placed as its own
+full-width `<section class="card padded">` between "Local authority
+profile" and "Manage latest Offers". Six tiles instead of the member
+dashboard's four/six-personal ones: Offers claimed, Total members,
+Session hours, NEET, Curriculum Courses, and Age range (shown as a
+range, "16-25", rather than a count, since a single number doesn't make
+sense for that one). "Edit my plan" became "See more" as asked, and the
+section heading is "Key Metrics" rather than "My Journey" - picked as a
+plain, audience-neutral name that reads sensibly whether the viewer is a
+local authority or a business, per the person's own framing. Description
+copy changed from the personal "see what you have achieved..." to an
+organisation-level "an overview of engagement, opportunities and
+outcomes across your organisation."
+
+Re-validated: a from-scratch tag-balance check on both edited HTML files
+(zero errors), `styles.css` parses clean (611 rules), jsdom confirms the
+"Key Metrics" heading, all six tiles with the correct labels, and "See
+more" present with "Edit my plan" gone from this page; zero JS errors
+across every page; visually confirmed via a real Chromium render that
+the six tiles lay out three-per-row across the full section width, and
+that the merged Action Center / Hazel Card area on the member dashboard
+renders correctly with the updated styling.
+
+## Pass 34: Key Metrics expanded to 10, fixed 5-column grid, profile hidden
+
+**Real bug fixed, root-caused properly rather than patched around.** The
+person found that collapsing the sidebar (freeing up extra width) caused
+the 6th metric tile to jump up onto the row above. Root cause: `grid-3`
+resolves to flexbox inside `.dashboard-shell` (a deliberate choice from
+Pass 10, for this project's older screenshot tooling), and flexbox's
+"pack as many items per line as currently fit" behaviour is inherently
+reactive to available width - there's no way to pin an exact column
+count with it, since freeing up width lets more items squeeze onto a
+line. Picking a smaller flex-basis wouldn't have fixed this, only moved
+the same problem to a different width threshold. The correct fix needed
+a layout model that keeps a fixed column count regardless of container
+width, which is precisely what CSS Grid with `grid-template-columns:
+repeat(5, ...)` guarantees (columns get narrower/wider, but the count
+never changes) - so added a new `.org-metrics-grid` class using real
+Grid, deliberately not reusing `.grid`/`.grid-3` so it can't get swept
+up by the `.dashboard-shell .grid{display:flex}` override. Verified this
+actually fixes the reported scenario, not just in theory: measured the
+real bounding-box position of all 10 tiles in a real Chromium session
+with the sidebar collapsed, confirming exactly 2 distinct row positions
+(5 tiles per row) - the same test the person described hitting the bug
+with.
+
+**Four more metrics added**, bringing the section to 10 total as asked:
+In Employment (62%), In Education (71%), Support Workers (14), and
+Avg. Response Time (2 days) - each with its own icon and reusing the
+existing success/info/primary/warning colour set (colours repeat across
+the ten tiles, same as they did across the original six; there are only
+four palette colours defined for this component and that's fine for an
+accent, not a strict category system).
+
+**"Local authority profile" section commented out**, not deleted -
+wrapped in an HTML comment with the same "Commented out for now, per
+request - will revisit. Not deleted." note already used elsewhere in
+this project for exactly this situation (the original My Journey
+placeholder, before Pass 29 moved it into active use). Confirmed via
+jsdom that its text no longer appears anywhere in the rendered DOM.
+
+Re-synced the CSS change into `components.html`'s embedded stylesheet
+copy as usual (checked this time before assuming it was already
+current - it wasn't). Re-validated: a from-scratch tag-balance check
+(comments stripped first, so the intentionally-inert markup inside
+doesn't get flagged), CSS parses clean (613 rules), jsdom confirms 10
+`.journey-stat` tiles with the correct labels and confirms "Local
+authority profile" text is absent from the page, zero JS errors across
+every page, and the real Chromium re-test of the exact collapse scenario
+described above.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px

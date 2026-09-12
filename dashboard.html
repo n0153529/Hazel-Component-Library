@@ -23,7 +23,26 @@
 
       <div class="sidebar-section">
         <nav class="sidebar-menu">
-          <a class="sidebar-item active" href="#"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+<!--           <div class="sidebar-group" id="grp-profile">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-profile')">
+              <span class="sidebar-icon">&#9685;</span><span>My Profile</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Account &amp; Privacy</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Membership Card</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div> -->
+
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
 
           <div class="sidebar-group" id="grp-home">
             <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-home')">
@@ -44,16 +63,6 @@
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
-            </div>
-          </div>
-
-          <div class="sidebar-group" id="grp-work">
-            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
-              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
-            </button>
-            <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
             </div>
           </div>
 
@@ -113,7 +122,7 @@
         <div class="section-title">
           <div>
             <div class="h5">Action center</div>
-            <div class="small">Items that need review, updates, or attention.</div>
+            <!-- <div class="small">Items that need review, updates, or attention.</div> -->
           </div>
           <div style="display:flex;align-items:center;gap:14px">
             <a href="#" class="btn-link" style="font-size:var(--text-sm)">See all</a>
@@ -144,13 +153,12 @@
             <button class="btn btn-secondary btn-sm">View</button>
           </div>
         </div>
-      </section>
 
-      <section class="card padded hazel-status">
+      <section class="hazel-status">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
           <div>
-            <div class="h3" style="margin:6px 0 4px">Your Hazel Card is active</div>
-            <div class="small">Your verified digital card is ready to use, and your application record is complete.</div>
+            <div class="h3" style="margin:6px 0 4px">Your Hazel Card</div>
+            <div class="small">Your verified digital card is ready to use, but your verification records require uploading to complete...</div>
           </div>
           <div class="hazel-progress-badge">
             <div class="pct">83%</div>
@@ -179,9 +187,9 @@
             <div class="small">Care experience details added</div>
           </div>
           <div class="hazel-step incomplete">
-            <span class="badge badge-danger">Next</span>
-            <div class="h6">Evidence</div>
-            <div class="small">0/3 required documents uploaded</div>
+            <span class="badge badge-danger">Fix</span>
+            <div class="h6">Verification</div>
+            <div class="small">0/4 required documents</div>
           </div>
           <div class="hazel-step">
             <span class="badge badge-success">Done</span>
@@ -195,8 +203,14 @@
           </div>
         </div>
 
-        <div class="cols-2" style="margin-top:24px">
-          <div class="hazel-membership-panel">
+      </section>
+
+      </section>
+
+
+
+      <section class="cols-2" style="margin-top:24px">
+        <div class="hazel-membership-panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
               <div class="caption" style="color:var(--primary)">Your membership card</div>
               <span class="badge badge-success">Active</span>
@@ -227,51 +241,68 @@
               <button class="btn btn-secondary" style="flex:1">Verify card</button>
               <button class="btn btn-primary" style="flex:2">Download PDF</button>
             </div>
-          </div>
+        </div>
 
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-              <div class="h3">My Journey</div>
-              <a href="#" class="btn-link" style="font-size:var(--text-sm)">Edit my plan</a>
+        <div class="card padded">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div class="h3">My Journey</div>
+            <a href="#" class="btn-link" style="font-size:var(--text-sm)">Edit my plan</a>
+          </div>
+          <p class="small" style="margin:5px 0 10px">See what you have achieved, the skills you are building and what comes next.</p>
+          <div class="grid grid-3">
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon success">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">0</div>
+              </div>
+              <div class="label">Sessions completed</div>
             </div>
-            <p class="small" style="margin:6px 0 20px">See what you have achieved, the skills you are building and what comes next.</p>
-            <div class="grid grid-3">
-              <div class="journey-stat">
-                <div class="journey-stat-top">
-                  <div class="journey-icon success">
-                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div class="value">0</div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon warning">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
                 </div>
-                <div class="label">Sessions completed</div>
+                <div class="value">0</div>
               </div>
-              <div class="journey-stat">
-                <div class="journey-stat-top">
-                  <div class="journey-icon warning">
-                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div class="value">0</div>
+              <div class="label">Skills developed</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon info">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
-                <div class="label">Skills developed</div>
+                <div class="value">0</div>
               </div>
-              <div class="journey-stat">
-                <div class="journey-stat-top">
-                  <div class="journey-icon info">
-                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div class="value">0</div>
+              <div class="label">Session Hours</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="2"/><path d="M8.5 12.5 7 21l5-3 5 3-1.5-8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
-                <div class="label">Hours</div>
+                <div class="value">0</div>
               </div>
-              <div class="journey-stat">
-                <div class="journey-stat-top">
-                  <div class="journey-icon primary">
-                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="2"/><path d="M8.5 12.5 7 21l5-3 5 3-1.5-8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div class="value">0</div>
+              <div class="label">Certificates earned</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon success">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/></svg>
                 </div>
-                <div class="label">Badges earned</div>
+                <div class="value">0</div>
               </div>
+              <div class="label">Offers claimed</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon info">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M22 2 11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2 15 22l-4-9-9-4 20-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">0</div>
+              </div>
+              <div class="label">CV's Sent</div>
             </div>
           </div>
         </div>
@@ -324,45 +355,92 @@
                 <div class="cal-desc">Submit your updated CV before the application window closes.</div>
               </div>
             </div>
+            <div class="calendar-item">
+              <span class="cal-dot reminder"></span>
+              <div class="cal-body">
+                <div class="cal-title-row">
+                  <div class="cal-title">Driving Theory Test</div>
+                  <span class="badge badge-neutral cal-reminder-badge">Reminder: 6 days to go</span>
+                </div>
+                <div class="cal-time">Mon, 14 Sept 2026 - 10:00</div>
+                <div class="cal-desc">Book onto your theory test slot before your provisional licence application can progress.</div>
+                <div class="cal-meta">Location: Hazelton Test Centre</div>
+              </div>
+            </div>
+            <div class="calendar-item">
+              <span class="cal-dot appointment"></span>
+              <div class="cal-body">
+                <div class="cal-title-row">
+                  <div class="cal-title">Housing Officer Meeting</div>
+                  <span class="badge badge-neutral cal-reminder-badge">Confirmed</span>
+                </div>
+                <div class="cal-time">Thu, 17 Sept 2026 - 11:00-11:45</div>
+                <div class="cal-desc">Discuss tenancy options and next steps for independent living.</div>
+                <div class="cal-meta">Location: Hazelton Civic Centre</div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <div class="h3">Recent activity</div>
+            <div class="h3">My Support Plan</div>
             <a class="small" href="#">View all</a>
           </div>
           <div class="card-body" style="display:grid;gap:14px">
-            <div class="action-card">
+            <div class="support-item status-danger">
               <div>
-                <div class="h6">Claimed offer</div>
-                <div class="small">Receptionist Taster Session offer claimed. Please complete application.</div>
+                <div class="support-item-title">National Insurance Evidence</div>
+                <div class="support-item-sub">General support &middot; Identity &amp; key documents</div>
+                <div class="support-item-quote">&ldquo;Has incorrect details&rdquo;</div>
               </div>
-              <button class="btn btn-secondary btn-sm">View</button>
-            </div>
-            <div class="action-card">
-              <div>
-                <div class="h6">CV Update Saved</div>
-                <div class="small">Updated current CV template with new taster session experience</div>
-              </div>
-              <button class="btn btn-secondary btn-sm">View</button>
-            </div>
-            <div class="action-card">
-              <div>
-                <div class="h6">Review needed</div>
-                <div class="small">Two drafts are waiting approval.</div>
+              <div class="support-item-actions">
+                <span class="badge badge-danger">Action needed</span>
+                <button class="btn btn-secondary btn-sm">View</button>
               </div>
             </div>
-            <div class="action-card">
+            <div class="support-item status-danger">
               <div>
-                <div class="h6">Document uploaded</div>
-                <div class="small">Proof of address added to your application.</div>
+                <div class="support-item-title">Provisional driving licence</div>
+                <div class="support-item-sub">General support &middot; Driving &amp; travel</div>
+                <div class="support-item-quote">&ldquo;This is stopping me right now&rdquo;</div>
+              </div>
+              <div class="support-item-actions">
+                <span class="badge badge-danger">Action needed</span>
+                <button class="btn btn-secondary btn-sm">View</button>
               </div>
             </div>
-            <div class="action-card">
+            <div class="support-item status-warning">
               <div>
-                <div class="h6">Message received</div>
-                <div class="small">Your support worker sent you a new message.</div>
+                <div class="support-item-title">Child Care</div>
+                <div class="support-item-sub">Opportunity support &middot; Receptionist Taster Session</div>
+                <div class="support-item-quote">&ldquo;I am not sure what I need&rdquo;</div>
+              </div>
+              <div class="support-item-actions">
+                <span class="badge badge-warning">Action needed</span>
+                <button class="btn btn-secondary btn-sm">View</button>
+              </div>
+            </div>
+            <div class="support-item status-info">
+              <div>
+                <div class="support-item-title">Birth certificate</div>
+                <div class="support-item-sub">General support &middot; Identity &amp; key documents</div>
+                <div class="support-item-quote">&ldquo;Awaiting Next Step&rdquo;</div>
+              </div>
+              <div class="support-item-actions">
+                <span class="badge badge-info">Action needed</span>
+                <button class="btn btn-secondary btn-sm">View</button>
+              </div>
+            </div>
+            <div class="support-item status-success">
+              <div>
+                <div class="support-item-title">Food safety and hygiene certificate</div>
+                <div class="support-item-sub">General support &middot; Qualifications</div>
+                <div class="support-item-quote">&ldquo;No longer a barrier&rdquo;</div>
+              </div>
+              <div class="support-item-actions">
+                <span class="badge badge-success">No longer a barrier</span>
+                <button class="btn btn-secondary btn-sm">Update</button>
               </div>
             </div>
           </div>
