@@ -955,14 +955,40 @@ tr:last-child td{border-bottom:none}
 .main-heading{margin-bottom:20px}
 
 /* ---- "Your Hazel Card" status section ---- */
-.hazel-status{margin:12px 24px}
+.hazel-status{margin-top:12px;}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
 .hazel-progress-badge{
-  padding:4px 20px;text-align:right;flex:none;
+  width:250px;min-width:184px;padding:0 8px 2px;text-align:center;display: flex;flex-direction: row-reverse;
 }
-.hazel-progress-badge .pct{font-size:42px;font-weight:800;color:var(--primary);line-height:1.1}
-.hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
+.hazel-progress-dial{display:block;width:50%;height:auto;overflow:visible}
+.hazel-dial-track,.hazel-dial-fill{
+  fill:none;stroke-width:8;stroke-linecap:round;
+}
+.hazel-dial-track{stroke:var(--surface-3)}
+.hazel-dial-fill{
+  stroke:var(--primary);
+  stroke-dasharray:99 100;
+  stroke-dashoffset:100;
+  transition:stroke-dashoffset .8s cubic-bezier(.22,.61,.36,1);
+}
+.hazel-dial-pointer{
+  transform-origin:80px 80px;
+  transform:rotate(var(--dial-angle));
+  transition:transform .8s cubic-bezier(.22,.61,.36,1);
+}
+.hazel-dial-pointer line{
+  stroke:var(--text-strong);stroke-width:3;stroke-linecap:round;
+}
+.hazel-dial-pointer circle{
+  fill:var(--surface);stroke:var(--text-strong);stroke-width:3;
+}
+.hazel-progress-copy{width:50%}
+.hazel-progress-badge .pct{font-size:42px;font-weight:800;color:var(--primary);line-height:1; margin-top: 5px;}
+.hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;}
 .hazel-progress-track{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+@media (max-width: 640px){
+  .hazel-progress-badge{width:170px;min-width:170px}
+}
 .hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
 .hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
 .hazel-step{
