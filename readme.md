@@ -1125,6 +1125,272 @@ page, and visually confirmed both states side by side - desktop shows
 the status row and buttons vertically centered against the two-line
 title again, mobile still shows the buttons pinned to the top.
 
+## Pass 24: AI button style, badge-new marker, full Icons documentation
+
+**Switched to the person's reuploaded project** (`Hazel-Component-Library.zip`)
+as the source of truth going forward, per their instruction. Two things
+worth recording before the rest of this pass:
+
+- `workflow.html` was missing from the reupload entirely. Nothing
+  suggested it was meant to be removed (it's an orphaned demo page not
+  linked from anywhere, so its absence wouldn't have been obvious), so
+  restored it from the previous working copy rather than silently losing
+  it.
+- A handful of other real content differences came in with the reupload
+  that weren't part of this session's ask - `dashboard-org.html`'s
+  sidebar reordered and partly renamed ("Overview & offers" to "Overview
+  & Actions", a new standalone "Offer Library" item, the Organisation
+  group moved to the end), a couple of heading-level tweaks on
+  `dashboard.html`, and `components.html`'s top nav now points to an
+  external Figma link for "Create Offer" instead of the local page, plus
+  a version badge change (v4 to v2.1). Treated these as the person's own
+  intentional local edits per "use this going forward" - flagged them
+  rather than silently overwriting or reverting.
+
+**New `.btn-ai` button style** added to `styles.css`, globally available
+(not scoped to components.html or any one dashboard): the exact gradient
+and sparkle SVG icon specified, for any AI-triggered action. Demoed in
+components.html's Buttons section alongside the existing variants.
+
+**New `.badge-new` component**: a small gradient pill (same gradient as
+the AI button, for visual consistency) used to flag anything newly added
+to the library so it's easy to spot at a glance. Applied to the AI button
+callout, the new Icons section heading and nav link, and each of the five
+newly-added icons below.
+
+**New "Icons" section in `components.html`**, added after auditing every
+`<svg>` and Unicode icon glyph actually used across every page in the
+project (not guessed at) - 37 tiles across five groups: Navigation &
+controls, People & organisation, Status/feedback/content, Sidebar
+iconography (the plain Unicode characters used in `.sidebar-icon`,
+clearly labelled as text rather than SVG so nobody mistakes them for
+vector assets), and Suggested additions. Each real icon's usage note was
+verified against where it actually appears, not assumed. Save, Favourite,
+Refresh, Share, and Lightbulb were confirmed absent from the codebase
+after a full search, so new on-brand SVGs (24x24, 2px stroke,
+`currentColor`) were designed for them rather than misrepresenting them
+as already in use - each marked with `.badge-new`. One item on the
+person's list, Star, turned out to already exist (the outline star used
+in My Journey's "skills developed" stat), so it's documented under
+Status/feedback as existing, not new.
+
+**Real bug found and fixed**: the icon grid was built with CSS Grid
+(`grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))`), which
+rendered as a single broken column per row in this project's
+`wkhtmltoimage` screenshot tool - the same category of CSS Grid rendering
+gap documented in this project from the very start (`HANDOVER.md`),
+which is why `.grid`/`.grid-3` etc. were converted to flexbox back in
+Pass 10. Applied the same established fix here: `.icon-grid` is now
+`display:flex;flex-wrap:wrap` with `flex:1 1 150px` tiles, confirmed
+correct in a render afterwards. `auto-fill`/`minmax()` is well-supported
+in real browsers, so this was purely about keeping this project's own
+screenshot-based QA reliable, not a real compatibility fix.
+
+Also normalised line endings: the reuploaded files are CRLF throughout,
+but text-editing tool edits to `components.html` and `styles.css` had
+introduced LF-only lines, leaving those two files with mixed endings.
+Converted both back to consistent CRLF to match the rest of the project.
+
+Re-validated: `styles.css` parses clean (570 rules, zero errors), jsdom
+confirms the new section's structure (37 icon tiles, 24 SVGs, 8
+`.badge-new` instances, the AI button, the Icons nav link all present and
+correctly nested), zero JS errors across every page including the
+restored `workflow.html`, and visually confirmed the AI button's gradient
+and icon, and the full Icons grid rendering in proper multi-column layout
+after the flexbox fix.
+
+## Pass 25: "View code" - HTML/CSS viewer for every component
+
+Added a "View code" button to all 26 sections of `components.html`. Opens
+a shared modal (reusing this library's own Modal component) with tabbed
+HTML and CSS, each with its own Copy button.
+
+**How it works** - deliberately auto-extracting rather than hand-writing
+25 snippets, since hand-curated code drifts out of sync the moment a demo
+changes and someone forgets to update its "view code" copy:
+
+- **HTML** is read straight from that section's live DOM at the moment
+  the button is clicked, so it can never go stale. The section's own
+  heading and description text are stripped out first (documentation
+  prose, not reusable markup); a `<p>` nested inside an actual demo (e.g.
+  an empty state's own copy) is left alone since it isn't a direct child
+  of the section.
+- **CSS** is built by walking every loaded stylesheet and keeping only
+  the rules that actually match something in that section - including,
+  per the explicit ask, `:hover`/`:focus`-style pseudo-class rules (by
+  stripping the pseudo before testing the match, but keeping the original
+  selector in the output) and rules nested inside `@media` blocks.
+  `:root` is deliberately excluded even though it "matches" everything,
+  since including the entire ~100-line token block on every single
+  section would swamp the useful output - tokens are already documented
+  in their own section.
+
+**This took far longer than expected because this project's screenshot
+tool turned out to have several previously-undiscovered JavaScript engine
+bugs, on top of the CSS ones already known.** Recorded in full since
+they're worth knowing about for any future JS added to this project:
+
+- `inset: 0` (used for the modal backdrop, and for two things built in
+  earlier passes - `.drawer-backdrop` and `.mobile-sidebar-backdrop`) 
+  isn't supported at all by this tool's rendering engine, confirmed with
+  an isolated test case. Both of those earlier backdrops had apparently
+  been rendering incorrectly in this tool the whole time without it being
+  caught. Fixed all three to explicit `top/right/bottom/left: 0`, which
+  is functionally identical in every real browser.
+- The `:scope` CSS combinator (`querySelectorAll(':scope > .foo')`) isn't
+  supported by this tool's `querySelectorAll` - it returns something
+  without a working `.forEach`. Rewritten to walk `element.children`
+  directly instead, which needs no modern selector support at all.
+- `for...of` loops fail specifically on DOM host collections
+  (`StyleSheetList`, `CSSRuleList`) in this tool's JS engine, even though
+  the exact same syntax works fine on a real Array - confirmed by testing
+  each in isolation. Converted to classic indexed `for` loops.
+- `.forEach()` directly on a `querySelectorAll()` result is unreliable
+  for the same reason. Fixed everywhere it appeared, including one
+  pre-existing instance in `segToggle()` from an earlier pass that had
+  the same latent issue.
+- Deepest one: `let`/`const` in this new code triggered a "cannot access
+  uninitialized variable" error specific to this engine. Rather than
+  debug that one variable by variable, converted this section's JS
+  wholesale to `var`, which has no scoping semantics that could trigger
+  it.
+
+**None of the above affects real users** - Chrome, Firefox, and Safari
+have supported all of this correctly for years - but they were blocking
+this project's own ability to visually verify its work, which is why they
+were worth chasing down and fixing rather than leaving as an assumed-fine
+gap.
+
+Re-validated: `styles.css` parses clean (588 rules, zero errors), jsdom
+confirms the core logic (16 assertions: modal open/close, tab switching,
+HTML extraction excluding chrome, CSS extraction including `:hover` and
+`@media`, `:root` correctly excluded, copy function runs without
+throwing), zero JS errors across every page, and - once the engine bugs
+above were found and fixed - a real visual render in this project's own
+screenshot tool confirmed both the HTML and CSS tabs displaying correctly
+for the Buttons section.
+
+## Pass 26: two real bugs from a real user report - modal stuck open, CSS mostly empty
+
+The person opened the actual file in Chrome (not this project's own testing
+setup) and reported the code modal stuck open on page load, covering the
+whole page with no way to interact with anything. Two genuine bugs, found
+and confirmed with a real headless Chromium via Playwright rather than
+this project's old screenshot tool or jsdom - both of which had been
+giving false confidence:
+
+**Bug 1: the modal never actually respected the `hidden` attribute.**
+`.modal-backdrop` sets `display: grid` unconditionally in `styles.css`.
+The HTML `hidden` attribute works by the browser's own built-in stylesheet
+applying `[hidden] { display: none }` - but author stylesheets always
+take priority over the browser's built-in defaults, regardless of
+selector specificity, so `display: grid` was winning every time and the
+modal showed up open on every page load. Fixed with an explicit
+`.modal-backdrop[hidden]{display:none}` rule, the standard fix for this
+exact, well-known pitfall. Audited every other use of the `hidden`
+attribute in the project (the profile dropdown menu on both dashboards,
+and an `.includes-panel` in `create-offer.html`) - neither sets its own
+`display`, so neither had the same problem.
+
+This wasn't caught earlier because jsdom and this project's own
+`wkhtmltoimage` renders only ever checked the `hidden` *property*
+(true/false) toggling correctly, never the actual resulting visual
+`display` value in a real layout engine - and every visual test done so
+far had specifically been of the *open* state, since that's what needed
+debugging at the time. The default *closed* state was never re-verified
+visually after that.
+
+**Bug 2 (found proactively while fixing the above, not yet reported by
+the person, but would have made the CSS tab far less useful for them the
+moment they got the modal to open): real browsers block a page from
+reading the CSSOM of an externally-`<link>`-loaded stylesheet when opened
+via `file://`, even from the same folder.** `document.styleSheets[0]
+.cssRules` throws "Cannot access rules" in this exact scenario - confirmed
+directly, not assumed - which means the CSS tab was only ever going to
+see the 26 rules in `components.html`'s own inline `<style>` block, never
+the 560+ actual component rules living in `styles.css`. `fetch()`/XHR to
+the same local file are blocked too under `file://`, so there was no way
+to read the real stylesheet's rules while it stayed an external file.
+
+Fixed by embedding the full contents of `styles.css` directly inside
+`components.html` as its own inline `<style id="mainStylesheet">` block,
+replacing the external `<link>` - inline stylesheets are always
+same-document and have no such restriction. This is scoped to
+`components.html` only, since it's the only page that needs to introspect
+its own CSS; every other page keeps the normal external `<link>`. This
+does mean `components.html` now carries a duplicate copy of `styles.css`
+that needs regenerating if `styles.css` changes - documented with a
+prominent comment at the point of duplication, and worth remembering for
+future passes that touch `styles.css`.
+
+Re-validated properly this time, with a real browser rather than
+jsdom/wkhtmltoimage as the authoritative check: launched an actual
+headless Chromium via Playwright and ran the full flow end to end - modal
+correctly hidden on page load (computed `display: none`, not just the
+`hidden` property), opens correctly on click, HTML and CSS panels
+populate correctly (`:hover` rules and `@media` blocks present, `:root`
+correctly excluded, `.btn-ai` present), closes correctly, and - the part
+that actually matters most for the person's use case - **a real
+`navigator.clipboard` copy-then-read-back round trip confirmed the Copy
+button genuinely puts the right text on the clipboard**. Also re-ran the
+full jsdom suite and JS-error scan across every page (all still clean)
+and confirmed `dashboard.html`/`dashboard-org.html`/every other page
+still use the normal external `styles.css` link, unaffected by this
+change.
+
+## Pass 27: code modal polish - h3 title, syntax colour, wrapping, header copy
+
+Five small tweaks to the code viewer modal, all in `components.html`
+(and the CSS in `styles.css`, then re-synced into `components.html`'s
+embedded copy per the process noted in Pass 26):
+
+- `#codeModalTitle` changed from `.h6` to `.h3`.
+- `.modal-header` padding changed to `10px 24px` (was `20px 24px`,
+  shared with `.modal-footer` before this pass - split them apart so
+  only the header got tighter). This is the shared class also used by
+  the static "Discard this offer?" demo in the Modal/Drawer/Toast
+  section - checked that one still looks right afterwards, and it does.
+- **Minimal dark "code editor" theme** for `.code-block-wrap`, in the
+  spirit of Spacegray/Afterglow: dark blue-grey background (`#2a2f38`)
+  instead of the brand's `--panel-dark`, with a small custom token
+  colour set (selectors/tags cyan, properties/attributes purple,
+  strings green, numbers orange, hex colours gold, `var()` calls blue,
+  `@media` pink, comments muted italic, punctuation muted grey) reused
+  identically across both the HTML and CSS tabs so the same token type
+  reads the same colour in either. This isn't a real syntax-highlighting
+  library - two small single-pass regex tokenisers
+  (`highlightHTML`/`highlightCSS`) that wrap recognised tokens in
+  `<span>`s, simple enough to stay easy to reason about while still
+  looking like real code rather than a flat block of text. First colour
+  pass had a real problem worth noting: the purple/blue token colours
+  were too close in tone to the base text colour to read as highlighted
+  at a glance - caught by looking at an actual render rather than just
+  checking the spans existed programmatically, and fixed by picking more
+  saturated, higher-contrast values for those two token types.
+- **Wrapping fixed**: `.code-block-wrap code` was `white-space: pre`
+  (never wraps, forces horizontal scroll on long lines). Changed to
+  `pre-wrap` plus `overflow-wrap: anywhere` and `word-break: break-word`
+  so long lines (verbose SVG paths, long class lists) wrap within the
+  modal instead - confirmed with a real measurement
+  (`scrollWidth === clientWidth`) rather than just eyeballing it, and
+  visually confirmed on the Icons section's longer markup.
+- **Copy button moved to the modal header**, replacing the two separate
+  per-panel copy buttons. Since one button now needs to know which tab
+  is active, added a `currentTab` variable (updated inside
+  `switchCodeTab`) and a `copyActiveCode()` wrapper that reads it -
+  confirmed with a real test that clicking Copy while on the CSS tab
+  copies CSS, and while on the HTML tab copies HTML, not just that a
+  click "did something".
+
+Re-validated with the same real-Chromium approach established in Pass
+26, not jsdom/wkhtmltoimage alone: confirmed `.h3` title, `10px 24px`
+header padding, the copy button now living in the header (and gone from
+the panels), syntax-highlight spans present with the corrected
+higher-contrast colours, zero horizontal scroll on long content, and the
+copy button correctly copying whichever tab is active. Also re-ran the
+full jsdom suite (16 assertions) and the project-wide JS-error scan -
+both still clean.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px
