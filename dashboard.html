@@ -154,66 +154,73 @@
           </div>
         </div>
 
-      <section class="hazel-status">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
-          <div>
-            <div class="h3" style="margin:6px 0 4px">Your Hazel Card</div>
-            <div class="small">Your verified digital card is ready to use, but your verification records require uploading to complete...</div>
-          </div>
-          <div class="hazel-progress-badge" role="img" aria-label="Hazel Card progress: 83 percent, 5 of 6 complete" data-progress="83">
-            <svg class="hazel-progress-dial" viewBox="0 0 160 100" aria-hidden="true">
-              <path class="hazel-dial-track" d="M20 80 A60 60 0 0 1 140 80" pathLength="100"></path>
-              <path class="hazel-dial-fill" d="M20 80 A60 60 0 0 1 140 80" pathLength="100"></path>
-              <g class="hazel-dial-pointer" style="--dial-angle:0deg">
-                <line x1="80" y1="80" x2="80" y2="35"></line>
-                <circle cx="80" cy="80" r="5"></circle>
-              </g>
-            </svg>
-            <div class="hazel-progress-copy">
-              <div class="pct">83%</div>
-              <div class="cap">5/6 COMPLETE</div>
-            </div>
-          </div>
-        </div>
+<section class="hazel-status">
+  <div class="hazel-header" style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div>
+        <div class="h3" style="margin:6px 0 4px">Your Hazel Card</div>
+        <div class="small">Your verified digital card is ready to use, but your verification records require uploading to complete...</div>
+      </div>
 
-        <div class="hazel-progress-track">
-          <div class="hazel-progress-fill" style="width:83%"></div>
-        </div>
 
-        <div class="hazel-steps-row">
-          <div class="hazel-step success">
-            <span class="badge badge-success">Done</span>
-            <div class="h6">Profile</div>
-            <div class="small">Personal details added</div>
-          </div>
-          <div class="hazel-step success">
-            <span class="badge badge-success">Done</span>
-            <div class="h6">Address</div>
-            <div class="small">Current address recorded</div>
-          </div>
-          <div class="hazel-step success">
-            <span class="badge badge-success">Done</span>
-            <div class="h6">Care details</div>
-            <div class="small">Care experience details added</div>
-          </div>
-          <div class="hazel-step incomplete">
-            <span class="badge badge-danger">Fix</span>
-            <div class="h6">Verification</div>
-            <div class="small">0/4 required documents</div>
-          </div>
-          <div class="hazel-step success">
-            <span class="badge badge-success">Done</span>
-            <div class="h6">Review</div>
-            <div class="small">Approved</div>
-          </div>
-          <div class="hazel-step info">
-            <span class="badge badge-info">Done</span>
-            <div class="h6">Card</div>
-            <div class="small">Digital card is active</div>
-          </div>
-        </div>
+    </div>
 
-      </section>
+    <div class="hazel-progress-badge" role="img" aria-label="Hazel Card progress: 83 percent, 5 of 6 complete" data-progress="83">
+      <svg class="hazel-progress-dial" viewBox="0 0 160 100" aria-hidden="true">
+        <path class="hazel-dial-track" d="M20 80 A60 60 0 0 1 140 80" pathLength="100"></path>
+        <path class="hazel-dial-fill" d="M20 80 A60 60 0 0 1 140 80" pathLength="100"></path>
+        <g class="hazel-dial-pointer" style="--dial-angle:0deg">
+          <line x1="80" y1="80" x2="80" y2="35"></line>
+          <circle cx="80" cy="80" r="5"></circle>
+        </g>
+      </svg>
+      <div class="hazel-progress-copy">
+        <div class="pct">83%</div>
+        <div class="cap">5/6 COMPLETE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hazel-progress-track">
+    <div class="hazel-progress-fill" style="width:83%"></div>
+  </div>
+      <details class="toggle-steps" open>
+        <summary class="toggle-steps-btn"></summary>
+      </details>
+  <div class="hazel-steps-row">
+    <div class="hazel-step success">
+      <span class="badge badge-success">Done</span>
+      <div class="h4">Profile</div>
+      <div class="small">Personal details added</div>
+    </div>
+    <div class="hazel-step success">
+      <span class="badge badge-success">Done</span>
+      <div class="h4">Address</div>
+      <div class="small">Current address recorded</div>
+    </div>
+    <div class="hazel-step success">
+      <span class="badge badge-success">Done</span>
+      <div class="h4">Care details</div>
+      <div class="small">Care experience details added</div>
+    </div>
+    <div class="hazel-step incomplete">
+      <span class="badge badge-danger">Fix</span>
+      <div class="h4">Verification</div>
+      <div class="small">0/4 required documents</div>
+    </div>
+    <div class="hazel-step success">
+      <span class="badge badge-success">Done</span>
+      <div class="h4">Review</div>
+      <div class="small">Approved</div>
+    </div>
+    <div class="hazel-step info">
+      <span class="badge badge-info">Done</span>
+      <div class="h4">Card</div>
+      <div class="small">Digital card is active</div>
+    </div>
+  </div>
+</section>
+
 
       </section>
 
