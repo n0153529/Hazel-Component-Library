@@ -1391,6 +1391,106 @@ copy button correctly copying whichever tab is active. Also re-ran the
 full jsdom suite (16 assertions) and the project-wide JS-error scan -
 both still clean.
 
+## Pass 28: scrollbar-gutter on the code panel
+
+Added `scrollbar-gutter: stable` to `.code-block-wrap`, so switching
+between a short section (no scrollbar) and a long one (needs a
+scrollbar) - or a section's content changing length - doesn't shift the
+code horizontally by the scrollbar's width. Reserves the space whether
+or not a scrollbar actually ends up needed.
+
+Re-synced the change into `components.html`'s embedded stylesheet copy
+as usual. Verified with a real Chromium check rather than assuming the
+property took effect: confirmed `getComputedStyle(...).scrollbarGutter`
+reports `stable`, then directly measured `clientWidth` on a short
+section (Avatars, no scrollbar) against a long one (Icons, definitely
+scrolling) and confirmed they're identical (843px both) - the actual
+behaviour the fix is meant to guarantee, not just that the CSS property
+was present. Also re-ran the full jsdom suite, the project-wide
+JS-error scan, and the real-browser modal open/close/copy flow from
+Pass 26 - all still clean.
+
+## Pass 29: My Journey replaces the redundant Member ID list
+
+On `dashboard.html`, the left column next to "Your membership card"
+previously repeated the same Member ID / home authority / resident in /
+valid until details a second time via `.hazel-approved-banner` +
+`.hazel-detail-list` - genuinely redundant, since that exact information
+is already shown on the grey ID card itself right next to it. Replaced
+with the "My Journey" content (sessions completed / skills developed /
+hours stats) that had been commented out since Pass 9, using the
+person's slightly updated version (`h3` instead of `h5`, "Sessions
+completed" instead of "Opportunities completed", "Hours" instead of
+"Verified hours").
+
+One adaptation from what was pasted: the provided snippet was a full
+standalone `<section class="card padded">`, matching how My Journey used
+to sit as its own top-level section before Pass 9 commented it out. Its
+new home is a flex-column slot *inside* the existing "Your Hazel Card is
+active" card (alongside the membership card), so wrapping it in another
+`.card` would have nested a bordered box inside a bordered box. Used just
+the inner content (title row, description, stat grid) instead, relying
+on the outer card's existing padding/border - flagged here in case a
+literal nested-card look was actually wanted.
+
+Removed the old commented-out My Journey block from further down the
+page entirely, since its content has been moved into active use rather
+than duplicated - didn't seem worth keeping a second, now-stale copy of
+the same markup sitting inert.
+
+**Worth knowing, not fixed since it's expected responsive behaviour, not
+a bug**: `.journey-stat` tiles want a 260px minimum width each
+(`.dashboard-shell .grid-3 > *{flex:1 1 260px}`), which fits three across
+comfortably when this content had the full card width to itself, but in
+its new, narrower left-column slot they stack vertically instead - the
+left column ends up noticeably taller than the membership card on the
+right as a result. Confirmed via a real Chromium render rather than just
+assuming the CSS would still look tidy at this new width. Left as-is
+since everything displays correctly, just flagging it in case a more
+compact three-across layout at this narrower width is wanted - happy to
+add a scoped override if so.
+
+Left the now-unused `.hazel-approved-banner`/`.hazel-detail-list`/
+`.hazel-banner-dismiss` CSS in `styles.css` rather than removing it -
+harmless dead code, and it may be useful again if this pattern gets
+reused elsewhere.
+
+Re-validated: jsdom confirms the new "My Journey" heading, all three
+stat tiles, and the removal of the old banner/detail-list, with the
+membership card panel confirmed still intact; zero JS errors across
+every page; visually confirmed via a real Chromium render.
+
+## Pass 30: My Journey tiles redesigned, 4th metric, columns swapped
+
+Follow-up to Pass 29's placement, on `dashboard.html`:
+
+- **`.journey-icon` increased from 36px to 60px**, its inline SVG bumped
+  from 16px to 28px to match. Layout restructured: each `.journey-stat`
+  is now `flex-direction:column;justify-content:space-between`, with a
+  new `.journey-stat-top` wrapper holding the icon and number side by
+  side (was icon-above-number before), and the label pinned to the
+  bottom of the tile via the `space-between`. Since these tiles sit in a
+  flex row that stretches every item in a row to match the tallest one
+  (`.dashboard-shell .grid` has no `align-items` override, so the
+  default `stretch` applies), the label reliably lands at the bottom of
+  whatever height the row ends up, not just the bottom of that one
+  tile's own content.
+- **Fourth metric added**: "Badges earned", with a new
+  `.journey-icon.primary` colour variant (teal, matching the brand
+  primary) alongside the existing success/warning/info ones, and a new
+  medal/ribbon icon.
+- **Membership card and My Journey swapped** in the `.cols-2` row -
+  membership card now first (left), My Journey second (right).
+
+Re-synced the CSS changes into `components.html`'s embedded stylesheet
+copy as usual. Re-validated: jsdom confirms 4 `.journey-stat` /
+`.journey-stat-top` elements, the new "Badges earned" label, and the
+swapped column order (membership panel is `.cols-2`'s first child, My
+Journey its second); zero JS errors across every page; visually
+confirmed via a real Chromium render that the icons are visibly larger,
+the number sits beside the circle, and each label aligns to the bottom
+of its tile.
+
 ## Earlier passes (for reference)
 
 - Border radius brought down from an airy 12-28px scale to the tight 4/6/8px

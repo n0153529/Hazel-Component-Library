@@ -336,7 +336,7 @@ tr:last-child td{border-bottom:none}
 .code-view-btn svg{width:13px;height:13px;flex:none}
 .code-modal{width:min(860px,100%);max-height:min(720px,90vh);display:flex;flex-direction:column}
 .code-modal .modal-body{padding:0;flex:1;min-height:0;display:flex;flex-direction:column}
-.code-modal-tabs{display:flex;gap:4px;padding:2px 24px 0;border-bottom:1px solid var(--border);flex:none}
+.code-modal-tabs{display:flex;gap:4px;padding:12px 24px 0;border-bottom:1px solid var(--border);flex:none}
 .code-tab{
   height:36px;padding:0 14px;border:none;background:none;color:var(--muted);
   font-weight:700;font-size:var(--text-sm);cursor:pointer;border-bottom:2px solid transparent;
@@ -352,7 +352,7 @@ tr:last-child td{border-bottom:none}
    colour separation to read as "real code" without a full syntax-highlighting
    library. Same token colours are reused across both the HTML and CSS tabs
    so e.g. all punctuation and all strings look consistent between them. */
-.code-block-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;background:#2a2f38;padding:20px 24px}
+.code-block-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;background:#2a2f38;padding:20px 24px}
 .code-block-wrap pre{margin:0}
 .code-block-wrap code{
   display:block;color:#bfc7d5;font-family:var(--font-mono);font-size:var(--text-sm);
@@ -1081,12 +1081,18 @@ tr:last-child td{border-bottom:none}
 .kpi .value{font-size:32px;font-weight:800;line-height:1.1;margin-top:8px}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
-.journey-stat{border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
-.journey-icon{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;margin-bottom:12px}
+.journey-stat{
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;
+  display:flex;flex-direction:row;justify-content:space-between;gap:6px;
+}
+.journey-stat-top{display:flex;align-items:center;gap:14px}
+.journey-icon{width:60px;height:60px;border-radius:999px;display:grid;place-items:center;flex:none}
+.journey-icon svg{width:28px;height:28px}
 .journey-icon.success{background:var(--success-soft);color:var(--success)}
 .journey-icon.warning{background:var(--warning-soft);color:var(--warning)}
 .journey-icon.info{background:var(--info-soft);color:var(--info)}
-.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1;margin-bottom:4px}
+.journey-icon.primary{background:var(--primary-soft);color:var(--primary)}
+.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1}
 .journey-stat .label{font-size:var(--text-sm);color:var(--subtle)}
 
 .panel-grid{

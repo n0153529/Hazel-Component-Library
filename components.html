@@ -371,7 +371,7 @@ tr:last-child td{border-bottom:none}
    colour separation to read as "real code" without a full syntax-highlighting
    library. Same token colours are reused across both the HTML and CSS tabs
    so e.g. all punctuation and all strings look consistent between them. */
-.code-block-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;background:#2a2f38;padding:20px 24px}
+.code-block-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;background:#2a2f38;padding:20px 24px}
 .code-block-wrap pre{margin:0}
 .code-block-wrap code{
   display:block;color:#bfc7d5;font-family:var(--font-mono);font-size:var(--text-sm);
@@ -1100,12 +1100,18 @@ tr:last-child td{border-bottom:none}
 .kpi .value{font-size:32px;font-weight:800;line-height:1.1;margin-top:8px}
 .kpi .delta{font-size:var(--text-sm);color:var(--muted);margin-top:8px}
 
-.journey-stat{border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
-.journey-icon{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;margin-bottom:12px}
+.journey-stat{
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:16px;
+}
+.journey-stat-top{display:flex;align-items:center;gap:14px}
+.journey-icon{width:60px;height:60px;border-radius:999px;display:grid;place-items:center;flex:none}
+.journey-icon svg{width:28px;height:28px}
 .journey-icon.success{background:var(--success-soft);color:var(--success)}
 .journey-icon.warning{background:var(--warning-soft);color:var(--warning)}
 .journey-icon.info{background:var(--info-soft);color:var(--info)}
-.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1;margin-bottom:4px}
+.journey-icon.primary{background:var(--primary-soft);color:var(--primary)}
+.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1}
 .journey-stat .label{font-size:var(--text-sm);color:var(--subtle)}
 
 .panel-grid{
@@ -1784,7 +1790,7 @@ tr:last-child td{border-bottom:none}
         <p class="small">Static previews below (JS to open/close is up to the implementation).</p>
         <div class="demo" style="background:var(--surface-2)">
           <div class="modal" style="margin:0 auto">
-            <div class="modal-header"><div class="h3" style="margin:0">Discard this offer?</div></div>
+            <div class="modal-header"><div class="h6" style="margin:0">Discard this offer?</div></div>
             <div class="modal-body small">You have unsaved changes. This can't be undone.</div>
             <div class="modal-footer"><button class="btn btn-secondary">Cancel</button><button class="btn btn-danger">Discard</button></div>
           </div>

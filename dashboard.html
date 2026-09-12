@@ -23,26 +23,7 @@
 
       <div class="sidebar-section">
         <nav class="sidebar-menu">
-<!--           <div class="sidebar-group" id="grp-profile">
-            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-profile')">
-              <span class="sidebar-icon">&#9685;</span><span>My Profile</span><span class="sidebar-chevron">&#9662;</span>
-            </button>
-            <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Account &amp; Privacy</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Membership Card</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
-            </div>
-          </div> -->
-
-          <div class="sidebar-group" id="grp-work">
-            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
-              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
-            </button>
-            <div class="sidebar-group-body">
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
-              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
-            </div>
-          </div>
+          <a class="sidebar-item active" href="#"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
 
           <div class="sidebar-group" id="grp-home">
             <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-home')">
@@ -63,6 +44,16 @@
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
             </div>
           </div>
 
@@ -205,22 +196,6 @@
         </div>
 
         <div class="cols-2" style="margin-top:24px">
-          <div>
-            <div class="hazel-approved-banner" id="approvedBanner">
-              <span>Application approved - card issued</span>
-              <button type="button" class="hazel-banner-dismiss" aria-label="Dismiss" onclick="document.getElementById('approvedBanner').style.display='none'">
-                <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-              </button>
-            </div>
-            <div class="hazel-detail-list">
-              <div><div class="caption">Member ID</div><div class="h5">CECARD-51274992</div></div>
-              <div><div class="caption">Home authority (care authority)</div><div class="h5">Hazelton City Council</div></div>
-              <div><div class="caption">Resident in</div><div class="h5">Westbridge Borough Council</div></div>
-              <div><div class="caption">Upper-tier authority</div><div class="h5">Hazelshire County Council</div></div>
-              <div><div class="caption">Valid until</div><div class="h5">17/08/2029</div></div>
-            </div>
-          </div>
-
           <div class="hazel-membership-panel">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
               <div class="caption" style="color:var(--primary)">Your membership card</div>
@@ -253,41 +228,54 @@
               <button class="btn btn-primary" style="flex:2">Download PDF</button>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- Commented out for now, per request - will revisit. Not deleted.
-      <section class="card padded" style="margin-top:24px">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-          <div class="h5">My journey</div>
-          <a href="#" class="btn-link" style="font-size:var(--text-sm)">Edit my plan</a>
-        </div>
-        <p class="small" style="margin:6px 0 20px">See what you have achieved, the skills you are building and what comes next.</p>
-        <div class="grid grid-3">
-          <div class="journey-stat">
-            <div class="journey-icon success">
-              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+              <div class="h3">My Journey</div>
+              <a href="#" class="btn-link" style="font-size:var(--text-sm)">Edit my plan</a>
             </div>
-            <div class="value">0</div>
-            <div class="label">Opportunities completed</div>
-          </div>
-          <div class="journey-stat">
-            <div class="journey-icon warning">
-              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <p class="small" style="margin:6px 0 20px">See what you have achieved, the skills you are building and what comes next.</p>
+            <div class="grid grid-3">
+              <div class="journey-stat">
+                <div class="journey-stat-top">
+                  <div class="journey-icon success">
+                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="value">0</div>
+                </div>
+                <div class="label">Sessions completed</div>
+              </div>
+              <div class="journey-stat">
+                <div class="journey-stat-top">
+                  <div class="journey-icon warning">
+                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="value">0</div>
+                </div>
+                <div class="label">Skills developed</div>
+              </div>
+              <div class="journey-stat">
+                <div class="journey-stat-top">
+                  <div class="journey-icon info">
+                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="value">0</div>
+                </div>
+                <div class="label">Hours</div>
+              </div>
+              <div class="journey-stat">
+                <div class="journey-stat-top">
+                  <div class="journey-icon primary">
+                    <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="2"/><path d="M8.5 12.5 7 21l5-3 5 3-1.5-8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="value">0</div>
+                </div>
+                <div class="label">Badges earned</div>
+              </div>
             </div>
-            <div class="value">0</div>
-            <div class="label">Skills developed</div>
-          </div>
-          <div class="journey-stat">
-            <div class="journey-icon info">
-              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="value">0</div>
-            <div class="label">Verified hours</div>
           </div>
         </div>
       </section>
-      -->
 
       <section class="panel-grid">
         <div class="card">
