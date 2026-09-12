@@ -958,11 +958,11 @@ tr:last-child td{border-bottom:none}
 .hazel-status{margin-top:12px;}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
 .hazel-progress-badge{
-  width:250px;min-width:184px;padding:0 8px 2px;text-align:center;display: flex;flex-direction: row-reverse;
+  width:250px;min-width:184px;padding:0 8px 2px;text-align:center;display: flex;
 }
 .hazel-progress-dial{display:block;width:50%;height:auto;overflow:visible}
 .hazel-dial-track,.hazel-dial-fill{
-  fill:none;stroke-width:8;stroke-linecap:round;
+  fill:none;stroke-width:12;stroke-linecap:round;
 }
 .hazel-dial-track{stroke:var(--surface-3)}
 .hazel-dial-fill{
@@ -987,7 +987,7 @@ tr:last-child td{border-bottom:none}
 .hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;}
 .hazel-progress-track{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
 @media (max-width: 640px){
-  .hazel-progress-badge{width:170px;min-width:170px}
+  .hazel-progress-badge{width:100%;min-width:170px}
 }
 .hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
 .hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
