@@ -993,10 +993,11 @@ tr:last-child td{border-bottom:none}
 .hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
 .hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
 .hazel-step{
-  flex:1 1 150px;min-width:0;background:var(--success-soft);border:1px solid var(--success-border);
-  border-radius:var(--radius-lg);padding:14px;
+  flex:1 1 150px;border-radius:var(--radius-lg);padding:14px;
 }
-.hazel-step.incomplete{background:var(--danger-soft);border-color:var(--danger-border)}
+.hazel-step.success{background: var(--success-soft);border:1px solid var(--success-border);}
+.hazel-step.incomplete{background:var(--danger-soft);border:1px solid var(--danger-border)}
+.hazel-step.info{background:var(--info-soft);border:1px solid var(--info)}
 .hazel-step .badge{margin-bottom:10px}
 .hazel-step .h6{margin-bottom:2px}
 .hazel-approved-banner{
