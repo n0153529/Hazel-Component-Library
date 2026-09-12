@@ -850,7 +850,7 @@ tr:last-child td{border-bottom:none}
 .sidebar-group{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  /*gap:4px;*/
 }
 .sidebar-group-body{
   margin-left:14px;
