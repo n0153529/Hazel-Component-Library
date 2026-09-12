@@ -1019,7 +1019,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-id-card{
   position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
-  padding:22px 30px;color:#fff;
+  padding:30px;color:#fff;
 }
 .hazel-id-watermark{
   position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
@@ -1270,7 +1270,7 @@ tr:last-child td{border-bottom:none}
     align-items:center;
     gap:20px;
   }
-  .hazel-id-info{width:100%}
+  .hazel-id-info{width:100%; text-align: center}
   .dashboard-shell .offer-library-header{align-items:flex-start}
   .offer-library-title{width:calc(100% - 110px);margin-right:0}
   .offer-library-actions{order:2}
