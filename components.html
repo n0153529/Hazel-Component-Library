@@ -439,7 +439,7 @@ tr:last-child td{border-bottom:none}
 /* ---------------- Search bar ---------------- */
 .searchbar{display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface-2);border-radius:var(--radius-md);padding:0 14px;height:44px;transition:opacity .15s ease}
 .searchbar input:disabled{cursor:not-allowed}
-.searchbar svg{width:16px;height:16px;color:var(--subtle);flex:none}
+.searchbar svg{width:20px;height:24px;color:var(--subtle);flex:none}
 .searchbar input{border:none;background:none;outline:none;flex:1;color:var(--text)}
 .searchbar input::placeholder{color:var(--subtle)}
 
@@ -869,7 +869,7 @@ tr:last-child td{border-bottom:none}
 .sidebar-group{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  /*gap:4px;*/
 }
 .sidebar-group-body{
   margin-left:14px;
@@ -945,7 +945,7 @@ tr:last-child td{border-bottom:none}
   align-items:center;
   gap:10px;
   padding:0 14px;
-  height:44px;
+  height:48px;
   border:1px solid var(--border);
   border-radius:var(--radius-pill);
   background:var(--surface);
@@ -956,7 +956,7 @@ tr:last-child td{border-bottom:none}
 .dashboard-shell .searchbar input{border:none;background:none;outline:none;flex:1;min-width:0;color:var(--text);font-size:var(--text-md)}
 .dashboard-shell .searchbar input::placeholder{color:var(--subtle)}
 .topbar-actions{display:flex;align-items:center;gap:10px;flex:none}
-.topbar-user{flex:none;text-align:right;line-height:1.3}
+.topbar-user{flex:none;text-align:left;line-height:1.3; min-width:15%}
 .topbar-user .name{font-weight:700;color:var(--text);font-size:var(--text-2xl)}
 .topbar-user .type{font-size:var(--text-xs);color:var(--subtle);margin-top:1px; text-align:left;}
 .icon-btn{
@@ -970,27 +970,112 @@ tr:last-child td{border-bottom:none}
 .mobile-menu-btn:hover{background:var(--primary-hover);border-color:var(--primary-hover);color:#fff}
 @media (min-width: 1101px){.mobile-menu-btn{display:none}}
 .topbar-avatar{cursor:pointer}
+.topbar-avatar:hover {border: 4px solid #fff; border-style: outset;}
 
 .main-heading{margin-bottom:20px}
 
 /* ---- "Your Hazel Card" status section ---- */
-.hazel-status{margin:12px 24px}
+.hazel-status{margin-top:12px;}
 .card.hazel-status{margin-top: 24px;background:var(--surface)} /* override the default gradient card background - solid white per request */
 .hazel-progress-badge{
-  padding:4px 20px;text-align:right;flex:none;
+  width:250px;min-width:184px;padding:0 8px 2px;text-align:center;display: flex;
 }
-.hazel-progress-badge .pct{font-size:42px;font-weight:800;color:var(--primary);line-height:1.1}
-.hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;margin-top:2px}
+.hazel-progress-dial{display:block;width:50%;height:auto;overflow:visible}
+.hazel-dial-track,.hazel-dial-fill{
+  fill:none;stroke-width:12;stroke-linecap:round;
+}
+.hazel-dial-track{stroke:var(--surface-3)}
+.hazel-dial-fill{
+  stroke:var(--primary);
+  stroke-dasharray:99 100;
+  stroke-dashoffset:100;
+  transition:stroke-dashoffset .8s cubic-bezier(.22,.61,.36,1);
+}
+.hazel-dial-pointer{
+  transform-origin:80px 80px;
+  transform:rotate(var(--dial-angle));
+  transition:transform .8s cubic-bezier(.22,.61,.36,1);
+}
+.hazel-dial-pointer line{
+  stroke:var(--text-strong);stroke-width:3;stroke-linecap:round;
+}
+.hazel-dial-pointer circle{
+  fill:var(--surface);stroke:var(--text-strong);stroke-width:3;
+}
+.hazel-progress-copy{width:50%}
+.hazel-progress-badge .pct{font-size:42px;font-weight:800;color:var(--primary);line-height:1; margin-top: 5px;}
+.hazel-progress-badge .cap{font-size:var(--text-xs);letter-spacing:.06em;color:var(--primary);font-weight:700;}
 .hazel-progress-track{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
-.hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
-.hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
-.hazel-step{
-  flex:1 1 150px;min-width:0;background:var(--success-soft);border:1px solid var(--success-border);
-  border-radius:var(--radius-lg);padding:14px;
+@media (max-width: 640px){
+  .hazel-progress-badge{width:100%;min-width:170px}
 }
-.hazel-step.incomplete{background:var(--danger-soft);border-color:var(--danger-border)}
+.hazel-progress-fill{height:100%;background:var(--primary);border-radius:999px}
+.hazel-steps-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+.hazel-step{
+  flex:1 1 150px;border-radius:var(--radius-lg);padding:14px;
+}
+.hazel-step.success{background: var(--success-soft);border:1px solid var(--success-border);}
+.hazel-step.incomplete{background:var(--danger-soft);border:1px solid var(--danger-border)}
+.hazel-step.info{background:var(--info-soft);border:1px solid var(--info)}
 .hazel-step .badge{margin-bottom:10px}
 .hazel-step .h6{margin-bottom:2px}
+
+
+.toggle-steps {padding-top: 10px;}
+.toggle-steps summary {list-style: none;}
+.toggle-steps summary::-webkit-details-marker {display: none;}
+
+.toggle-steps-btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.toggle-steps-btn::before {
+  content: "▾";
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+  flex: 0 0 auto;
+}
+
+.toggle-steps-btn::after {
+  content: "Show details";
+  display: inline-block;
+  width: 6.5em;
+}
+
+.toggle-steps[open] .toggle-steps-btn::before {transform: rotate(180deg);}
+.toggle-steps[open] .toggle-steps-btn::after {content: "Hide details";}
+.toggle-steps:not([open]) ~ .hazel-steps-row {display: none;}
+.toggle-steps-btn:focus {outline: none;}
+
+
+
+
+
+
+
+
+
+
+
+
 .hazel-approved-banner{
   background:var(--success-soft);border:1px solid var(--success-border);color:var(--success);
   font-weight:700;border-radius:var(--radius-md);padding:14px 16px;margin-bottom:20px;
@@ -1005,13 +1090,14 @@ tr:last-child td{border-bottom:none}
 .hazel-detail-list{display:flex;flex-direction:column;gap:16px}
 .hazel-detail-list .caption{margin-bottom:4px}
 .hazel-membership-panel{
-  background:#fff;
+/*  background:#fff;
   border:1px solid var(--border);
-  border-radius:var(--radius-lg);padding:20px;
+  border-radius:var(--radius-lg);*/
+  padding:24px;
 }
 .hazel-id-card{
   position:relative;overflow:hidden;background:var(--brand-dark-grey);border-radius:var(--radius-lg);
-  padding:22px 30px;color:#fff;
+  padding:26px;color:#fff;
 }
 .hazel-id-watermark{
   position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;opacity:.08;
@@ -1019,7 +1105,7 @@ tr:last-child td{border-bottom:none}
 }
 .hazel-id-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative}
 .hazel-id-logo{height:50px;width:auto}
-.hazel-id-body{display:flex;gap:16px;align-items:flex-start;position:relative}
+.hazel-id-body{display:flex;gap:14px;align-items:flex-start;position:relative}
 .hazel-id-avatar{
   width:120px;height:150px;border-radius:var(--radius-md);flex:none;
   background:linear-gradient(160deg,#8fa9b0,#3f5a63);
@@ -1035,13 +1121,7 @@ tr:last-child td{border-bottom:none}
 .qr-box svg{width:100%;height:100%}
 .qr-label{font-size:10px;color:rgba(255,255,255,.8);max-width:120px;line-height:1.3;text-align:center}
 
-.action-center,
-.dashboard-shell .card{
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  background:#fff;
-  box-shadow:var(--shadow-sm);
-}
+
 .dashboard-shell .card{overflow:hidden}
 .card-header,
 .card-body,
@@ -1061,6 +1141,15 @@ tr:last-child td{border-bottom:none}
   flex-wrap:wrap;
   gap:10px;
   margin:0 0 12px;
+}
+
+
+.action-center,
+.dashboard-shell .card{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  background:#fff;
+  box-shadow:var(--shadow-sm);
 }
 .action-card{
   border:1px solid var(--border);
@@ -1102,7 +1191,7 @@ tr:last-child td{border-bottom:none}
 
 .journey-stat{
   border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px;
-  display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:6px;
+  display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:4px;
 }
 .journey-stat-top{display:flex;align-items:center;gap:14px}
 .journey-icon{width:60px;height:60px;border-radius:999px;display:grid;place-items:center;flex:none}
@@ -1111,8 +1200,10 @@ tr:last-child td{border-bottom:none}
 .journey-icon.warning{background:var(--warning-soft);color:var(--warning)}
 .journey-icon.info{background:var(--info-soft);color:var(--info)}
 .journey-icon.primary{background:var(--primary-soft);color:var(--primary)}
-.journey-stat .value{font-size:28px;font-weight:800;color:var(--text-strong);line-height:1.1}
+.journey-stat .value{font-size:24px;font-weight:800;color:var(--text-strong);line-height:1.1}
 .journey-stat .label{font-size:var(--text-sm);color:var(--subtle);text-align:right}
+
+.journey-stat:hover {border: 1px solid var(--primary); cursor: pointer;}
 
 /* Real CSS Grid, deliberately NOT using the shared .grid/.grid-3 classes:
    those resolve to flexbox inside .dashboard-shell (see the note further
@@ -1123,6 +1214,48 @@ tr:last-child td{border-bottom:none}
    regardless of how much space is available; items just get narrower or
    wider instead of the count changing. */
 .org-metrics-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+/* Inside this 5-column grid, the fixed column count (see comment above)
+   means each tile gets proportionally narrower as the viewport shrinks,
+   with no reflow escape valve. Below 1650px there is too little room for
+   the label to sit beside the icon/value pair without cramping or
+   wrapping into the value, so drop the label to its own line and drop
+   the icon entirely so the number and label both stay fully readable.
+   Scoped to this grid only, so the wider "My Journey" tiles elsewhere
+   (flexbox-based, wraps to one per row instead of narrowing) keep their
+   original inline-with-icon layout, which never runs into this. */
+@media (max-width: 1650px){
+  .org-metrics-grid .journey-stat{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .org-metrics-grid .journey-stat .label{
+    text-align:left;
+  }
+  .org-metrics-grid .journey-icon{
+    display:none;
+  }
+}
+
+/* At and below 1100px, .org-metrics-grid collapses to a single column
+   (see the max-width:1100px block further down), so each tile is back to
+   comfortably wide again. Revert to the original icon + inline label
+   layout rather than staying stacked, since there is no longer any need
+   to save space here. */
+@media (max-width: 1100px){
+  .org-metrics-grid .journey-stat{
+    flex-direction:row;
+    align-items:center;
+    gap:4px;
+  }
+  .org-metrics-grid .journey-stat .label{
+    text-align:right;
+  }
+  .org-metrics-grid .journey-icon{
+    display:grid;
+  }
+}
 
 /* ---- My Support Plan items: reuse the same subtle colour tokens as the
    documented Alerts component (info/success/warning/danger soft
@@ -1259,7 +1392,7 @@ tr:last-child td{border-bottom:none}
     align-items:center;
     gap:20px;
   }
-  .hazel-id-info{width:100%}
+  .hazel-id-info{width:100%; text-align: center}
   .dashboard-shell .offer-library-header{align-items:flex-start}
   .offer-library-title{width:calc(100% - 110px);margin-right:0}
   .offer-library-actions{order:2}

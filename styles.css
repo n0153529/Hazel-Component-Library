@@ -715,7 +715,7 @@ tr:last-child td{border-bottom:none}
   gap:12px;
   min-width:0;
 }
-.brand-logo{height:42px;width:auto;flex:0 0 auto}
+.brand-logo{height:50px;width:auto;flex:0 0 auto}
 
 .sidebar-collapse{
   width:34px;
@@ -741,6 +741,7 @@ tr:last-child td{border-bottom:none}
   cursor:pointer;
 }
 .sidebar-backbtn:hover{background:rgba(255,255,255,.18)}
+.sidebar-collapse:hover{background:rgba(255,255,255,.18)}
 .sidebar-backbtn svg{width:14px;height:14px}
 
 /* Collapsed rail is narrower than back+collapse side by side (34+8+34=76px
@@ -917,7 +918,7 @@ tr:last-child td{border-bottom:none}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:16px;
+  gap:10px;
   margin-bottom:24px;
 }
 .dashboard-shell .searchbar{
@@ -1051,6 +1052,22 @@ tr:last-child td{border-bottom:none}
 
 
 
+.hazel-break {
+  margin-top: 24px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+.hazel-break__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.hazel-break__text {
+  margin: 0;
+}
 
 
 
@@ -1195,6 +1212,48 @@ tr:last-child td{border-bottom:none}
    regardless of how much space is available; items just get narrower or
    wider instead of the count changing. */
 .org-metrics-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+/* Inside this 5-column grid, the fixed column count (see comment above)
+   means each tile gets proportionally narrower as the viewport shrinks,
+   with no reflow escape valve. Below 1650px there is too little room for
+   the label to sit beside the icon/value pair without cramping or
+   wrapping into the value, so drop the label to its own line and drop
+   the icon entirely so the number and label both stay fully readable.
+   Scoped to this grid only, so the wider "My Journey" tiles elsewhere
+   (flexbox-based, wraps to one per row instead of narrowing) keep their
+   original inline-with-icon layout, which never runs into this. */
+@media (max-width: 1650px){
+  .org-metrics-grid .journey-stat{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .org-metrics-grid .journey-stat .label{
+    text-align:left;
+  }
+  .org-metrics-grid .journey-icon{
+    display:none;
+  }
+}
+
+/* At and below 1100px, .org-metrics-grid collapses to a single column
+   (see the max-width:1100px block further down), so each tile is back to
+   comfortably wide again. Revert to the original icon + inline label
+   layout rather than staying stacked, since there is no longer any need
+   to save space here. */
+@media (max-width: 1100px){
+  .org-metrics-grid .journey-stat{
+    flex-direction:row;
+    align-items:center;
+    gap:4px;
+  }
+  .org-metrics-grid .journey-stat .label{
+    text-align:right;
+  }
+  .org-metrics-grid .journey-icon{
+    display:grid;
+  }
+}
 
 /* ---- My Support Plan items: reuse the same subtle colour tokens as the
    documented Alerts component (info/success/warning/danger soft
