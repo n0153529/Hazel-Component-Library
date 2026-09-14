@@ -114,7 +114,7 @@
       <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
         <div style="min-width:0">
           <div style="display:flex;align-items:center;gap:8px">
-            <div class="h3" style="margin:0">Home Ready Essentials</div>
+            <div class="h2" style="margin:0">Home Ready Essentials</div>
             <span class="info-tip" tabindex="0">
               <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--subtle)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
               <span class="bubble">Work through each section with your PA or support worker.</span>
@@ -124,8 +124,8 @@
         </div>
         <div style="display:flex;align-items:center;gap:16px;flex:none">
           <div style="text-align:right">
-            <div class="small" style="font-weight:700;color:var(--text-strong)">Programme progress</div>
-            <div class="small" id="progressCaption">0 of 24 curriculum completed</div>
+            <div class="small" style="font-weight:700;color:var(--text-strong)">Curriculum progress</div>
+            <div class="small" id="progressCaption">0 of 24 completed</div>
           </div>
           <div class="progress-ring" role="img" aria-label="Programme progress" id="progressRing" style="--pct:0">
             <svg viewBox="0 0 80 80">
@@ -298,7 +298,7 @@
       const pct = Math.round((completed / all.length) * 100);
       document.getElementById('progressRing').style.setProperty('--pct', pct);
       document.getElementById('progressPct').textContent = pct + '%';
-      document.getElementById('progressCaption').textContent = completed + ' of ' + all.length + ' curriculum completed';
+      document.getElementById('progressCaption').textContent = completed + ' of ' + all.length + ' completed';
     }
 
     function docIconSvg(){
@@ -378,11 +378,11 @@
           '</div>' +
         '</div>' +
 
-        '<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">' +
-          '<div class="h6" style="margin:0">Assessment</div>' +
-          '<p class="small" style="margin-top:4px">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
-          '<p class="small" style="margin-top:4px">Your professional will make the assessment available when you are ready.</p>' +
-        '</div>' +
+        // '<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">' +
+        //   '<div class="h6" style="margin:0">Assessment</div>' +
+        //   '<p class="small" style="margin-top:4px">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
+        //   '<p class="small" style="margin-top:4px">Your professional will make the assessment available when you are ready.</p>' +
+        // '</div>' +
 
         '<div class="hre-actions">' +
           '<button type="button" class="btn btn-secondary" id="saveBtn" onclick="handleSave()">Save</button>' +
