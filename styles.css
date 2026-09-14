@@ -465,7 +465,7 @@ tr:last-child td{border-bottom:none}
 .owizard-step.done .lbl{color:var(--text-strong)}
 .owizard-step.active .circle{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-glow)}
 .owizard-step.active .lbl{color:var(--text-strong)}
-.owizard-line{width:30px;height:1px;background:var(--border);margin:0 12px;flex:none}
+.owizard-line{width:10px;height:1px;background:var(--border);margin:0 12px;flex:none}
 .owizard-line.done{background:var(--primary)}
 
 .owizard-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}

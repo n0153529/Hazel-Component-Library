@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guarantor Scheme</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem active" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-container page" style="padding-top:0">
+
+        <div class="main-heading">
+          <div class="h2">Guarantor Scheme</div>
+          <p class="body" style="color:var(--muted);margin:6px 0 0">Apply for the council Guarantor Scheme now you have completed the Home Essentials and have a property.</p>
+        </div>
+
+        <div class="owizard-steps" id="stepper" style="margin-top:20px"></div>
+
+        <div class="owizard-card">
+          <div class="owizard-body" id="stepBody">
+            <!-- injected per step -->
+          </div>
+          <div class="owizard-foot">
+            <button class="btn btn-ghost" id="btnBack">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Back
+            </button>
+            <div class="step-progress">
+              <div class="cap" id="stepCap">Step 1 of 5</div>
+              <div class="progress-dots" id="progressDots"></div>
+            </div>
+            <button class="btn btn-primary btn-pill" id="btnNext">
+              Continue
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Wizard state -------------------------------------------------
+    const STEPS = ["Eligibility", "Property", "Application", "Charter", "Approval"];
+    let current = 0;
+
+    function iconCheck(){
+      return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    function iconCheckWhite(){
+      return '<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    function iconChevSm(){
+      return '<svg class="chev" viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+
+    function renderStepper(){
+      const el = document.getElementById('stepper');
+      el.innerHTML = STEPS.map(function(label, i){
+        const state = i < current ? 'done' : (i === current ? 'active' : '');
+        const circle = i < current ? iconCheckWhite() : (i + 1);
+        let html = '<div class="owizard-step ' + state + '"><div class="circle">' + circle + '</div><div class="lbl">' + label + '</div></div>';
+        if (i < STEPS.length - 1){
+          html += '<div class="owizard-line ' + (i < current ? 'done' : '') + '"></div>';
+        }
+        return html;
+      }).join('');
+    }
+
+    function renderFooter(){
+      document.getElementById('stepCap').textContent = 'Step ' + (current + 1) + ' of ' + STEPS.length;
+      document.getElementById('progressDots').innerHTML = STEPS.map(function(_, i){
+        return '<span class="' + (i <= current ? 'done' : '') + '"></span>';
+      }).join('');
+      document.getElementById('btnBack').style.visibility = current === 0 ? 'hidden' : 'visible';
+      document.getElementById('btnNext').innerHTML = current === STEPS.length - 1
+        ? iconCheckWhite() + ' Send for approval'
+        : 'Continue <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+
+    // ---- Step 1: Eligibility Check ------------------------------------
+    const ELIGIBILITY_ITEMS = [
+      { title: 'Home Ready Essentials', state: 'completed', label: 'Completed' },
+      { title: 'Property address added', state: 'completed', label: 'Completed' },
+      { title: 'Affordability assessment completed', state: 'not-started', label: 'Incomplete' },
+      { title: 'Planning My Move', state: 'completed', label: 'In progress' }
+    ];
+
+    function badgeClassFor(label){
+      if (label === 'Completed') return 'badge badge-success';
+      if (label === 'In progress') return 'badge badge-warning';
+      return 'badge badge-neutral';
+    }
+
+    function stepEligibility(){
+      const rows = ELIGIBILITY_ITEMS.map(function(item){
+        return (
+          '<div class="curr-item" style="cursor:default;align-items:center">' +
+            '<div class="marker ' + item.state + '">' + (item.state === 'completed' ? iconCheck() : '') + '</div>' +
+            '<div class="curr-item-body"><div class="curr-item-title">' + item.title + '</div></div>' +
+            '<span class="' + badgeClassFor(item.label) + '">' + item.label + '</span>' +
+          '</div>'
+        );
+      }).join('');
+
+      return (
+        '<div class="h4">Eligibility Check</div>' +
+        '<p class="intro">Confirm the following before applying for the Guarantor Scheme.</p>' +
+        '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' + rows + '</div>'
+      );
+    }
+
+    // ---- Step 2: Property Details --------------------------------------
+    function stepProperty(){
+      return (
+        '<div class="h4">Property Details</div>' +
+        '<p class="intro">Confirm the prospective property details carried over from Planning My Move.</p>' +
+        '<div class="card padded" style="background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="h5" style="margin:0">Prospective property</div>' +
+            '<span class="badge badge-warning">Awaiting confirmation</span>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap">' +
+            '<div class="journey-icon primary">' +
+              '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
+            '</div>' +
+            '<div>' +
+              '<div class="h6" style="margin:0">24 Example Street, Nottingham, NG1 1AB</div>' +
+              '<div class="small" style="margin-top:4px">Moving date: 30th October 2026</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="hr" style="margin:18px 0"></div>' +
+          '<div class="small"><strong>Local authority:</strong> Hazelton City Council</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- Step 3: Submit Application -------------------------------------
+    function stepApplication(){
+      return (
+        '<div class="h4">Submit Application</div>' +
+        '<p class="intro">This step is still being designed.</p>' +
+        '<div style="border:1px dashed var(--border);border-radius:var(--radius-lg);padding:48px 24px;text-align:center;color:var(--subtle)">' +
+          '<p class="small" style="margin:0">Content for this step is coming soon.</p>' +
+        '</div>'
+      );
+    }
+
+    // ---- Step 4: Charter & Signature ------------------------------------
+    const CHARTER_SECTIONS = [
+      {
+        title: 'Our shared purpose',
+        body: [
+          'This charter sets out how Hazelton City Council, care leavers, and landlords or letting agents will work together to support successful, sustainable tenancies through the Guarantor Scheme.',
+          'By signing, all parties agree to act in good faith, communicate openly, and prioritise the wellbeing and independence of the care leaver throughout the tenancy.'
+        ]
+      },
+      {
+        title: 'Landlord / Letting agent commitments',
+        body: [
+          'The landlord or letting agent agrees to treat the care leaver as they would any other tenant, without discrimination, and to provide a safe, habitable property that meets all legal standards.',
+          'They also commit to contacting the council in the first instance if rent arrears or tenancy concerns arise, before pursuing formal action, to allow time for support to be put in place.'
+        ]
+      },
+      {
+        title: 'Council commitments',
+        body: [
+          'The council agrees to act as guarantor for the tenancy, covering rent arrears or damage costs up to the agreed limit set out in the guarantee agreement, should the care leaver be unable to meet these costs themselves.',
+          'The council will also provide access to a named Personal Adviser or support worker for the duration of the guarantee period, to help the care leaver sustain their tenancy.'
+        ]
+      },
+      {
+        title: 'Care Leaver commitments',
+        body: [
+          'The care leaver agrees to pay rent on time, look after the property, and inform their support worker promptly if they are struggling financially or having difficulties with the tenancy.',
+          'They also agree to engage with the support offered through their Personal Adviser and to complete the Home Essentials curriculum before the guarantee is finalised.'
+        ]
+      },
+      {
+        title: 'Action plan and early intervention',
+        body: [
+          'If problems arise during the tenancy, an action plan will be agreed between the care leaver, their support worker, and the landlord to address the issue before it escalates.',
+          'Early intervention is a core principle of the scheme - all parties commit to raising concerns as soon as they arise, rather than waiting until a tenancy is at risk.'
+        ]
+      },
+      {
+        title: 'What happens if the tenancy ends',
+        body: [
+          "If the tenancy ends, the council's guarantee ends at the same time, and any outstanding claims must be submitted within the timeframe set out in the guarantee agreement.",
+          "The care leaver's support worker will help them plan their next steps, whether that's moving to a new property or accessing further housing support."
+        ]
+      }
+    ];
+
+    const openCharterSections = new Set();
+    const signatures = new Set();
+
+    function toggleCharterSection(idx){
+      if (openCharterSections.has(idx)) openCharterSections.delete(idx);
+      else openCharterSections.add(idx);
+      document.getElementById('stepBody').innerHTML = RENDERERS[current]();
+    }
+
+    function addSignature(role){
+      signatures.add(role);
+      document.getElementById('stepBody').innerHTML = RENDERERS[current]();
+    }
+
+    function stepCharter(){
+      const sections = CHARTER_SECTIONS.map(function(sec, idx){
+        const isOpen = openCharterSections.has(idx);
+        return (
+          '<div class="curr-section' + (isOpen ? ' open' : '') + '">' +
+            '<div class="curr-section-header" onclick="toggleCharterSection(' + idx + ')">' +
+              '<div class="title">' + (idx + 1) + '. ' + sec.title + '</div>' +
+              '<div class="meta">' + iconChevSm() + '</div>' +
+            '</div>' +
+            '<div class="curr-section-body"><div style="padding:16px 18px">' +
+              sec.body.map(function(p){ return '<p class="small" style="margin:0 0 10px">' + p + '</p>'; }).join('') +
+            '</div></div>' +
+          '</div>'
+        );
+      }).join('');
+
+      const SIGNATORIES = ['Care Leaver', 'Landlord / Letting Agent', 'Council Representative'];
+      const signedCount = SIGNATORIES.filter(function(name){ return signatures.has(name); }).length;
+
+      const signatureIcon = function(){
+        return '<svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M3 16c2-4.5 4-8 6.5-8s2.8 5.5 5.5 5.5 2.8-3.5 5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 20h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+      };
+
+      const signatureBox = function(role){
+        const signed = signatures.has(role);
+        return (
+          '<div class="dropzone">' +
+            '<div class="icon">' + signatureIcon() + '</div>' +
+            '<div class="title">' + role + '</div>' +
+            '<div class="hint">' + (signed ? 'Signature added' : 'Pending signature') + '</div>' +
+            (signed
+              ? '<span class="badge badge-success">' + iconCheck() + ' Signed</span>'
+              : '<button type="button" class="btn btn-secondary btn-sm" onclick="addSignature(\'' + role + '\')">+ Add signature</button>') +
+          '</div>'
+        );
+      };
+
+      return (
+        '<div class="h4">Charter &amp; Signature</div>' +
+        '<p class="intro">Care leaver guarantor scheme charter. This agreement sets out the responsibilities and commitments of the council, the care leaver and the landlord/letting agent.</p>' +
+        '<div>' + sections + '</div>' +
+
+        '<div class="card padded" style="margin-top:24px">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">' +
+            '<div class="h5" style="margin:0">Signatures</div>' +
+            '<span class="badge ' + (signedCount === SIGNATORIES.length ? 'badge-success' : 'badge-neutral') + '">' + signedCount + '/' + SIGNATORIES.length + ' completed</span>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">All parties must sign to confirm their agreement.</p>' +
+          '<div class="curriculum-grid" style="margin-top:16px">' +
+            SIGNATORIES.map(signatureBox).join('') +
+          '</div>' +
+          '<button type="button" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:20px"' + (signedCount === SIGNATORIES.length ? '' : ' disabled') + '>Send all signatures</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Step 5: Approval ------------------------------------------------
+    function stepApproval(){
+      return (
+        '<div class="card padded" style="text-align:center;background:var(--success-soft);border-color:var(--success-border)">' +
+          '<div style="width:96px;height:96px;border-radius:999px;background:var(--success);display:grid;place-items:center;margin:0 auto">' +
+            '<svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</div>' +
+          '<div class="h3" style="margin-top:16px">Ready to send for approval</div>' +
+          '<p class="small" style="margin-top:6px">Review the summary below, then send your application to your council contact for approval.</p>' +
+        '</div>' +
+
+        '<div class="card padded" style="margin-top:20px">' +
+          '<div class="h5" style="margin:0">Application summary</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">' +
+            '<div class="small" style="font-weight:700;color:var(--text-strong)">Eligibility Check</div>' +
+            '<span class="badge badge-success">Completed</span>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">' +
+            '<div>' +
+              '<div class="small" style="font-weight:700;color:var(--text-strong)">Property Details</div>' +
+              '<div class="small" style="margin-top:2px">24 Example Street, Nottingham, NG1 1AB</div>' +
+            '</div>' +
+            '<span class="badge badge-warning">Awaiting confirmation</span>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">' +
+            '<div class="small" style="font-weight:700;color:var(--text-strong)">Charter &amp; Signature</div>' +
+            '<span class="badge ' + (signatures.size === 3 ? 'badge-success' : 'badge-neutral') + '">' + (signatures.size === 3 ? 'All signed' : signatures.size + '/3 signed') + '</span>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    const RENDERERS = [stepEligibility, stepProperty, stepApplication, stepCharter, stepApproval];
+
+    function render(){
+      renderStepper();
+      renderFooter();
+      document.getElementById('stepBody').innerHTML = RENDERERS[current]();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('btnNext').addEventListener('click', function(){
+      if (current < STEPS.length - 1){ current++; render(); }
+    });
+    document.getElementById('btnBack').addEventListener('click', function(){
+      if (current > 0){ current--; render(); }
+    });
+
+    render();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>
