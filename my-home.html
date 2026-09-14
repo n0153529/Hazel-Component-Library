@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem active" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Home Goals</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">My Home</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Build the knowledge, skills and confidence to live independently.</p>
+      </div>
+
+      <section class="curriculum-grid" style="margin-top:20px">
+
+        <div class="card padded curriculum-card">
+          <div class="journey-icon success">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="h4">Home Essentials</div>
+          <p class="small curriculum-card-desc">Learn the basics of running a home: budgeting, bills, cooking and staying safe.</p>
+          <div class="curriculum-card-footer">
+            <div class="curriculum-progress">
+              <div class="hazel-progress-track"><div class="hazel-progress-fill" style="width:67%"></div></div>
+              <div class="small curriculum-progress-label">4 of 6 steps completed</div>
+            </div>
+            <button type="button" class="btn btn-primary">Continue</button>
+          </div>
+        </div>
+
+        <div class="card padded curriculum-card">
+          <div class="journey-icon warning">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9v.2h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="h4">Life Skills</div>
+          <p class="small curriculum-card-desc">Build everyday skills for independent living, from cooking to managing your time.</p>
+          <div class="curriculum-card-footer">
+            <div class="curriculum-progress">
+              <div class="hazel-progress-track"><div class="hazel-progress-fill" style="width:40%"></div></div>
+              <div class="small curriculum-progress-label">2 of 5 steps completed</div>
+            </div>
+            <button type="button" class="btn btn-primary">Continue</button>
+          </div>
+        </div>
+
+        <div class="card padded curriculum-card">
+          <div class="journey-icon primary">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+          <div class="h4">Home Goals</div>
+          <p class="small curriculum-card-desc">Set and track personal goals for your move towards independence.</p>
+          <div class="curriculum-card-footer">
+            <div class="curriculum-progress">
+              <div class="hazel-progress-track"><div class="hazel-progress-fill" style="width:0%"></div></div>
+              <div class="small curriculum-progress-label">0 of 4 steps completed</div>
+            </div>
+            <button type="button" class="btn btn-primary">Start</button>
+          </div>
+        </div>
+
+        <div class="card padded curriculum-card completed">
+          <div class="journey-icon success">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><rect x="4" y="8" width="16" height="12" rx="1" stroke="currentColor" stroke-width="2"/><path d="M4 8 8 4h8l4 4" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v12M4 8h16" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="h4">Planning My Move</div>
+          <p class="small curriculum-card-desc">Plan the practical steps for moving into your own place, from checklists to tenancy basics.</p>
+          <div class="curriculum-card-footer">
+            <div class="curriculum-progress">
+              <div class="hazel-progress-track"><div class="hazel-progress-fill" style="width:100%"></div></div>
+              <div class="small curriculum-progress-label">5 of 5 steps completed</div>
+            </div>
+            <button type="button" class="btn btn-complete" disabled><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Completed</button>
+          </div>
+        </div>
+
+        <div class="card padded curriculum-card locked">
+          <div class="journey-icon neutral">
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="h4">Guarantor Scheme</div>
+          <p class="small curriculum-card-desc">Get support finding a guarantor for your tenancy application.</p>
+          <div class="curriculum-card-footer">
+            <div class="curriculum-lock-note">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Complete "Home Essentials" to unlock</span>
+            </div>
+            <button type="button" class="btn btn-secondary" disabled>Locked</button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <div class="notice-bar" id="nextStepsNotice">
+      <div class="notice-bar-row">
+        <div class="notice-bar-title">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="h5">Next steps</div>
+        </div>
+        <a href="#" class="btn btn-primary btn-sm notice-bar-cta">Continue Home Essentials</a>
+        <button type="button" class="notice-bar-close" aria-label="Dismiss" onclick="dismissNextSteps()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <p class="small">You're making great progress. Finish 2 more steps in <strong>Home Essentials</strong> to unlock the Guarantor Scheme.</p>
+    </div>
+  </div>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+    function dismissNextSteps(){
+      const notice = document.getElementById('nextStepsNotice');
+      if (notice) notice.style.display = 'none';
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if(menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>
