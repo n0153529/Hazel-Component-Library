@@ -707,6 +707,18 @@ tr:last-child td{border-bottom:none}
   padding:20px 18px;
   min-height:82px;
   border-bottom:1px solid rgba(255,255,255,.14);
+  /* .dashboard-sidebar is a flex column with a fixed height:100vh. Without
+     this, .sidebar-top's default flex-shrink:1 lets it get compressed
+     whenever the accordion group below grows tall enough that the
+     column's total content exceeds 100vh - flexbox shrinks every
+     shrinkable sibling to fit, not just the one that's supposed to
+     scroll. Confirmed directly: opening "Organisation" shrank this
+     block from 91px to 82px, nudging the logo and every menu item above
+     it upward. .sidebar-section is the one designed to absorb overflow
+     (flex:1 1 auto, min-height:0, overflow-y:auto below), so this and
+     .sidebar-footer need flex-shrink:0 to stay fixed-size and leave all
+     the give to that scrollable middle section. */
+  flex-shrink:0;
 }
 
 .brand{
@@ -876,6 +888,8 @@ tr:last-child td{border-bottom:none}
 .sidebar-footer{
   margin-top:auto;
   padding:14px 12px;
+  flex-shrink:0; /* same reasoning as .sidebar-top above - stay fixed-size,
+    let .sidebar-section do all the shrinking/scrolling. */
 }
 .sidebar-help-card{
   background:rgba(255,255,255,.07);
@@ -1211,36 +1225,53 @@ tr:last-child td{border-bottom:none}
    collapsed and freed up width. Grid's fixed column count holds
    regardless of how much space is available; items just get narrower or
    wider instead of the count changing. */
-.org-metrics-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.org-metrics-grid{
+  container-type: inline-size;
+  container-name: org-metrics;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;
+}
 
 /* Inside this 5-column grid, the fixed column count (see comment above)
    means each tile gets proportionally narrower as the viewport shrinks,
-   with no reflow escape valve. Below 1650px there is too little room for
-   the label to sit beside the icon/value pair without cramping or
-   wrapping into the value, so drop the label to its own line and drop
-   the icon entirely so the number and label both stay fully readable.
-   Scoped to this grid only, so the wider "My Journey" tiles elsewhere
-   (flexbox-based, wraps to one per row instead of narrowing) keep their
-   original inline-with-icon layout, which never runs into this. */
-@media (max-width: 1650px){
-  .org-metrics-grid .journey-stat{
+   with no reflow escape valve. A container query (not a viewport media
+   query) is used deliberately: this grid's own rendered width doesn't
+   track the viewport 1:1 everywhere it's embedded. On dashboard-org.html
+   it does (the grid is the main content area, so it scales directly with
+   the viewport), but inside components.html's catalogue it sits next to
+   a library nav column and stays a near-constant ~780px wide regardless
+   of how wide the browser window is. A viewport-based breakpoint tuned
+   for one context was simply wrong in the other (confirmed by measuring
+   the actual rendered grid width in both places at matching viewport
+   sizes). A container query fixes this at the source: below 1290px of
+   the grid's OWN width, there is too little room for the label to sit
+   beside the icon/value pair without cramping or wrapping into the
+   value, so drop the label to its own line and drop the icon entirely
+   so the number and label both stay fully readable, in any container. */
+@container org-metrics (max-width: 1290px){
+  .journey-stat{
     flex-direction:column;
     align-items:flex-start;
     gap:6px;
   }
-  .org-metrics-grid .journey-stat .label{
+  .journey-stat .label{
     text-align:left;
   }
-  .org-metrics-grid .journey-icon{
+  .journey-icon{
     display:none;
   }
 }
 
-/* At and below 1100px, .org-metrics-grid collapses to a single column
-   (see the max-width:1100px block further down), so each tile is back to
-   comfortably wide again. Revert to the original icon + inline label
-   layout rather than staying stacked, since there is no longer any need
-   to save space here. */
+/* At and below 1100px viewport, .org-metrics-grid collapses to a single
+   column (see the max-width:1100px block further down) so each tile
+   spans the full grid width - comfortably wide even where that width is
+   numerically smaller than the container-query threshold above. This
+   stays a viewport media query on purpose, since the single-column
+   switch is a page-layout decision (it lines up with the dashboard
+   sidebar's own mobile-drawer breakpoint), not a statement about the
+   tile's available space. Forces back to the icon + inline label layout
+   regardless of the container query's state above: this selector's
+   higher specificity (two classes chained, vs the container query's
+   single class) wins the cascade in either source order. */
 @media (max-width: 1100px){
   .org-metrics-grid .journey-stat{
     flex-direction:row;

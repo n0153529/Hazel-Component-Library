@@ -726,6 +726,18 @@ tr:last-child td{border-bottom:none}
   padding:20px 18px;
   min-height:82px;
   border-bottom:1px solid rgba(255,255,255,.14);
+  /* .dashboard-sidebar is a flex column with a fixed height:100vh. Without
+     this, .sidebar-top's default flex-shrink:1 lets it get compressed
+     whenever the accordion group below grows tall enough that the
+     column's total content exceeds 100vh - flexbox shrinks every
+     shrinkable sibling to fit, not just the one that's supposed to
+     scroll. Confirmed directly: opening "Organisation" shrank this
+     block from 91px to 82px, nudging the logo and every menu item above
+     it upward. .sidebar-section is the one designed to absorb overflow
+     (flex:1 1 auto, min-height:0, overflow-y:auto below), so this and
+     .sidebar-footer need flex-shrink:0 to stay fixed-size and leave all
+     the give to that scrollable middle section. */
+  flex-shrink:0;
 }
 
 .brand{
@@ -734,7 +746,7 @@ tr:last-child td{border-bottom:none}
   gap:12px;
   min-width:0;
 }
-.brand-logo{height:42px;width:auto;flex:0 0 auto}
+.brand-logo{height:50px;width:auto;flex:0 0 auto}
 
 .sidebar-collapse{
   width:34px;
@@ -760,6 +772,7 @@ tr:last-child td{border-bottom:none}
   cursor:pointer;
 }
 .sidebar-backbtn:hover{background:rgba(255,255,255,.18)}
+.sidebar-collapse:hover{background:rgba(255,255,255,.18)}
 .sidebar-backbtn svg{width:14px;height:14px}
 
 /* Collapsed rail is narrower than back+collapse side by side (34+8+34=76px
@@ -894,6 +907,8 @@ tr:last-child td{border-bottom:none}
 .sidebar-footer{
   margin-top:auto;
   padding:14px 12px;
+  flex-shrink:0; /* same reasoning as .sidebar-top above - stay fixed-size,
+    let .sidebar-section do all the shrinking/scrolling. */
 }
 .sidebar-help-card{
   background:rgba(255,255,255,.07);
@@ -936,7 +951,7 @@ tr:last-child td{border-bottom:none}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:16px;
+  gap:10px;
   margin-bottom:24px;
 }
 .dashboard-shell .searchbar{
@@ -1070,6 +1085,22 @@ tr:last-child td{border-bottom:none}
 
 
 
+.hazel-break {
+  margin-top: 24px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+.hazel-break__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.hazel-break__text {
+  margin: 0;
+}
 
 
 
@@ -1213,36 +1244,53 @@ tr:last-child td{border-bottom:none}
    collapsed and freed up width. Grid's fixed column count holds
    regardless of how much space is available; items just get narrower or
    wider instead of the count changing. */
-.org-metrics-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.org-metrics-grid{
+  container-type: inline-size;
+  container-name: org-metrics;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;
+}
 
 /* Inside this 5-column grid, the fixed column count (see comment above)
    means each tile gets proportionally narrower as the viewport shrinks,
-   with no reflow escape valve. Below 1650px there is too little room for
-   the label to sit beside the icon/value pair without cramping or
-   wrapping into the value, so drop the label to its own line and drop
-   the icon entirely so the number and label both stay fully readable.
-   Scoped to this grid only, so the wider "My Journey" tiles elsewhere
-   (flexbox-based, wraps to one per row instead of narrowing) keep their
-   original inline-with-icon layout, which never runs into this. */
-@media (max-width: 1650px){
-  .org-metrics-grid .journey-stat{
+   with no reflow escape valve. A container query (not a viewport media
+   query) is used deliberately: this grid's own rendered width doesn't
+   track the viewport 1:1 everywhere it's embedded. On dashboard-org.html
+   it does (the grid is the main content area, so it scales directly with
+   the viewport), but inside components.html's catalogue it sits next to
+   a library nav column and stays a near-constant ~780px wide regardless
+   of how wide the browser window is. A viewport-based breakpoint tuned
+   for one context was simply wrong in the other (confirmed by measuring
+   the actual rendered grid width in both places at matching viewport
+   sizes). A container query fixes this at the source: below 1290px of
+   the grid's OWN width, there is too little room for the label to sit
+   beside the icon/value pair without cramping or wrapping into the
+   value, so drop the label to its own line and drop the icon entirely
+   so the number and label both stay fully readable, in any container. */
+@container org-metrics (max-width: 1290px){
+  .journey-stat{
     flex-direction:column;
     align-items:flex-start;
     gap:6px;
   }
-  .org-metrics-grid .journey-stat .label{
+  .journey-stat .label{
     text-align:left;
   }
-  .org-metrics-grid .journey-icon{
+  .journey-icon{
     display:none;
   }
 }
 
-/* At and below 1100px, .org-metrics-grid collapses to a single column
-   (see the max-width:1100px block further down), so each tile is back to
-   comfortably wide again. Revert to the original icon + inline label
-   layout rather than staying stacked, since there is no longer any need
-   to save space here. */
+/* At and below 1100px viewport, .org-metrics-grid collapses to a single
+   column (see the max-width:1100px block further down) so each tile
+   spans the full grid width - comfortably wide even where that width is
+   numerically smaller than the container-query threshold above. This
+   stays a viewport media query on purpose, since the single-column
+   switch is a page-layout decision (it lines up with the dashboard
+   sidebar's own mobile-drawer breakpoint), not a statement about the
+   tile's available space. Forces back to the icon + inline label layout
+   regardless of the container query's state above: this selector's
+   higher specificity (two classes chained, vs the container query's
+   single class) wins the cascade in either source order. */
 @media (max-width: 1100px){
   .org-metrics-grid .journey-stat{
     flex-direction:row;
@@ -1558,6 +1606,9 @@ tr:last-child td{border-bottom:none}
       <a href="#menu">Menu / Tooltip / Pagination</a>
       <a href="#empty">Empty &amp; loading states</a>
       <a href="#icons">Icons <span class="badge badge-new" style="margin-left:4px">New</span></a>
+      <a href="#kpi-tile">KPI stat tile <span class="badge badge-new" style="margin-left:4px">New</span></a>
+      <a href="#membership-card">Membership card <span class="badge badge-new" style="margin-left:4px">New</span></a>
+      <a href="#sidebar-actions">Sidebar nav actions <span class="badge badge-new" style="margin-left:4px">New</span></a>
     </nav>
 
     <main class="lib-main">
@@ -2164,6 +2215,153 @@ tr:last-child td{border-bottom:none}
         </div>
       </div>
 
+      <div class="sec" id="kpi-tile">
+        <div class="sec-title"><div class="h4">KPI stat tile</div><span class="badge badge-new">New</span><button type="button" class="code-view-btn" onclick="openCodeModal('kpi-tile','KPI stat tile')" aria-label="View code for KPI stat tile"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6 2 12l6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></button></div>
+        <p class="small">The stat tile used for "My Journey" on the member dashboard and "Key Metrics" on the org dashboard: a coloured icon circle, a large number, and a label. Four icon colour modifiers are available, <code>success</code> / <code>warning</code> / <code>info</code> / <code>primary</code>, reusing the same soft colour tokens as Alerts and Badges.</p>
+        <div class="demo">
+          <div class="grid grid-3">
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon success">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">10</div>
+              </div>
+              <div class="label">Offers claimed</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon warning">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">14</div>
+              </div>
+              <div class="label">Skills developed</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon info">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">540</div>
+              </div>
+              <div class="label">Session hours</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:20px">On the org dashboard, the same tile sits inside <code>.org-metrics-grid</code>, a fixed 5-column grid used to guarantee exactly 5 tiles per row regardless of width (deliberately not the shared flexbox-based <code>.grid-3</code> above, which instead wraps tiles to fewer per row as space runs out). Because the column count never changes, tiles get proportionally narrower as the viewport shrinks: below 1650px wide the label moves under the value and the icon hides to keep both readable; below 1100px, <code>.org-metrics-grid</code> itself collapses to a single column, so the icon and inline label return since there is room again. Resize your browser to see all three states.</p>
+        <div class="demo">
+          <div class="org-metrics-grid">
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon success">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">10</div>
+              </div>
+              <div class="label">Offers claimed</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon primary">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15.5 14.5c2.8.4 4.5 2.5 4.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <div class="value">128</div>
+              </div>
+              <div class="label">Total members</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon info">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">540</div>
+              </div>
+              <div class="label">Session hours</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon info">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M4 21V9M10 21V3M16 21v13M22 21v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <div class="value">16-25</div>
+              </div>
+              <div class="label">Age range</div>
+            </div>
+            <div class="journey-stat">
+              <div class="journey-stat-top">
+                <div class="journey-icon success">
+                  <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M4 5a2 2 0 0 1 2-2h6v18H6a2 2 0 0 1-2-2V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="value">24</div>
+              </div>
+              <div class="label">Curriculum Courses</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec" id="membership-card">
+        <div class="sec-title"><div class="h4">Membership card</div><span class="badge badge-new">New</span><button type="button" class="code-view-btn" onclick="openCodeModal('membership-card','Membership card')" aria-label="View code for Membership card"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6 2 12l6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></button></div>
+        <p class="small">The member's digital Hazel Card, shown in the "Your membership card" panel on the member dashboard. A dark card (<code>var(--brand-dark-grey)</code>, <code>#151719</code>) with member details, a QR code for offer verification, and a faint watermark of the Hazel logomark.</p>
+        <div class="demo" style="background:var(--bg)">
+          <div class="hazel-membership-panel" style="padding:0;max-width:560px;width:100%">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div class="caption" style="color:var(--primary)">Your membership card</div>
+              <span class="badge badge-success">Active</span>
+            </div>
+            <div class="hazel-id-card">
+              <div class="hazel-id-watermark"></div>
+              <div class="hazel-id-top">
+                <img class="hazel-id-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+                <span class="badge" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">Verified</span>
+              </div>
+              <div class="hazel-id-body">
+                <div class="hazel-id-avatar"></div>
+                <div class="hazel-id-info">
+                  <div class="name">Sunny Barker</div>
+                  <div class="line"><strong>Member ID: </strong>CECARD-51274992</div>
+                  <div class="line"><strong>Home authority: </strong>Hazelton City Council</div>
+                  <div class="line"><strong>Resident in: </strong>Westbridge Borough Council</div>
+                  <div class="line"><strong>Upper tier: </strong>Hazelshire County Council</div>
+                  <div class="line"><strong>Valid until: </strong>17/08/2029</div>
+                </div>
+                <div class="hazel-id-qr">
+                  <div class="qr-box"><svg viewBox="0 0 21 21" width="72" height="72" fill="#151719"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="10" y="0" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="16" y="0" width="1" height="1"/><rect x="17" y="0" width="1" height="1"/><rect x="18" y="0" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="11" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="11" y="4" width="1" height="1"/><rect x="14" y="4" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="17" y="4" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="20" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="9" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="14" y="5" width="1" height="1"/><rect x="20" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="14" y="6" width="1" height="1"/><rect x="15" y="6" width="1" height="1"/><rect x="16" y="6" width="1" height="1"/><rect x="17" y="6" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="1" y="8" width="1" height="1"/><rect x="2" y="8" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="5" y="8" width="1" height="1"/><rect x="6" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="9" y="8" width="1" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="18" y="8" width="1" height="1"/><rect x="19" y="8" width="1" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="6" y="9" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="9" y="9" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="17" y="9" width="1" height="1"/><rect x="18" y="9" width="1" height="1"/><rect x="20" y="9" width="1" height="1"/><rect x="2" y="10" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="7" y="10" width="1" height="1"/><rect x="8" y="10" width="1" height="1"/><rect x="12" y="10" width="1" height="1"/><rect x="13" y="10" width="1" height="1"/><rect x="18" y="10" width="1" height="1"/><rect x="1" y="11" width="1" height="1"/><rect x="3" y="11" width="1" height="1"/><rect x="8" y="11" width="1" height="1"/><rect x="10" y="11" width="1" height="1"/><rect x="13" y="11" width="1" height="1"/><rect x="16" y="11" width="1" height="1"/><rect x="0" y="12" width="1" height="1"/><rect x="1" y="12" width="1" height="1"/><rect x="2" y="12" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="7" y="12" width="1" height="1"/><rect x="10" y="12" width="1" height="1"/><rect x="12" y="12" width="1" height="1"/><rect x="15" y="12" width="1" height="1"/><rect x="18" y="12" width="1" height="1"/><rect x="8" y="13" width="1" height="1"/><rect x="11" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="17" y="13" width="1" height="1"/><rect x="18" y="13" width="1" height="1"/><rect x="19" y="13" width="1" height="1"/><rect x="0" y="14" width="1" height="1"/><rect x="1" y="14" width="1" height="1"/><rect x="2" y="14" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="5" y="14" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="8" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="10" y="14" width="1" height="1"/><rect x="12" y="14" width="1" height="1"/><rect x="15" y="14" width="1" height="1"/><rect x="16" y="14" width="1" height="1"/><rect x="18" y="14" width="1" height="1"/><rect x="19" y="14" width="1" height="1"/><rect x="0" y="15" width="1" height="1"/><rect x="6" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="13" y="15" width="1" height="1"/><rect x="20" y="15" width="1" height="1"/><rect x="0" y="16" width="1" height="1"/><rect x="2" y="16" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="6" y="16" width="1" height="1"/><rect x="8" y="16" width="1" height="1"/><rect x="9" y="16" width="1" height="1"/><rect x="11" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="15" y="16" width="1" height="1"/><rect x="16" y="16" width="1" height="1"/><rect x="0" y="17" width="1" height="1"/><rect x="2" y="17" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="4" y="17" width="1" height="1"/><rect x="6" y="17" width="1" height="1"/><rect x="8" y="17" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="16" y="17" width="1" height="1"/><rect x="17" y="17" width="1" height="1"/><rect x="18" y="17" width="1" height="1"/><rect x="19" y="17" width="1" height="1"/><rect x="0" y="18" width="1" height="1"/><rect x="2" y="18" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="6" y="18" width="1" height="1"/><rect x="8" y="18" width="1" height="1"/><rect x="16" y="18" width="1" height="1"/><rect x="17" y="18" width="1" height="1"/><rect x="0" y="19" width="1" height="1"/><rect x="6" y="19" width="1" height="1"/><rect x="9" y="19" width="1" height="1"/><rect x="13" y="19" width="1" height="1"/><rect x="15" y="19" width="1" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="19" y="19" width="1" height="1"/><rect x="20" y="19" width="1" height="1"/><rect x="0" y="20" width="1" height="1"/><rect x="1" y="20" width="1" height="1"/><rect x="2" y="20" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="5" y="20" width="1" height="1"/><rect x="6" y="20" width="1" height="1"/><rect x="9" y="20" width="1" height="1"/><rect x="12" y="20" width="1" height="1"/><rect x="16" y="20" width="1" height="1"/><rect x="18" y="20" width="1" height="1"/><rect x="19" y="20" width="1" height="1"/></svg></div>
+                  <div class="qr-label">Scan to verify membership</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:16px">
+              <button class="btn btn-secondary" style="flex:1">Verify card</button>
+              <button class="btn btn-primary" style="flex:2">Download Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec" id="sidebar-actions">
+        <div class="sec-title"><div class="h4">Sidebar navigation actions</div><span class="badge badge-new">New</span><button type="button" class="code-view-btn" onclick="openCodeModal('sidebar-actions','Sidebar navigation actions')" aria-label="View code for Sidebar navigation actions"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6 2 12l6 6M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></button></div>
+        <p class="small">Two controls anchored at the top of both dashboard sidebars, sitting side by side on the dark sidebar background.</p>
+        <div class="demo" style="background:linear-gradient(180deg,var(--brand-dark-green),var(--panel-dark-2));border-radius:12px">
+          <div class="dashboard-shell" id="sidebarActionsDemo" style="display:block;min-height:0">
+            <div class="sidebar-top-actions">
+              <button type="button" class="sidebar-backbtn" aria-label="Back to previous page" onclick="history.back()">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarDemoToggle(this)">&#9776;</button>
+            </div>
+          </div>
+        </div>
+        <p class="small" style="margin-top:10px">Click the hamburger circle above to preview the stacked spacing used when the real sidebar is collapsed (<code>.dashboard-shell.is-collapsed .sidebar-top-actions</code>).</p>
+
+        <div style="margin-top:16px;display:grid;gap:10px">
+          <div class="alert alert-info"><div><strong>Back arrow.</strong> Calls <code>history.back()</code> directly. This works today because every page here is a full server-rendered reload. If the dashboards move to a client-side router (for example React Router), this needs to be swapped for the router's own back/navigate call, or it will fall outside the SPA's history stack and can leave the app in an inconsistent state.</div></div>
+          <div class="alert alert-info"><div><strong>Hamburger circle.</strong> Calls <code>sidebarCollapseToggle()</code>, which toggles <code>.is-collapsed</code> on the dashboard shell. This shrinks the sidebar from <code>--sidebar-width</code> (280px) down to <code>--sidebar-collapsed</code> (84px), hiding labels and centring icons. It only collapses the desktop rail, it does not open the mobile drawer, that is a separate hamburger in the topbar wired to <code>mobileSidebarToggle()</code>.</div></div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -2202,6 +2400,12 @@ tr:last-child td{border-bottom:none}
       if(!group) return;
       Array.prototype.slice.call(group.querySelectorAll('.seg-btn')).forEach(function(b){ b.classList.remove('on'); });
       btn.classList.add('on');
+    }
+
+    function sidebarDemoToggle(btn){
+      var shell = document.getElementById('sidebarActionsDemo');
+      if(!shell) return;
+      shell.classList.toggle('is-collapsed');
     }
 
     // ---- Code viewer -----------------------------------------------------
@@ -2274,22 +2478,33 @@ tr:last-child td{border-bottom:none}
 
     function collectCss(container){
       var baseRules = [];
-      var mediaGroups = [];
+      var groups = [];
       var seen = new Set();
 
-      function walk(ruleList, mediaCondition){
+      function isContainerRule(rule){
+        // CSSRule.CONTAINER_RULE isn't defined as a numeric constant in
+        // every engine (container queries shipped without reserving one,
+        // unlike the older CSSRule.MEDIA_RULE), so rule.type alone can't
+        // identify it here - confirmed the constructor name is the
+        // reliable check instead ("CSSContainerRule").
+        return rule.constructor && rule.constructor.name === 'CSSContainerRule';
+      }
+
+      function walk(ruleList, atKeyword, condition){
         for (var ri = 0; ri < ruleList.length; ri++){
           var rule = ruleList[ri];
           if (rule.type === CSSRule.MEDIA_RULE){
-            walk(rule.cssRules, rule.conditionText || rule.media.mediaText);
+            walk(rule.cssRules, '@media', rule.conditionText || rule.media.mediaText);
+          } else if (isContainerRule(rule)){
+            walk(rule.cssRules, '@container', rule.conditionText);
           } else if (rule.type === CSSRule.STYLE_RULE){
             if (selectorMatchesContainer(rule.selectorText, container)){
-              var key = (mediaCondition || '') + rule.cssText;
+              var key = (atKeyword || '') + (condition || '') + rule.cssText;
               if (seen.has(key)) continue;
               seen.add(key);
-              if (mediaCondition){
-                var group = mediaGroups.find(g => g.condition === mediaCondition);
-                if (!group){ group = { condition: mediaCondition, rules: [] }; mediaGroups.push(group); }
+              if (condition){
+                var group = groups.find(function(g){ return g.atKeyword === atKeyword && g.condition === condition; });
+                if (!group){ group = { atKeyword: atKeyword, condition: condition, rules: [] }; groups.push(group); }
                 group.rules.push(rule.cssText);
               } else {
                 baseRules.push(rule.cssText);
@@ -2304,14 +2519,14 @@ tr:last-child td{border-bottom:none}
         var rules;
         try { rules = sheet.cssRules; } catch (e) { continue; } // cross-origin stylesheet, skip
         if (!rules) continue;
-        walk(rules, null);
+        walk(rules, null, null);
       }
 
       var out = baseRules.join('\n\n');
-      for (var gi = 0; gi < mediaGroups.length; gi++){
-        var group = mediaGroups[gi];
+      for (var gi = 0; gi < groups.length; gi++){
+        var group = groups[gi];
         var body = group.rules.map(r => '  ' + r.replace(/\n/g, '\n  ')).join('\n\n');
-        out += (out ? '\n\n' : '') + '@media ' + group.condition + ' {\n' + body + '\n}';
+        out += (out ? '\n\n' : '') + group.atKeyword + ' ' + group.condition + ' {\n' + body + '\n}';
       }
       return out;
     }
