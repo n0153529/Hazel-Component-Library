@@ -212,7 +212,7 @@ code,pre{font-family:var(--font-mono)}
   border-radius:var(--radius-md);padding:0 14px;height:44px;outline:none;transition:.15s ease;
   font-size:var(--text-lg);box-sizing:border-box;display:block;
 }
-.textarea{padding:12px 14px;height:auto;min-height:120px;resize:vertical}
+.textarea{padding:12px 14px;height:auto;min-height:120px;resize:vertical; background:#fff;}
 .input:focus,.select:focus,.textarea:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 4px var(--primary-soft-2)}
 .input::placeholder,.textarea::placeholder{color:var(--subtle)}
 .field{display:grid;gap:8px;min-width:0}
@@ -1642,7 +1642,7 @@ tr:last-child td{border-bottom:none}
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:16px 18px;cursor:pointer;background:var(--surface);
 }
-.curr-section-header:hover{background:var(--surface-2)}
+/*.curr-section-header:hover{background:var(--surface-2)}*/
 .curr-section-header .title{font-weight:700;font-size:var(--text-lg);color:var(--text-strong)}
 .curr-section-header .meta{display:flex;align-items:center;gap:10px;flex:none}
 .curr-section-header .count{font-size:var(--text-sm);color:var(--subtle)}
@@ -1696,6 +1696,15 @@ tr:last-child td{border-bottom:none}
 .shared-record-field-actions{display:flex;flex-direction:column;gap:8px;flex:none}
 .icon-btn-sm{width:32px;height:32px}
 .icon-btn-sm svg{width:15px;height:15px}
+/* Icon-only variant of .btn-ai (see Buttons section) - same gradient and
+   hover treatment, just circular and icon-only for a compact assist
+   button next to a text field rather than a labelled action button. */
+.icon-btn.icon-btn-ai{
+  background:linear-gradient(135deg, rgb(16, 71, 81) 0%, rgb(7, 140, 158) 100%);
+  border-color:transparent;
+  color:#fff;
+}
+.icon-btn.icon-btn-ai:hover{filter:brightness(1.08);border-color:transparent;color:#fff}
 
 .hre-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
 .hre-section-num{
