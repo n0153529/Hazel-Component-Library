@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">My Home</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Tell us about your current housing and get ready for your new home.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="homeNav"></div>
+        </aside>
+
+        <div class="hre-main" id="homeContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const HOME_SECTIONS = [
+      { id: 'overview', title: 'My Home Overview', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'current', title: 'Current Housing', icon: '<path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      { id: 'newhome', title: 'Your New Home', icon: '<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/>' },
+      { id: 'tenancy', title: 'Tenancy & Home Setup', icon: '<rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'furniture', title: 'Furniture & Moving', icon: '<rect x="4" y="8" width="16" height="12" rx="1" stroke="currentColor" stroke-width="2"/><path d="M4 8 8 4h8l4 4" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v12M4 8h16" stroke="currentColor" stroke-width="2"/>' }
+    ];
+    let activeHomeSection = 'overview';
+
+    function selectHomeNav(id){
+      activeHomeSection = id;
+      renderHomeNav();
+      renderHomeContent();
+    }
+
+    function renderHomeNav(){
+      document.getElementById('homeNav').innerHTML = HOME_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeHomeSection;
+        const caption = homeNavCaption(sec.id);
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectHomeNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div style="min-width:0">' +
+              '<div class="title">' + sec.title + '</div>' +
+              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Shared data model --------------------------------------------------
+    // Mirrors the my-money.html pattern: one shared object, the Overview
+    // reads live from it, every section updates it directly. Pre-filled
+    // with sample data so the journey can be demonstrated.
+    const CURRENT_HOUSING_OPTIONS = {
+      under18: ["Children's Home", 'Supported Accommodation', 'Foster Care', 'Kinship Care', 'Custody', 'Parents'],
+      '18plus': ['Supported Accommodation', 'General Accommodation', 'Homeless', 'Custody', 'Staying Close', 'Staying Put', 'Supported Lodgings', 'Kinship Care', 'Parents']
+    };
+    const PROPERTY_TYPES = ['House', 'Flat / apartment', 'Bedsit', 'Room in a shared house', 'Other'];
+    const LIVING_WITH_OPTIONS = ['Living alone', 'With a partner', 'With friends', 'With family', 'With housemates (unrelated)', 'Other'];
+    const PROPERTY_STATUS_OPTIONS = ['Just interested', 'Application submitted', 'Offer made', 'Tenancy agreed', 'Moved in'];
+    const FURNITURE_STATUS_OPTIONS = ['Have it', 'Need it', 'Arranged'];
+    const HELPER_OPTIONS = ['Myself', 'Family', 'Local authority / leaving care team', 'Charity', 'Other'];
+
+    let nextHomeRowId = 1;
+
+    const HOME_DATA = {
+      ageBand: 'under18',
+      currentHousing: 'Foster Care',
+      currentHousingNotes: '',
+      newHome: {
+        address: '24 Example Street, Nottingham, NG1 1AB',
+        propertyType: 'Flat / apartment',
+        bedrooms: '1',
+        livingWith: 'Living alone',
+        moveInDate: '2026-10-30',
+        landlord: 'Hazelton Homes Ltd',
+        contact: '0115 555 0134',
+        status: 'Tenancy agreed',
+        viewed: true
+      },
+      tenancySetup: [
+        { id: nextHomeRowId++, title: 'Tenancy agreement received', done: true },
+        { id: nextHomeRowId++, title: 'Tenancy agreement understood', done: true },
+        { id: nextHomeRowId++, title: 'Tenancy start date confirmed', done: true },
+        { id: nextHomeRowId++, title: 'Landlord/provider contact available', done: true },
+        { id: nextHomeRowId++, title: 'Deposit arranged where applicable', done: true },
+        { id: nextHomeRowId++, title: 'First rent payment arranged', done: true },
+        { id: nextHomeRowId++, title: 'Keys/key collection arranged', done: true },
+        { id: nextHomeRowId++, title: 'Gas/electricity arranged', done: true },
+        { id: nextHomeRowId++, title: 'Water arranged', done: true },
+        { id: nextHomeRowId++, title: 'Broadband arranged', done: true },
+        { id: nextHomeRowId++, title: 'Council Tax checked', done: true },
+        { id: nextHomeRowId++, title: 'Insurance considered', done: false },
+        { id: nextHomeRowId++, title: 'Emergency contacts known', done: true }
+      ],
+      furniture: [
+        { id: nextHomeRowId++, group: 'Bedroom', title: 'Bed & mattress', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Bedroom', title: 'Bedding', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Bedroom', title: 'Wardrobe / storage', status: 'Arranged', helper: 'Family' },
+        { id: nextHomeRowId++, group: 'Bedroom', title: 'Curtains / blinds', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Living room', title: 'Sofa / chair', status: 'Arranged', helper: 'Local authority / leaving care team' },
+        { id: nextHomeRowId++, group: 'Living room', title: 'Table', status: 'Need it', helper: 'Family' },
+        { id: nextHomeRowId++, group: 'Living room', title: 'TV', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Kitchen', title: 'Cooker / oven', status: 'Arranged', helper: 'Local authority / leaving care team' },
+        { id: nextHomeRowId++, group: 'Kitchen', title: 'Fridge / freezer', status: 'Arranged', helper: 'Local authority / leaving care team' },
+        { id: nextHomeRowId++, group: 'Kitchen', title: 'Kettle & toaster', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Kitchen', title: 'Pots, pans & utensils', status: 'Have it', helper: 'Charity' },
+        { id: nextHomeRowId++, group: 'Kitchen', title: 'Plates, cups & cutlery', status: 'Have it', helper: 'Charity' },
+        { id: nextHomeRowId++, group: 'Cleaning & household', title: 'Cleaning products', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Cleaning & household', title: 'Bin & bin bags', status: 'Have it', helper: 'Myself' },
+        { id: nextHomeRowId++, group: 'Cleaning & household', title: 'Iron & ironing board', status: 'Have it', helper: 'Family' },
+        { id: nextHomeRowId++, group: 'Cleaning & household', title: 'Vacuum cleaner', status: 'Need it', helper: 'Family' }
+      ]
+    };
+
+    function tenancyDoneCount(){ return HOME_DATA.tenancySetup.filter(function(r){ return r.done; }).length; }
+    function tenancyOutstandingCount(){ return HOME_DATA.tenancySetup.length - tenancyDoneCount(); }
+    function furnitureReadyCount(){ return HOME_DATA.furniture.filter(function(r){ return r.status !== 'Need it'; }).length; }
+    function furnitureOutstandingCount(){ return HOME_DATA.furniture.filter(function(r){ return r.status === 'Need it'; }).length; }
+    function totalOutstanding(){ return tenancyOutstandingCount() + furnitureOutstandingCount(); }
+
+    function formatDate(iso){
+      if (!iso) return 'Not yet set';
+      const d = new Date(iso + 'T00:00:00');
+      if (isNaN(d)) return iso;
+      const day = d.getDate();
+      const suffix = (day % 10 === 1 && day !== 11) ? 'st' : (day % 10 === 2 && day !== 12) ? 'nd' : (day % 10 === 3 && day !== 13) ? 'rd' : 'th';
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return day + suffix + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function homeNavCaption(id){
+      if (id === 'current') return HOME_DATA.currentHousing || 'Not started';
+      if (id === 'newhome') return HOME_DATA.newHome.address ? HOME_DATA.newHome.status : 'Not started';
+      if (id === 'tenancy') return tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length + ' completed';
+      if (id === 'furniture') return furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length + ' ready';
+      return '';
+    }
+
+    // Readiness status - a supportive 3-tier read on outstanding items
+    // rather than a pass/fail affordability-style check. Thresholds kept
+    // as named constants so they're easy to adjust later.
+    const READINESS_RULES = { nearlyReadyMax: 5 };
+    function readinessStatus(){
+      const outstanding = totalOutstanding();
+      if (outstanding === 0) return 'ready';
+      if (outstanding <= READINESS_RULES.nearlyReadyMax) return 'nearly';
+      return 'starting';
+    }
+    function readinessCopy(status){
+      const outstanding = totalOutstanding();
+      if (status === 'ready') return { title: "You're ready to move", text: "You've arranged everything on your tenancy and furniture checklists." };
+      if (status === 'nearly') return { title: "You're nearly ready to move", text: 'There ' + (outstanding === 1 ? 'is 1 thing' : 'are ' + outstanding + ' things') + ' still to arrange before moving day.' };
+      return { title: "Let's get started", text: 'There ' + (outstanding === 1 ? 'is 1 thing' : 'are ' + outstanding + ' things') + ' still to arrange before moving day.' };
+    }
+    function renderReadinessBox(){
+      const status = readinessStatus();
+      const copy = readinessCopy(status);
+      const cfg = {
+        ready: { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', titleColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' },
+        nearly: { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>' },
+        starting: { bg: 'var(--info-soft)', border: 'var(--info-border)', iconBg: 'var(--info)', titleColor: 'var(--info)', icon: '<path d="M12 8v5M12 16h.01" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>' }
+      }[status];
+      return (
+        '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+            '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+            '</div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + copy.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + copy.text + '</p></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- My Home Overview (tab 1) -------------------------------------------
+    function stepHomeOverview(){
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">My Home Overview</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="selectHomeNav(\'current\')">Update details</button>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">A summary of your current housing and how ready you are for your new home.</p>' +
+
+          '<div style="margin-top:18px">' +
+            summaryRow('Current housing situation', HOME_DATA.currentHousing || 'Not yet added') +
+            summaryRow('Proposed property', HOME_DATA.newHome.address || 'Not yet added', { tight: true }) +
+            summaryRow('Move-in date', formatDate(HOME_DATA.newHome.moveInDate), { total: true }) +
+          '</div>' +
+
+          '<div style="margin-top:24px">' +
+            summaryRow('Tenancy status', HOME_DATA.newHome.status) +
+            summaryRow('Home setup progress', tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length + ' completed', { tight: true }) +
+            summaryRow('Furniture progress', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length + ' ready', { total: true }) +
+          '</div>' +
+        '</div>' +
+
+        renderReadinessBox() +
+
+        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+          '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Current Housing (tab 2) --------------------------------------------
+    function updateAgeBand(band){
+      HOME_DATA.ageBand = band;
+      const options = CURRENT_HOUSING_OPTIONS[band];
+      if (options.indexOf(HOME_DATA.currentHousing) === -1) HOME_DATA.currentHousing = options[0];
+      renderHomeNav();
+      renderHomeContent();
+    }
+    function updateCurrentHousing(value){
+      HOME_DATA.currentHousing = value;
+      renderHomeNav();
+      renderHomeContent();
+    }
+    function updateCurrentHousingNotes(value){
+      HOME_DATA.currentHousingNotes = value;
+    }
+
+    function ageToggleBtn(band, label){
+      const isOn = HOME_DATA.ageBand === band;
+      const style = isOn ? 'background:var(--primary);border-color:var(--primary);color:#fff' : '';
+      return '<button type="button" class="seg-btn" style="' + style + '" onclick="updateAgeBand(\'' + band + '\')">' + label + '</button>';
+    }
+
+    function stepCurrentHousing(){
+      const options = CURRENT_HOUSING_OPTIONS[HOME_DATA.ageBand];
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Current Housing</div>' +
+          '<p class="intro">Tell us a little about where you\'re living right now. This helps your worker understand your situation - there\'s no wrong answer.</p>' +
+
+          '<div class="field" style="max-width:320px"><div class="label">How old are you?</div>' +
+            '<div class="segmented">' + ageToggleBtn('under18', 'Under 18') + ageToggleBtn('18plus', '18 and over') + '</div>' +
+          '</div>' +
+
+          '<div class="field" style="max-width:420px;margin-top:20px"><div class="label">Where do you currently live?</div>' +
+            '<select class="select" onchange="updateCurrentHousing(this.value)">' +
+              options.map(function(o){ return '<option' + (o === HOME_DATA.currentHousing ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
+            '</select>' +
+          '</div>' +
+
+          '<div class="field" style="margin-top:20px"><div class="label">Anything else we should know? (optional)</div>' +
+            '<textarea class="textarea" style="min-height:90px" placeholder="For example, how long you\'ve been there, or anything that would help your worker support you." oninput="updateCurrentHousingNotes(this.value)">' + HOME_DATA.currentHousingNotes + '</textarea>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'overview\')">Back to My Home</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'newhome\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Your New Home (tab 3) ----------------------------------------------
+    function updateNewHomeField(key, value){
+      HOME_DATA.newHome[key] = value;
+      renderHomeNav();
+      renderHomeContent();
+    }
+
+    function stepNewHome(){
+      const nh = HOME_DATA.newHome;
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Your New Home</div>' +
+          '<p class="intro">Tell us about the property you\'re moving into. Some of this may already match what you added in Planning My Move.</p>' +
+
+          '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
+            '<input class="input" type="text" value="' + nh.address + '" onchange="updateNewHomeField(\'address\', this.value)" />' +
+          '</div>' +
+
+          '<div class="field-grid">' +
+            '<div class="field"><div class="label">Property type</div><select class="select" onchange="updateNewHomeField(\'propertyType\', this.value)">' + PROPERTY_TYPES.map(function(o){ return '<option' + (o === nh.propertyType ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></div>' +
+            '<div class="field"><div class="label">Bedrooms</div><select class="select" onchange="updateNewHomeField(\'bedrooms\', this.value)">' + ['Studio','1','2','3','4+'].map(function(o){ return '<option' + (o === nh.bedrooms ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></div>' +
+            '<div class="field"><div class="label">Who will you live with?</div><select class="select" onchange="updateNewHomeField(\'livingWith\', this.value)">' + LIVING_WITH_OPTIONS.map(function(o){ return '<option' + (o === nh.livingWith ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></div>' +
+            '<div class="field"><div class="label">Expected move-in date</div><input class="input" type="date" value="' + nh.moveInDate + '" onchange="updateNewHomeField(\'moveInDate\', this.value)" /></div>' +
+            '<div class="field"><div class="label">Landlord / housing provider</div><input class="input" type="text" value="' + nh.landlord + '" onchange="updateNewHomeField(\'landlord\', this.value)" /></div>' +
+            '<div class="field"><div class="label">Contact details</div><input class="input" type="text" value="' + nh.contact + '" onchange="updateNewHomeField(\'contact\', this.value)" /></div>' +
+            '<div class="field"><div class="label">Property / application status</div><select class="select" onchange="updateNewHomeField(\'status\', this.value)">' + PROPERTY_STATUS_OPTIONS.map(function(o){ return '<option' + (o === nh.status ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></div>' +
+            '<div class="field"><div class="label">Have you viewed the property?</div>' +
+              '<div class="segmented">' +
+                '<button type="button" class="seg-btn yes' + (nh.viewed ? ' on' : '') + '" onclick="updateNewHomeField(\'viewed\', true)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>' +
+                '<button type="button" class="seg-btn no' + (!nh.viewed ? ' on' : '') + '" onclick="updateNewHomeField(\'viewed\', false)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> No</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'current\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'tenancy\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Tenancy & Home Setup (tab 4) ---------------------------------------
+    function toggleTenancyItem(id){
+      const row = HOME_DATA.tenancySetup.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row.done = !row.done;
+      renderHomeNav();
+      renderHomeContent();
+    }
+
+    function tenancyRowHtml(row){
+      return (
+        '<div class="curr-item" style="align-items:center" onclick="toggleTenancyItem(' + row.id + ')">' +
+          '<div class="marker ' + (row.done ? 'completed' : 'not-started') + '">' + (row.done ? iconCheck() : '') + '</div>' +
+          '<div class="curr-item-body"><div class="curr-item-title">' + row.title + '</div></div>' +
+          '<span class="' + (row.done ? 'badge badge-success' : 'badge badge-neutral') + '">' + (row.done ? 'Done' : 'Not done') + '</span>' +
+        '</div>'
+      );
+    }
+
+    function iconCheck(){
+      return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+
+    function stepTenancy(){
+      const rows = HOME_DATA.tenancySetup.map(tenancyRowHtml).join('');
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Tenancy &amp; Home Setup</div>' +
+          '<p class="intro">Tap an item to mark it as done. This is just for you to keep track - your worker can help with anything you\'re not sure about.</p>' +
+          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' + rows + '</div>' +
+          '<div style="margin-top:8px">' + summaryRow('Completed', tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length, { total: true, big: true }) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'newhome\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'furniture\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Furniture & Moving (tab 5) ------------------------------------------
+    function updateFurnitureField(id, field, value){
+      const row = HOME_DATA.furniture.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderHomeNav();
+      renderHomeContent();
+    }
+
+    function furnitureRowHtml(row){
+      return (
+        '<div class="money-item-row">' +
+          '<div style="font-weight:700;color:var(--text-strong)">' + row.title + '</div>' +
+          '<div class="field"><select class="select" onchange="updateFurnitureField(' + row.id + ',\'status\',this.value)">' +
+            FURNITURE_STATUS_OPTIONS.map(function(o){ return '<option' + (o === row.status ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
+          '</select></div>' +
+          '<div class="field"><select class="select" onchange="updateFurnitureField(' + row.id + ',\'helper\',this.value)">' +
+            HELPER_OPTIONS.map(function(o){ return '<option' + (o === row.helper ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
+          '</select></div>' +
+        '</div>'
+      );
+    }
+
+    function furnitureGroupHtml(groupName){
+      const rows = HOME_DATA.furniture.filter(function(r){ return r.group === groupName; }).map(furnitureRowHtml).join('');
+      return '<div class="h6" style="margin-top:20px">' + groupName + '</div>' + rows;
+    }
+
+    function stepFurniture(){
+      const groups = ['Bedroom', 'Living room', 'Kitchen', 'Cleaning & household'];
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Furniture &amp; Moving</div>' +
+          '<p class="intro">Keep track of what you already have and what still needs sorting - and who\'s helping with each item.</p>' +
+          groups.map(furnitureGroupHtml).join('') +
+          '<div style="margin-top:20px">' + summaryRow('Ready', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length, { total: true, big: true }) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'tenancy\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'overview\')">View My Home Overview</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Shared row helper (same shape as my-money.html's summaryRow) -------
+    function summaryRow(label, value, opts){
+      opts = opts || {};
+      const cls = ['summary-row'];
+      if (opts.total) cls.push('total');
+      if (opts.tight) cls.push('tight');
+      if (opts.big) cls.push('big');
+      return (
+        '<div class="' + cls.join(' ') + '">' +
+          '<div class="label">' + label + '</div>' +
+          '<div class="value">' + value + '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderHomeContent(){
+      const renderers = {
+        overview: stepHomeOverview,
+        current: stepCurrentHousing,
+        newhome: stepNewHome,
+        tenancy: stepTenancy,
+        furniture: stepFurniture
+      };
+      document.getElementById('homeContent').innerHTML = renderers[activeHomeSection]();
+    }
+
+    renderHomeNav();
+    renderHomeContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

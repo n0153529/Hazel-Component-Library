@@ -1820,12 +1820,17 @@ tr:last-child td{border-bottom:none}
    2-column field layout used on the Housing Costs page. */
 .money-item-row{display:flex;gap:12px;align-items:flex-end;padding:14px 0;border-bottom:1px solid var(--border)}
 .money-item-row:last-of-type{border-bottom:none}
-.money-item-row .field{flex:1;min-width:0}
-.money-item-row .field:first-child{flex:2}
+/* Targets any direct child (not just .field) so both the income/
+   expenditure rows (category select, amount input, frequency select -
+   all .field) and the furniture rows (a plain title div plus two .field
+   selects) size and stack the same way, without needing per-row inline
+   flex overrides that would fight the mobile rule below. */
+.money-item-row > *:not(button){flex:1;min-width:0}
+.money-item-row > *:first-child{flex:2}
 .field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:14px}
 @media (max-width: 640px){
   .money-item-row{flex-wrap:wrap}
-  .money-item-row .field{flex-basis:100%}
+  .money-item-row > *:not(button){flex-basis:100%}
   .field-grid{grid-template-columns:1fr}
 }
 

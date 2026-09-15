@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Home Ready Essentials</title>
+  <title>Home Ready Essentials (PA)</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="app-shell">
@@ -40,8 +40,8 @@
             </button>
             <div class="sidebar-group-body">
               <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
-              <a class="sidebar-subitem active" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
-              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem active" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
               <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
               <a class="sidebar-subitem" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
               <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
@@ -116,14 +116,19 @@
         <div style="min-width:0">
           <div style="display:flex;align-items:center;gap:8px">
             <div class="h2" style="margin:0">Home Ready Essentials</div>
+            <span class="badge badge-primary">PA view</span>
             <span class="info-tip" tabindex="0">
               <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--subtle)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
-              <span class="bubble">Work through each section with your PA or support worker.</span>
+              <span class="bubble">Work through each section with the care leaver, then record the outcome and mark the assessment.</span>
             </span>
           </div>
           <p class="small" style="margin-top:4px">Build the knowledge and confidence to manage a home successfully.</p>
         </div>
         <div style="display:flex;align-items:center;gap:16px;flex:none">
+          <button type="button" class="btn btn-secondary" onclick="downloadPdf()">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 3v12M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Download PDF
+          </button>
           <button type="button" class="btn btn-secondary" id="submitCurriculumBtn" disabled onclick="if(!this.disabled) location.href='curriculum-completed.html'">Submit</button>
           <div style="text-align:right">
             <div class="small" style="font-weight:700;color:var(--text-strong)">Curriculum progress</div>
@@ -219,6 +224,27 @@
     // Shared record notes typed in live get stored here, keyed by item id,
     // so they survive navigating away and back within the same visit.
     const NOTES = {};
+
+    // PA-only: the recorded outcome for each curriculum item ('complete' /
+    // 'support' / undefined), and whether the assessment has been unlocked
+    // as a result. Kept as simple per-item state, same shape as NOTES.
+    const OUTCOMES = {};
+    function setOutcome(itemId, value){
+      OUTCOMES[itemId] = OUTCOMES[itemId] === value ? undefined : value;
+      renderMain();
+    }
+    function downloadPdf(){
+      alert('This would download a PDF summary of this curriculum for offline records.');
+    }
+    function uploadResourceDoc(){
+      alert('This would let you upload a new resource document for the care leaver to view.');
+    }
+    function editResourceDoc(title){
+      alert('This would let you edit "' + title + '".');
+    }
+    function removeResourceDoc(title){
+      alert('This would remove "' + title + '" from the resource documents.');
+    }
 
     let activeSectionId = CURRICULUM[0].id;
     let activeItemId = CURRICULUM[0].items[0].id;
@@ -321,13 +347,17 @@
       const secIndex = CURRICULUM.findIndex(function(s){ return s.id === sec.id; });
       const completedInSection = sec.items.filter(function(i){ return i.status === 'completed'; }).length;
       const notes = NOTES[it.id] || { discussion: '', youngPerson: '' };
+      const outcome = OUTCOMES[it.id];
 
       const docsHtml = it.docs.map(function(d){
         return (
           '<div class="nav-row" style="margin-bottom:10px">' +
             '<div class="resource-doc-icon ' + d.color + '">' + docIconSvg() + '</div>' +
             '<div class="body"><div class="title">' + d.title + '</div><div class="desc">' + d.subtitle + '</div></div>' +
-            '<svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            '<div style="display:flex;gap:6px;flex:none">' +
+              '<button type="button" class="icon-btn icon-btn-sm" aria-label="Edit document" onclick="event.stopPropagation(); editResourceDoc(\'' + d.title.replace(/'/g, "\\'") + '\')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10.5-10.5a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4 16v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13.5 6.5l4 4" stroke="currentColor" stroke-width="2"/></svg></button>' +
+              '<button type="button" class="icon-btn icon-btn-sm" aria-label="Remove document" onclick="event.stopPropagation(); removeResourceDoc(\'' + d.title.replace(/'/g, "\\'") + '\')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '</div>' +
           '</div>'
         );
       }).join('');
@@ -347,8 +377,12 @@
           '</span>' +
         '</div>' +
 
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:24px;margin-bottom:10px">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:24px;margin-bottom:10px;gap:12px;flex-wrap:wrap">' +
           '<div class="h6" style="margin:0">Resource Documents</div>' +
+          '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadResourceDoc()">' +
+            '<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 15V4M7 9l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            ' Upload' +
+          '</button>' +
         '</div>' +
         docsHtml +
 
@@ -392,6 +426,54 @@
         //   '<p class="small" style="margin-top:4px">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
         //   '<p class="small" style="margin-top:4px">Your professional will make the assessment available when you are ready.</p>' +
         // '</div>' +
+
+        '<div class="card padded" style="margin-top:20px">' +
+          '<div class="h5" style="margin:0">Outcome for this topic</div>' +
+          '<p class="small" style="margin-top:4px">Record the outcome of this session before moving on.</p>' +
+          '<div class="curriculum-grid" style="margin-top:16px">' +
+
+            '<div class="card padded" style="text-align:center;' + (outcome === 'complete' ? 'background:var(--success-soft);border-color:var(--success-border)' : '') + '">' +
+              '<div class="journey-icon success" style="margin:0 auto">' + markerSvg('completed') + '</div>' +
+              '<div class="h5" style="margin-top:12px">Complete</div>' +
+              '<p class="small" style="margin-top:4px">Mark this learning as complete</p>' +
+              '<button type="button" class="btn ' + (outcome === 'complete' ? 'btn-complete' : 'btn-primary') + '" style="width:100%;justify-content:center;margin-top:14px" onclick="setOutcome(\'' + it.id + '\',\'complete\')">' + (outcome === 'complete' ? markerSvg('completed') + ' Completed' : 'Mark complete') + '</button>' +
+            '</div>' +
+
+            '<div class="card padded" style="text-align:center;' + (outcome === 'support' ? 'background:var(--warning-soft);border-color:var(--warning-border)' : '') + '">' +
+              '<div class="journey-icon warning" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M6 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4h11l-2.5 4L17 12H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>' +
+              '<div class="h5" style="margin-top:12px">Needs more support</div>' +
+              '<p class="small" style="margin-top:4px">Record that more work is needed</p>' +
+              '<button type="button" class="btn btn-secondary" style="width:100%;justify-content:center;margin-top:14px" onclick="setOutcome(\'' + it.id + '\',\'support\')">' + (outcome === 'support' ? 'Marked as needing support' : 'Mark needs support') + '</button>' +
+            '</div>' +
+
+            '<div class="card padded" style="text-align:center;' + (outcome === 'complete' ? 'background:var(--primary-soft);border-color:var(--primary)' : 'background:var(--surface-disabled)') + '">' +
+              '<div class="journey-icon ' + (outcome === 'complete' ? 'primary' : 'neutral') + '" style="margin:0 auto">' +
+                (outcome === 'complete'
+                  ? '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+                  : '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>') +
+              '</div>' +
+              '<div class="h5" style="margin-top:12px' + (outcome === 'complete' ? '' : ';color:var(--subtle)') + '">Ready for assessment</div>' +
+              '<p class="small" style="margin-top:4px' + (outcome === 'complete' ? '' : ';color:var(--subtle)') + '">' + (outcome === 'complete' ? 'This topic is ready for assessment.' : 'Mark this topic as complete to enable assessment.') + '</p>' +
+            '</div>' +
+
+          '</div>' +
+        '</div>' +
+
+        '<div class="card padded" style="margin-top:20px">' +
+          '<div class="h5" style="margin:0">Assessment</div>' +
+          '<p class="small" style="margin-top:4px">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
+          '<div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">' +
+            '<button type="button" class="btn btn-primary"' + (outcome !== 'complete' ? ' disabled' : '') + '>Start Assessment Here</button>' +
+            '<button type="button" class="btn btn-secondary"' + (outcome !== 'complete' ? ' disabled' : '') + '>Send to care leaver</button>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="card padded" style="margin-top:20px;background:var(--info-soft);border-color:var(--info-border)">' +
+          '<div style="display:flex;align-items:flex-start;gap:12px">' +
+            '<svg viewBox="0 0 24 24" fill="none" width="18" height="18" style="color:var(--info);flex:none;margin-top:2px"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
+            '<div><div class="h6" style="margin:0">Section achievement</div><p class="small" style="margin: 4px 0px 0px 0px">The badge and certificate are issued automatically when every curriculum assessment has passed.</p></div>' +
+          '</div>' +
+        '</div>' +
 
         '<div class="hre-actions">' +
           '<button type="button" class="btn btn-secondary" id="saveBtn" onclick="handleSave()">Save</button>' +
