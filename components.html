@@ -1801,7 +1801,15 @@ tr:last-child td{border-bottom:none}
   border-left:3px solid transparent;
 }
 .money-nav-item:last-child{margin-bottom:0}
-.money-nav-item:hover{background:var(--surface-2)}
+/* Colour-only change on hover (never touches border-width) - the box
+   already has a 1px border on 3 sides and a 3px border-left, so a hover
+   rule that swaps to a plain `border: ...` shorthand would reset that
+   3px left edge back to 1px and visibly nudge every row's content
+   sideways. Using border-color here (not border) changes only the
+   colour, leaving both widths exactly as they were. Excludes .active so
+   hovering the current section doesn't flash it back to a plain white
+   background. */
+.money-nav-item:not(.active):hover{background:var(--surface);border-color:var(--primary)}
 .money-nav-item.active{background:var(--primary-soft);border-color:var(--primary);border-left-color:var(--primary)}
 .money-nav-item .icon{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;flex:none;background:var(--primary-soft);color:var(--primary)}
 .money-nav-item.active .icon{background:var(--primary);color:#fff}
