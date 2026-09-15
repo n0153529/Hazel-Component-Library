@@ -329,12 +329,20 @@
 
     // ---- Affordability Summary (tab 1) -------------------------------------
     function stepMoneySummary(){
-      const income = totalMonthlyIncome();
+      const propertyCost = totalHousingCost();
       const support = totalHousingSupport();
       const contribution = netHousingContribution();
+      const income = totalMonthlyIncome();
       const essentials = totalEssentialExpenditure();
       const remaining = remainingBudget();
       const status = affordabilityStatus();
+
+      const incomeRows = MONEY_DATA.income.length
+        ? MONEY_DATA.income.map(function(row, i){
+            const isLast = i === MONEY_DATA.income.length - 1;
+            return summaryRow(row.category, money(toMonthly(row.amount, row.frequency)), { tight: isLast });
+          }).join('')
+        : summaryRow('No income added yet', money(0), { tight: true });
 
       return (
         '<div class="card padded">' +
@@ -345,13 +353,17 @@
           '<p class="small" style="margin-top:4px">A breakdown of income and costs for this property.</p>' +
 
           '<div style="margin-top:18px">' +
-            summaryRow('Monthly Rent', money(MONEY_DATA.housing.rent)) +
-            summaryRow('Housing Costs (UC/HB)', money(-support), { tight: true }) +
+            summaryRow('Property', money(propertyCost)) +
+            summaryRow('Benefit &amp; housing support', money(-support), { tight: true }) +
             summaryRow('Your Contribution', money(contribution), { total: true }) +
           '</div>' +
 
           '<div style="margin-top:24px">' +
-            summaryRow('Total monthly income', money(income)) +
+            incomeRows +
+            summaryRow('Total monthly income', money(income), { total: true }) +
+          '</div>' +
+
+          '<div style="margin-top:24px">' +
             summaryRow('Essential expenditure', money(-essentials), { tight: true }) +
             summaryRow('Remaining', money(remaining), { total: true, big: true }) +
           '</div>' +
@@ -470,10 +482,10 @@
           '<div class="h4" style="margin:0">Housing Costs</div>' +
           '<p class="intro">Tell us about the costs for the property you\'re considering, and any housing benefit or Universal Credit support towards it.</p>' +
 
-          '<div class="h4" style="margin-top:20px">Property &amp; tenancy information</div>' +
+          '<div class="h6" style="margin-top:20px">Property &amp; tenancy information</div>' +
           '<div class="field-grid">' + HOUSING_FIELDS.map(housingFieldHtml).join('') + '</div>' +
 
-          '<div class="h4" style="margin-top:24px">Benefit &amp; housing support</div>' +
+          '<div class="h6" style="margin-top:24px">Benefit &amp; housing support</div>' +
           '<div class="field-grid">' + HOUSING_SUPPORT_FIELDS.map(housingFieldHtml).join('') + '</div>' +
 
           '<div style="margin-top:24px">' +
