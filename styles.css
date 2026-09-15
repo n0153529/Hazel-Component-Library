@@ -1788,6 +1788,20 @@ tr:last-child td{border-bottom:none}
 .money-nav-item.active .icon{background:var(--primary);color:#fff}
 .money-nav-item .title{font-weight:700;font-size:var(--text-md);color:var(--text-strong)}
 
+/* my-money.html: a single editable line in the Income / Essential
+   Expenditure lists (category + amount + frequency + remove), and the
+   2-column field layout used on the Housing Costs page. */
+.money-item-row{display:flex;gap:12px;align-items:flex-end;padding:14px 0;border-bottom:1px solid var(--border)}
+.money-item-row:last-of-type{border-bottom:none}
+.money-item-row .field{flex:1;min-width:0}
+.money-item-row .field:first-child{flex:2}
+.field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:14px}
+@media (max-width: 640px){
+  .money-item-row{flex-wrap:wrap}
+  .money-item-row .field{flex-basis:100%}
+  .field-grid{grid-template-columns:1fr}
+}
+
 @media (max-width: 900px){
   .hre-sidebar{position:static;flex-basis:100%}
 }
