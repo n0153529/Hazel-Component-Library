@@ -1315,7 +1315,7 @@ tr:last-child td{border-bottom:none}
   z-index:200;
 }
 .notice-bar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.notice-bar-title{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
+.notice-bar-title{display:flex;align-items:center;gap:8px;min-width:0}
 .notice-bar-title svg{color:var(--info);flex:none}
 .notice-bar-title .h5{margin:0;white-space:nowrap}
 .notice-bar-cta{flex:none}
