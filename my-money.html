@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Money</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">My Money</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Check that this property is affordable and plan your income and expenditure.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="moneyNav"></div>
+        </aside>
+
+        <div class="hre-main" id="moneyContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const MONEY_SECTIONS = [
+      { id: 'summary', title: 'Affordability Summary', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'income', title: 'Income', icon: '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v10M9.5 9.3c0-1 .9-1.6 2.5-1.6s2.5.6 2.5 1.5-1 1.2-2.5 1.4c-1.5.2-2.5.6-2.5 1.5s1 1.5 2.5 1.5 2.5-.5 2.5-1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
+      { id: 'housing', title: 'Housing Costs', icon: '<path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      { id: 'expenditure', title: 'Essential Expenditure', icon: '<circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+      { id: 'outcome', title: 'Budget Outcome', icon: '<path d="M4 21V9M10 21V3M16 21v13M22 21v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' }
+    ];
+    let activeMoneySection = 'summary';
+
+    function selectMoneyNav(id){
+      activeMoneySection = id;
+      renderMoneyNav();
+      renderMoneyContent();
+    }
+
+    function renderMoneyNav(){
+      document.getElementById('moneyNav').innerHTML = MONEY_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeMoneySection;
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectMoneyNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div class="title">' + sec.title + '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Affordability Summary content ------------------------------------
+    // Example figures for this property - Income and Housing Costs pages
+    // (not yet built) will feed these values in once they exist.
+    const FIGURES = {
+      monthlyRent: 750,
+      housingBenefit: 650,
+      yourContribution: 100,
+      totalIncome: 1160,
+      essentialExpenditure: 860,
+      remaining: 220
+    };
+
+    function money(n){
+      const sign = n < 0 ? '-' : '';
+      return sign + '&pound;' + Math.abs(n).toLocaleString();
+    }
+
+    function summaryRow(label, value, opts){
+      opts = opts || {};
+      const cls = ['summary-row'];
+      if (opts.total) cls.push('total');
+      if (opts.tight) cls.push('tight');
+      if (opts.big) cls.push('big');
+      return (
+        '<div class="' + cls.join(' ') + '">' +
+          '<div class="label">' + label + '</div>' +
+          '<div class="value">' + value + '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepMoneySummary(){
+      const isSustainable = FIGURES.remaining > 0;
+
+      const statusBox = isSustainable
+        ? (
+          '<div class="card padded" style="margin-top:20px;background:var(--success-soft);border-color:var(--success-border)">' +
+            '<div style="display:flex;align-items:flex-start;gap:14px">' +
+              '<div style="width:40px;height:40px;border-radius:999px;background:var(--success);display:grid;place-items:center;flex:none">' +
+                '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '</div>' +
+              '<div><div class="h3" style="margin:0">Tenancy Assessment: <span style="color:var(--success)">SUSTAINABLE</span></div><p class="small" style="margin: 4px 0px 0px 0px">This property is affordable based on the information provided.</p></div>' +
+            '</div>' +
+          '</div>'
+        )
+        : (
+          '<div class="card padded" style="margin-top:20px;background:var(--danger-soft);border-color:var(--danger-border)">' +
+            '<div style="display:flex;align-items:flex-start;gap:14px">' +
+              '<div style="width:40px;height:40px;border-radius:999px;background:var(--danger);display:grid;place-items:center;flex:none">' +
+                '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px"><path d="M18 6 6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>' +
+              '</div>' +
+              '<div><div class="h3" style="margin:0">Tenancy Assessment: <span style="color:var(--danger)">NOT VIABLE</span></div><p class="small" style="margin: 4px 0px 0px 0px">This property appears to be unaffordable based on the information provided.</p></div>' +
+            '</div>' +
+          '</div>'
+        );
+
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h3" style="margin:0">Affordability Summary</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="selectMoneyNav(\'income\')">Update figures</button>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">A breakdown of income and costs for this property.</p>' +
+
+          '<div style="margin-top:18px">' +
+            summaryRow('Monthly Rent', money(FIGURES.monthlyRent)) +
+            summaryRow('Housing Costs (UC/HB)', money(-FIGURES.housingBenefit), { tight: true }) +
+            summaryRow('Your Contribution', money(FIGURES.yourContribution), { total: true }) +
+          '</div>' +
+
+          '<div style="margin-top:24px">' +
+            summaryRow('Total monthly income', money(FIGURES.totalIncome)) +
+            summaryRow('Essential expenditure', money(-FIGURES.essentialExpenditure), { tight: true }) +
+            summaryRow('Remaining', money(FIGURES.remaining), { total: true, big: true }) +
+          '</div>' +
+        '</div>' +
+
+        statusBox +
+
+        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+          '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
+        '</div>'
+      );
+    }
+
+    function stepMoneyPlaceholder(title){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">' + title + '</div>' +
+          '<p class="intro">This section is still being designed.</p>' +
+          '<div style="border:1px dashed var(--border);border-radius:var(--radius-lg);padding:48px 24px;text-align:center;color:var(--subtle)">' +
+            '<p class="small" style="margin:0">Content for this section is coming soon.</p>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderMoneyContent(){
+      const sec = MONEY_SECTIONS.find(function(s){ return s.id === activeMoneySection; });
+      document.getElementById('moneyContent').innerHTML = activeMoneySection === 'summary'
+        ? stepMoneySummary()
+        : stepMoneyPlaceholder(sec.title);
+    }
+
+    renderMoneyNav();
+    renderMoneyContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

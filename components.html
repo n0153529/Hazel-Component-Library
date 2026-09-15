@@ -117,6 +117,14 @@
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:var(--leading-normal)}
+/* Reserves space for the vertical scrollbar at all times, so a page
+   whose content height varies (e.g. a wizard where later steps are
+   taller than earlier ones) doesn't visibly shift its centred content
+   sideways the moment a scrollbar appears or disappears. Confirmed on
+   guarantor-scheme.html: steps 1-3 fit without scrolling, but step 4's
+   charter accordion + signatures panel is tall enough to need it, which
+   nudged the centred .wizard-container over by the scrollbar's width. */
+html{scrollbar-gutter:stable;}
 img{max-width:100%;display:block}
 svg{width:16px;height:16px;flex:none;display:block}
 a{color:inherit;text-decoration:none}
@@ -224,6 +232,15 @@ code,pre{font-family:var(--font-mono)}
    default overrides .btn's own pointer. */
 .btn-complete{background:var(--success);border-color:var(--success);color:#fff;cursor:default}
 .btn-complete:hover{background:var(--success);color:#fff}
+
+/* Ready-to-submit state for a button that starts disabled/grey (the
+   default .btn:disabled look) and switches to a solid, genuinely
+   clickable green once its unlock condition is met - e.g. "Submit" on
+   home-ready-essentials.html, enabled only once every curriculum item
+   is completed. Unlike .btn-complete above, this one stays interactive
+   (normal pointer, real hover) since there IS an action to take. */
+.btn-submit-ready{background:var(--success);border-color:var(--success);color:#fff}
+.btn-submit-ready:hover{filter:brightness(1.08);color:#fff}
 
 /* ---------------- Inputs ---------------- */
 .input, .select, .textarea{
@@ -671,6 +688,13 @@ tr:last-child td{border-bottom:none}
 .info-tip.tip-below .bubble{bottom:auto;top:calc(100% + 8px)}
 .info-tip.tip-below .bubble::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--text-strong)}
 .info-tip.tip-wide .bubble{white-space:normal;width:260px;text-align:left;font-weight:500}
+/* Anchors the bubble's right edge to the icon instead of centring it -
+   for triggers that sit near the right edge of their container (e.g. at
+   the end of a list row), where a centred wide bubble would overflow
+   past the card boundary. The arrow moves to sit above the icon rather
+   than the bubble's centre. */
+.info-tip.tip-align-right .bubble{left:auto;right:0;transform:none}
+.info-tip.tip-align-right .bubble::after{left:auto;right:4px;transform:none}
 
 /* ---------------- legacy wizard shell (kept) ---------------- */
 .wizard-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md)}
@@ -1739,6 +1763,49 @@ tr:last-child td{border-bottom:none}
   width:36px;height:36px;border-radius:999px;border:1px solid var(--border);
   display:grid;place-items:center;font-weight:700;color:var(--text-strong);flex:none;
 }
+/* Solid colour variant - same visual language as the active .owizard-step
+   circle (solid primary, white number), for numbered lists that aren't a
+   live step tracker but still want the "coloured number badge" look. */
+.hre-section-num.filled{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* my-money.html: label/value rows for the Affordability Summary table,
+   and other financial breakdowns of the same shape. .total gets a
+   heavier top border and bold weight to read as a subtotal/total line,
+   matching typical statement/invoice conventions. */
+.summary-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border-bottom:none}
+.summary-row .label{color:var(--muted)}
+.summary-row .value{font-weight:700;color:var(--text-strong)}
+/* The row immediately before a .total row loses its own border-bottom,
+   so only the total row's heavier top border shows - without this, the
+   two borders sit right next to each other and read as one thick or
+   doubled-up line. */
+.summary-row.tight{border-bottom:none}
+.summary-row.total{border-top:2px solid var(--border-strong);border-bottom:none;margin-top:4px;padding-top:14px}
+.summary-row.total .label{font-weight:700;color:var(--text-strong)}
+.summary-row.total .value{font-size:var(--text-lg)}
+/* For the single most important figure on the page (e.g. "Remaining") -
+   noticeably larger than a regular total so it draws the eye first. */
+.summary-row.total.big .label{font-size:var(--text-lg)}
+.summary-row.total.big .value{font-size:var(--text-3xl)}
+
+/* my-money.html left nav - larger, individually-boxed items (not a
+   connected list like the curriculum accordion) each with their own
+   icon, per feedback that the connected-list treatment read as too
+   small/grey. White by default; a soft primary tint plus solid-primary
+   icon marks the active section. */
+.money-nav-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:20px 18px;margin-bottom:12px;cursor:pointer;
+  border-left:3px solid transparent;
+}
+.money-nav-item:last-child{margin-bottom:0}
+.money-nav-item:hover{background:var(--surface-2)}
+.money-nav-item.active{background:var(--primary-soft);border-color:var(--primary);border-left-color:var(--primary)}
+.money-nav-item .icon{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;flex:none;background:var(--primary-soft);color:var(--primary)}
+.money-nav-item.active .icon{background:var(--primary);color:#fff}
+.money-nav-item .title{font-weight:700;font-size:var(--text-md);color:var(--text-strong)}
 
 @media (max-width: 900px){
   .hre-sidebar{position:static;flex-basis:100%}

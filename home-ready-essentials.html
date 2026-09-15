@@ -123,6 +123,7 @@
           <p class="small" style="margin-top:4px">Build the knowledge and confidence to manage a home successfully.</p>
         </div>
         <div style="display:flex;align-items:center;gap:16px;flex:none">
+          <button type="button" class="btn btn-secondary" id="submitCurriculumBtn" disabled onclick="if(!this.disabled) location.href='curriculum-completed.html'">Submit</button>
           <div style="text-align:right">
             <div class="small" style="font-weight:700;color:var(--text-strong)">Curriculum progress</div>
             <div class="small" id="progressCaption">0 of 24 completed</div>
@@ -299,6 +300,12 @@
       document.getElementById('progressRing').style.setProperty('--pct', pct);
       document.getElementById('progressPct').textContent = pct + '%';
       document.getElementById('progressCaption').textContent = completed + ' of ' + all.length + ' completed';
+
+      const submitBtn = document.getElementById('submitCurriculumBtn');
+      const allComplete = completed === all.length;
+      submitBtn.disabled = !allComplete;
+      submitBtn.classList.toggle('btn-submit-ready', allComplete);
+      submitBtn.classList.toggle('btn-secondary', !allComplete);
     }
 
     function docIconSvg(){
