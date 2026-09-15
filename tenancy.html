@@ -333,7 +333,7 @@
       return (
         '<div class="card padded">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">Current Address</div>' +
+            '<div class="h3" style="margin:0">Current Address</div>' +
             '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="selectTenancyNav(\'actionplan\')">Action Plan</button>' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="updateProperty()">Update property</button>' +
@@ -494,7 +494,7 @@
       return (
         '<tr>' +
           '<td data-label="Done"><input type="checkbox" class="checkbox" ' + (a.status === 'Completed' ? 'checked ' : '') + 'onchange="toggleActionDone(' + a.id + ')" aria-label="Mark ' + a.name.replace(/"/g, '&quot;') + ' as complete" /></td>' +
-          '<td data-label="Action name">' + a.name + '</td>' +
+          '<td data-label="Action">' + a.name + '</td>' +
           '<td data-label="Who">' + a.who + '</td>' +
           '<td data-label="Due">' + a.due + '</td>' +
           '<td data-label="Status"><span class="badge ' + actionStatusBadgeClass(a.status) + '">' + a.status + '</span></td>' +
@@ -528,8 +528,8 @@
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="cancelAddAction()">&larr; Back to actions</button>' +
         '<div class="card padded" style="margin-top:16px">' +
-          '<div class="h4" style="margin:0">Add action</div>' +
-          '<div class="field" style="margin-top:16px"><div class="label">Action name</div><input class="input" id="newActionName" placeholder="What needs to happen?" /></div>' +
+          '<div class="h3" style="margin:0">Add an action</div>' +
+          '<div class="field" style="margin-top:16px"><div class="label">Action</div><input class="input" id="newActionName" placeholder="What needs to happen?" /></div>' +
           '<div class="field-grid" style="margin-top:14px">' +
             '<div class="field"><div class="label">Who</div><input class="input" id="newActionWho" placeholder="Who is responsible?" /></div>' +
             '<div class="field"><div class="label">Due</div><input class="input" id="newActionDue" placeholder="e.g. 10 Oct 2026" /></div>' +
@@ -581,13 +581,13 @@
 
         '<div class="card padded" style="margin-top:20px">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">Actions</div>' +
+            '<div class="h3" style="margin:0">Actions</div>' +
             '<button type="button" class="btn btn-primary btn-sm" onclick="startAddAction()">+ Add action</button>' +
           '</div>' +
           '<p class="small" style="margin-top:4px">' + ACTION_PLAN_INFO.actionsIntro + '</p>' +
           '<div class="table-wrap" style="margin-top:16px">' +
             '<table>' +
-              '<thead><tr><th></th><th>Action name</th><th>Who</th><th>Due</th><th>Status</th><th>Notes</th><th></th></tr></thead>' +
+              '<thead><tr><th></th><th>Action</th><th>Who</th><th>Due</th><th>Status</th><th>Notes</th><th></th></tr></thead>' +
               '<tbody>' + TENANCY_ACTIONS.map(actionRowHtml).join('') + '</tbody>' +
             '</table>' +
           '</div>' +
@@ -595,12 +595,12 @@
 
         '<div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:20px">' +
           '<div class="card padded" style="flex:1 1 320px;min-width:280px">' +
-            '<div class="h4" style="margin:0">Involved in the plan</div>' +
+            '<div class="h3" style="margin:0">Involved in the plan</div>' +
             PLAN_PEOPLE.map(function(p, i){ return personRowHtml(p, i === 0); }).join('') +
           '</div>' +
           '<div class="card padded" style="flex:1 1 320px;min-width:280px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-              '<div class="h4" style="margin:0">Key Dates</div>' +
+              '<div class="h3" style="margin:0">Key Dates</div>' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="updatePlanDates()">Add / Change</button>' +
             '</div>' +
             '<div style="margin-top:14px">' + PLAN_KEY_DATES.map(keyDateRowHtml).join('') + '</div>' +
@@ -609,7 +609,7 @@
 
         '<div class="card padded" style="margin-top:20px">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">Documents</div>' +
+            '<div class="h3" style="margin:0">Documents</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadPlanDocument()">Upload</button>' +
           '</div>' +
           PLAN_DOCUMENTS.map(planDocRowHtml).join('') +
@@ -673,7 +673,7 @@
       const n = TENANCY_DATA.nextCheckinDetail;
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Next scheduled check-in</div>' +
+          '<div class="h3" style="margin:0">Next scheduled check-in</div>' +
           '<div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap">' +
             '<div class="journey-icon primary">' + calendarIconSvg() + '</div>' +
             '<div>' +
@@ -721,7 +721,7 @@
         '<div class="card padded">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
             '<div>' +
-              '<div class="h4" style="margin:0">Documents</div>' +
+              '<div class="h3" style="margin:0">Documents</div>' +
               '<p class="small" style="margin-top:4px">All the important documents relating to your tenancy.</p>' +
             '</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadTenancyDocument()">+ Upload document</button>' +
@@ -813,7 +813,7 @@
         '<div class="card padded">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
             '<div>' +
-              '<div class="h4" style="margin:0">Messages</div>' +
+              '<div class="h3" style="margin:0">Messages</div>' +
               '<p class="small" style="margin-top:4px">Messages relating to your tenancy.</p>' +
             '</div>' +
             '<button type="button" class="btn btn-primary btn-sm" onclick="startNewMessage()">+ New message</button>' +
