@@ -496,7 +496,7 @@
           '<td data-label="Done"><input type="checkbox" class="checkbox" ' + (a.status === 'Completed' ? 'checked ' : '') + 'onchange="toggleActionDone(' + a.id + ')" aria-label="Mark ' + a.name.replace(/"/g, '&quot;') + ' as complete" /></td>' +
           '<td data-label="Action name">' + a.name + '</td>' +
           '<td data-label="Who">' + a.who + '</td>' +
-          '<td data-label="Due date">' + a.due + '</td>' +
+          '<td data-label="Due">' + a.due + '</td>' +
           '<td data-label="Status"><span class="badge ' + actionStatusBadgeClass(a.status) + '">' + a.status + '</span></td>' +
           '<td data-label="Notes">' + a.notes + '</td>' +
           '<td data-label=""><button type="button" class="btn btn-secondary btn-sm" onclick="handleActionButton(' + a.id + ')">' + actionButtonLabel(a.status) + '</button></td>' +
@@ -514,7 +514,7 @@
           '</div>' +
           '<div class="field-grid" style="margin-top:18px">' +
             detailField('Who', a.who) +
-            detailField('Due date', a.due) +
+            detailField('Due', a.due) +
           '</div>' +
           '<div style="margin-top:20px"><div class="label">Notes</div><p class="small" style="margin-top:6px">' + a.notes + '</p></div>' +
           (a.status !== 'Completed'
@@ -532,7 +532,7 @@
           '<div class="field" style="margin-top:16px"><div class="label">Action name</div><input class="input" id="newActionName" placeholder="What needs to happen?" /></div>' +
           '<div class="field-grid" style="margin-top:14px">' +
             '<div class="field"><div class="label">Who</div><input class="input" id="newActionWho" placeholder="Who is responsible?" /></div>' +
-            '<div class="field"><div class="label">Due date</div><input class="input" id="newActionDue" placeholder="e.g. 10 Oct 2026" /></div>' +
+            '<div class="field"><div class="label">Due</div><input class="input" id="newActionDue" placeholder="e.g. 10 Oct 2026" /></div>' +
           '</div>' +
           '<div class="field" style="margin-top:14px"><div class="label">Status</div>' +
             '<select class="select" id="newActionStatus">' + ACTION_STATUS_OPTIONS.map(function(s){ return '<option>' + s + '</option>'; }).join('') + '</select>' +
@@ -587,7 +587,7 @@
           '<p class="small" style="margin-top:4px">' + ACTION_PLAN_INFO.actionsIntro + '</p>' +
           '<div class="table-wrap" style="margin-top:16px">' +
             '<table>' +
-              '<thead><tr><th></th><th>Action name</th><th>Who</th><th>Due date</th><th>Status</th><th>Notes</th><th></th></tr></thead>' +
+              '<thead><tr><th></th><th>Action name</th><th>Who</th><th>Due</th><th>Status</th><th>Notes</th><th></th></tr></thead>' +
               '<tbody>' + TENANCY_ACTIONS.map(actionRowHtml).join('') + '</tbody>' +
             '</table>' +
           '</div>' +
