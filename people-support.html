@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>People &amp; Support</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">People &amp; Support</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Keep track of the people helping you with your move, and what they're helping with.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="supportNav"></div>
+        </aside>
+
+        <div class="hre-main" id="supportContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const SUPPORT_SECTIONS = [
+      { id: 'overview', title: 'People &amp; Support Overview', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'people', title: 'People Helping With My Move', icon: '<circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'professionals', title: 'Professional Support', icon: '<rect x="3" y="8" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2"/><path d="M3 13h18" stroke="currentColor" stroke-width="2"/>' },
+      { id: 'tasks', title: 'Moving Tasks &amp; Responsibilities', icon: '<rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="m8 12 2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+      { id: 'contacts', title: 'Important Contacts', icon: '<path d="M6.5 3h3l1 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1v3a2 2 0 0 1-2 2c-8 0-14.5-6.5-14.5-14.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' }
+    ];
+    let activeSupportSection = 'overview';
+
+    function selectSupportNav(id){
+      activeSupportSection = id;
+      renderSupportNav();
+      renderSupportContent();
+    }
+
+    function renderSupportNav(){
+      document.getElementById('supportNav').innerHTML = SUPPORT_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeSupportSection;
+        const caption = supportNavCaption(sec.id);
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectSupportNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div style="min-width:0">' +
+              '<div class="title">' + sec.title + '</div>' +
+              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Shared data model --------------------------------------------------
+    // Same pattern as my-money.html / home-readiness.html / my-health.html /
+    // my-area.html: one shared object, the Overview reads live from it. This
+    // is specifically about people helping with THIS MOVE - not a duplicate
+    // of the separate, wider Trusted Network feature elsewhere in the app.
+    const PEOPLE_ROLES = ['Foster carer', 'Family member', 'Friend', 'Personal Adviser', 'Social worker', 'Key worker', 'Housing worker', 'Support worker', 'Other trusted person'];
+    const PROFESSIONAL_ROLES = ['Personal Adviser / Leaving Care Team', 'Social worker', 'Housing officer/provider', 'Support worker/key worker', 'Benefits adviser', 'Education/work adviser', 'Other professional'];
+    const TASK_TYPES = ['Finding/confirming accommodation', 'Tenancy paperwork', 'Benefits', 'Moving costs', 'Furniture', 'Packing', 'Transport', 'Utilities', 'Setting up the new home', 'Other'];
+    const TASK_STATUSES = ['Not started', 'In progress', 'Complete'];
+    const CONTACT_TYPES = ['Landlord/housing provider', 'Local authority', 'Leaving Care Team', 'Emergency/out-of-hours housing support', 'Moving company/transport', 'Other important move-related contact'];
+
+    let nextSupportRowId = 1;
+
+    const SUPPORT_DATA = {
+      people: [
+        { id: nextSupportRowId++, role: 'Foster carer', name: 'Denise Hartley', organisation: '', phone: '0115 555 0121', email: '', helpingWith: 'Emotional support and help with packing', notes: '' }
+      ],
+      professionals: [
+        { id: nextSupportRowId++, role: 'Personal Adviser / Leaving Care Team', name: 'Jamie Clarke', organisation: 'Hazelton City Council', phone: '0115 555 0171', email: 'jamie.clarke@hazelton.example.gov.uk', helpingWith: 'Tenancy paperwork and benefits applications', notes: '' }
+      ],
+      tasks: [
+        { id: nextSupportRowId++, task: 'Finding/confirming accommodation', person: 'Jamie Clarke (PA)', status: 'Complete', notes: '' },
+        { id: nextSupportRowId++, task: 'Tenancy paperwork', person: 'Jamie Clarke (PA)', status: 'In progress', notes: '' },
+        { id: nextSupportRowId++, task: 'Furniture', person: 'Denise Hartley (Foster carer)', status: 'Not started', notes: '' }
+      ],
+      contacts: [
+        { id: nextSupportRowId++, type: 'Leaving Care Team', name: 'Hazelton Leaving Care Team', phone: '0115 555 0160', email: '', notes: 'Main office number' }
+      ]
+    };
+
+    function tasksIncompleteCount(){ return SUPPORT_DATA.tasks.filter(function(t){ return t.status !== 'Complete'; }).length; }
+    function supportOutstandingCount(){
+      let count = 0;
+      if (SUPPORT_DATA.people.length === 0) count++;
+      if (SUPPORT_DATA.professionals.length === 0) count++;
+      if (SUPPORT_DATA.contacts.length === 0) count++;
+      count += tasksIncompleteCount();
+      return count;
+    }
+    function supportNavCaption(id){
+      if (id === 'people') return SUPPORT_DATA.people.length ? (SUPPORT_DATA.people.length + ' saved') : 'None saved';
+      if (id === 'professionals') return SUPPORT_DATA.professionals.length ? (SUPPORT_DATA.professionals.length + ' saved') : 'None saved';
+      if (id === 'tasks') return (SUPPORT_DATA.tasks.length - tasksIncompleteCount()) + ' of ' + SUPPORT_DATA.tasks.length + ' complete';
+      if (id === 'contacts') return SUPPORT_DATA.contacts.length ? (SUPPORT_DATA.contacts.length + ' saved') : 'None saved';
+      return '';
+    }
+
+    function markerSvg(status){
+      if (status === 'completed'){
+        return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+      return '';
+    }
+
+    function supportChecklistRow(title, added, caption, sectionId){
+      return (
+        '<div class="curr-item" style="cursor:default;align-items:center">' +
+          '<div class="marker ' + (added ? 'completed' : 'not-started') + '">' + (added ? markerSvg('completed') : '') + '</div>' +
+          '<div class="curr-item-body"><div class="curr-item-title">' + title + '</div>' +
+            (caption ? '<div class="curr-item-caption">' + caption + '</div>' : '') +
+          '</div>' +
+          '<button type="button" class="btn btn-secondary btn-sm" onclick="selectSupportNav(\'' + sectionId + '\')">View</button>' +
+        '</div>'
+      );
+    }
+
+    function renderSupportStatusBox(){
+      const outstanding = supportOutstandingCount();
+      const cfg = outstanding === 0
+        ? { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', titleColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>', title: "You're well supported", text: "You've added people, professional support and contacts, and your moving tasks are complete." }
+        : { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>', title: 'You have ' + outstanding + (outstanding === 1 ? ' thing' : ' things') + ' still to confirm', text: 'There are still a few people or tasks to confirm before your move.' };
+      return (
+        '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+            '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+            '</div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + cfg.text + '</p></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- People & Support Overview (tab 1) -----------------------------------
+    function stepSupportOverview(){
+      const rows =
+        supportChecklistRow('People Helping With My Move', SUPPORT_DATA.people.length > 0, SUPPORT_DATA.people.length + ' saved', 'people') +
+        supportChecklistRow('Professional Support', SUPPORT_DATA.professionals.length > 0, SUPPORT_DATA.professionals.length + ' saved', 'professionals') +
+        supportChecklistRow('Moving Tasks &amp; Responsibilities', tasksIncompleteCount() === 0 && SUPPORT_DATA.tasks.length > 0, (SUPPORT_DATA.tasks.length - tasksIncompleteCount()) + ' of ' + SUPPORT_DATA.tasks.length + ' complete', 'tasks') +
+        supportChecklistRow('Important Contacts', SUPPORT_DATA.contacts.length > 0, SUPPORT_DATA.contacts.length + ' saved', 'contacts');
+
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">People &amp; Support Overview</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="selectSupportNav(\'people\')">Update details</button>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">A summary of the people and support helping with your move.</p>' +
+
+          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:16px">' + rows + '</div>' +
+        '</div>' +
+
+        renderSupportStatusBox() +
+
+        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+          '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- People Helping With My Move (tab 2) --------------------------------
+    function updatePersonField(id, field, value){
+      const row = SUPPORT_DATA.people.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function removePerson(id){
+      SUPPORT_DATA.people = SUPPORT_DATA.people.filter(function(r){ return r.id !== id; });
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function addPerson(){
+      SUPPORT_DATA.people.push({ id: nextSupportRowId++, role: PEOPLE_ROLES[0], name: '', organisation: '', phone: '', email: '', helpingWith: '', notes: '' });
+      renderSupportNav();
+      renderSupportContent();
+    }
+
+    function personCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Role / relationship</div>' +
+              '<select class="select" onchange="updatePersonField(' + row.id + ',\'role\',this.value)">' +
+                PEOPLE_ROLES.map(function(r){ return '<option' + (r === row.role ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove person" onclick="removePerson(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updatePersonField(' + row.id + ',\'name\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Organisation (optional)</div><input class="input" type="text" value="' + row.organisation + '" onchange="updatePersonField(' + row.id + ',\'organisation\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updatePersonField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updatePersonField(' + row.id + ',\'email\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">What are they helping with?</div><textarea class="textarea" style="min-height:60px" onchange="updatePersonField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updatePersonField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepPeople(){
+      const cards = SUPPORT_DATA.people.length
+        ? SUPPORT_DATA.people.map(personCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added anyone yet. Add the people actively helping with your move - for example a foster carer or a friend.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">People Helping With My Move</div>' +
+          '<p class="intro">These are the people around you helping with your move - not your full trusted network, just who\'s involved this time.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addPerson()">+ Add another person</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'overview\')">Back to People &amp; Support</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'professionals\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Professional Support (tab 3) ----------------------------------------
+    function updateProfessionalField(id, field, value){
+      const row = SUPPORT_DATA.professionals.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function removeProfessional(id){
+      SUPPORT_DATA.professionals = SUPPORT_DATA.professionals.filter(function(r){ return r.id !== id; });
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function addProfessional(){
+      SUPPORT_DATA.professionals.push({ id: nextSupportRowId++, role: PROFESSIONAL_ROLES[0], name: '', organisation: '', phone: '', email: '', helpingWith: '', notes: '' });
+      renderSupportNav();
+      renderSupportContent();
+    }
+
+    function professionalCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Role</div>' +
+              '<select class="select" onchange="updateProfessionalField(' + row.id + ',\'role\',this.value)">' +
+                PROFESSIONAL_ROLES.map(function(r){ return '<option' + (r === row.role ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove professional" onclick="removeProfessional(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateProfessionalField(' + row.id + ',\'name\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Organisation</div><input class="input" type="text" value="' + row.organisation + '" onchange="updateProfessionalField(' + row.id + ',\'organisation\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateProfessionalField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateProfessionalField(' + row.id + ',\'email\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">What are they helping with?</div><textarea class="textarea" style="min-height:60px" onchange="updateProfessionalField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateProfessionalField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepProfessionals(){
+      const cards = SUPPORT_DATA.professionals.length
+        ? SUPPORT_DATA.professionals.map(professionalCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any professional support yet. Add your first contact below - for example your Personal Adviser.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Professional Support</div>' +
+          '<p class="intro">Save the professionals specifically involved in your move, and what they\'re helping with.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addProfessional()">+ Add another professional</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'people\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'tasks\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Moving Tasks & Responsibilities (tab 4) ------------------------------
+    function updateTaskField(id, field, value){
+      const row = SUPPORT_DATA.tasks.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function removeTask(id){
+      SUPPORT_DATA.tasks = SUPPORT_DATA.tasks.filter(function(r){ return r.id !== id; });
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function addTask(){
+      SUPPORT_DATA.tasks.push({ id: nextSupportRowId++, task: TASK_TYPES[0], person: '', status: 'Not started', notes: '' });
+      renderSupportNav();
+      renderSupportContent();
+    }
+
+    function taskStatusBadgeClass(status){
+      if (status === 'Complete') return 'badge badge-success';
+      if (status === 'In progress') return 'badge badge-warning';
+      return 'badge badge-neutral';
+    }
+
+    function taskCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Task</div>' +
+              '<select class="select" onchange="updateTaskField(' + row.id + ',\'task\',this.value)">' +
+                TASK_TYPES.map(function(t){ return '<option' + (t === row.task ? ' selected' : '') + '>' + t + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove task" onclick="removeTask(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Person responsible / helping</div><input class="input" type="text" value="' + row.person + '" onchange="updateTaskField(' + row.id + ',\'person\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Status</div><select class="select" onchange="updateTaskField(' + row.id + ',\'status\',this.value)">' +
+                TASK_STATUSES.map(function(s){ return '<option' + (s === row.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') +
+              '</select></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateTaskField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div style="margin-top:12px"><span class="' + taskStatusBadgeClass(row.status) + '">' + row.status + '</span></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepTasks(){
+      const cards = SUPPORT_DATA.tasks.length
+        ? SUPPORT_DATA.tasks.map(taskCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any moving tasks yet. Add your first one below.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Moving Tasks &amp; Responsibilities</div>' +
+          '<p class="intro">Keep track of who\'s helping with the important jobs, and how things are progressing.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addTask()">+ Add another task</button>' +
+          '<div style="margin-top:8px">' + summaryRow('Tasks complete', (SUPPORT_DATA.tasks.length - tasksIncompleteCount()) + ' of ' + SUPPORT_DATA.tasks.length, { total: true, big: true }) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'professionals\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'contacts\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Important Contacts (tab 5) --------------------------------------------
+    function updateContactField(id, field, value){
+      const row = SUPPORT_DATA.contacts.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function removeContact(id){
+      SUPPORT_DATA.contacts = SUPPORT_DATA.contacts.filter(function(r){ return r.id !== id; });
+      renderSupportNav();
+      renderSupportContent();
+    }
+    function addContact(){
+      SUPPORT_DATA.contacts.push({ id: nextSupportRowId++, type: CONTACT_TYPES[0], name: '', phone: '', email: '', notes: '' });
+      renderSupportNav();
+      renderSupportContent();
+    }
+
+    function contactCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:320px;flex:1"><div class="label">Type of contact</div>' +
+              '<select class="select" onchange="updateContactField(' + row.id + ',\'type\',this.value)">' +
+                CONTACT_TYPES.map(function(t){ return '<option' + (t === row.type ? ' selected' : '') + '>' + t + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove contact" onclick="removeContact(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateContactField(' + row.id + ',\'name\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateContactField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateContactField(' + row.id + ',\'email\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateContactField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepContacts(){
+      const cards = SUPPORT_DATA.contacts.length
+        ? SUPPORT_DATA.contacts.map(contactCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t saved any move-related contacts yet. Add your first one below.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Important Contacts</div>' +
+          '<p class="intro">A small number of contacts you might need regularly during your move - not your wider trusted network.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addContact()">+ Add another contact</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'tasks\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'overview\')">View People &amp; Support Overview</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Shared row helper (same shape as my-money.html's summaryRow) -------
+    function summaryRow(label, value, opts){
+      opts = opts || {};
+      const cls = ['summary-row'];
+      if (opts.total) cls.push('total');
+      if (opts.tight) cls.push('tight');
+      if (opts.big) cls.push('big');
+      return (
+        '<div class="' + cls.join(' ') + '">' +
+          '<div class="label">' + label + '</div>' +
+          '<div class="value">' + value + '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderSupportContent(){
+      const renderers = {
+        overview: stepSupportOverview,
+        people: stepPeople,
+        professionals: stepProfessionals,
+        tasks: stepTasks,
+        contacts: stepContacts
+      };
+      document.getElementById('supportContent').innerHTML = renderers[activeSupportSection]();
+    }
+
+    renderSupportNav();
+    renderSupportContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

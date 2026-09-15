@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Health</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">My Health</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Keep a simple record of your healthcare services, so you always know where to go and who to contact.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="healthNav"></div>
+        </aside>
+
+        <div class="hre-main" id="healthContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const HEALTH_SECTIONS = [
+      { id: 'overview', title: 'My Health Overview', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'gp', title: 'GP', icon: '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'dentist', title: 'Dentist', icon: '<path d="M12 3c-2.5 0-4 1.5-4 4 0 1-.3 2-.6 3-.5 1.7-.9 3.3-.9 5 0 2 .8 6 2 6 1 0 1-3 1.3-5 .2-1 .5-2 1.2-2s1 1 1.2 2c.3 2 .3 5 1.3 5 1.2 0 2-4 2-6 0-1.7-.4-3.3-.9-5-.3-1-.6-2-.6-3 0-2.5-1.5-4-4-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
+      { id: 'optician', title: 'Optician', icon: '<circle cx="6" cy="14" r="3" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="14" r="3" stroke="currentColor" stroke-width="2"/><path d="M9 13h6M3 13c0-3 1-5 3-5M21 13c0-3-1-5-3-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'other', title: 'Other Health Services', icon: '<rect x="4" y="4" width="16" height="4" rx="1" stroke="currentColor" stroke-width="2"/><rect x="4" y="10" width="16" height="4" rx="1" stroke="currentColor" stroke-width="2"/><rect x="4" y="16" width="16" height="4" rx="1" stroke="currentColor" stroke-width="2"/>' }
+    ];
+    let activeHealthSection = 'overview';
+
+    function selectHealthNav(id){
+      activeHealthSection = id;
+      renderHealthNav();
+      renderHealthContent();
+    }
+
+    function renderHealthNav(){
+      document.getElementById('healthNav').innerHTML = HEALTH_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeHealthSection;
+        const caption = healthNavCaption(sec.id);
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectHealthNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div style="min-width:0">' +
+              '<div class="title">' + sec.title + '</div>' +
+              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Shared data model --------------------------------------------------
+    // Same pattern as my-money.html / home-readiness.html: one shared
+    // object, the Overview reads live from it, every section updates it
+    // directly. This is a personal reference of contacts, not a medical
+    // record - no clinical or diagnostic fields are captured anywhere.
+    const OTHER_SERVICE_CATEGORIES = [
+      'Pharmacy', 'Mental health / wellbeing support', 'Sexual health service',
+      'Community health service', 'Specialist health service',
+      'Emergency / urgent care information', 'Other'
+    ];
+
+    function blankProvider(){
+      return { added: false, name: '', address: '', phone: '', email: '', website: '', contact: '', notes: '', current: true };
+    }
+
+    let nextHealthRowId = 1;
+
+    const HEALTH_DATA = {
+      gp: Object.assign(blankProvider(), {
+        added: true, name: 'Riverside Medical Practice', address: '12 Riverside Road, Nottingham, NG1 2AB',
+        phone: '0115 555 0198', email: 'reception@riversidemedical.example.nhs.uk', website: 'www.riversidemedical.example.nhs.uk',
+        contact: '', notes: 'Registered here since moving into supported accommodation.', current: true
+      }),
+      dentist: Object.assign(blankProvider(), {
+        added: true, name: 'Bright Smile Dental Practice', address: '4 High Street, Nottingham, NG1 5DE',
+        phone: '0115 555 0142', email: '', website: '', contact: 'Dr Owusu', notes: '', current: true
+      }),
+      optician: blankProvider(),
+      other: [
+        { id: nextHealthRowId++, category: 'Pharmacy', name: 'Wellbeing Pharmacy', address: '8 High Street, Nottingham, NG1 5DE', phone: '0115 555 0177', email: '', website: '', contact: '', notes: 'Usual pharmacy for prescriptions.', current: true }
+      ]
+    };
+
+    function isProviderAdded(p){ return !!(p && p.added && p.name); }
+    function markerSvg(status){
+      if (status === 'completed'){
+        return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+      return '';
+    }
+    function healthOverallStatus(){
+      return (isProviderAdded(HEALTH_DATA.gp) && isProviderAdded(HEALTH_DATA.dentist) && isProviderAdded(HEALTH_DATA.optician)) ? 'ready' : 'incomplete';
+    }
+
+    function healthNavCaption(id){
+      if (id === 'gp') return isProviderAdded(HEALTH_DATA.gp) ? 'Added' : 'Not added';
+      if (id === 'dentist') return isProviderAdded(HEALTH_DATA.dentist) ? 'Added' : 'Not added';
+      if (id === 'optician') return isProviderAdded(HEALTH_DATA.optician) ? 'Added' : 'Not added';
+      if (id === 'other') return HEALTH_DATA.other.length ? (HEALTH_DATA.other.length + ' added') : 'None added';
+      return '';
+    }
+
+    function renderHealthStatusBox(){
+      const status = healthOverallStatus();
+      const cfg = status === 'ready'
+        ? { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', titleColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>', title: 'Your health contacts are up to date', text: "You've added your GP, dentist and optician details." }
+        : { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>', title: 'Your health information needs a few more details', text: 'Add the missing services below so you always know who to contact.' };
+      return (
+        '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+            '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+            '</div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + cfg.text + '</p></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- My Health Overview (tab 1) -----------------------------------------
+    function healthChecklistRow(title, added, caption, sectionId){
+      return (
+        '<div class="curr-item" style="cursor:default;align-items:center">' +
+          '<div class="marker ' + (added ? 'completed' : 'not-started') + '">' + (added ? markerSvg('completed') : '') + '</div>' +
+          '<div class="curr-item-body"><div class="curr-item-title">' + title + '</div>' +
+            (caption ? '<div class="curr-item-caption">' + caption + '</div>' : '') +
+          '</div>' +
+          '<button type="button" class="btn btn-secondary btn-sm" onclick="selectHealthNav(\'' + sectionId + '\')">View</button>' +
+        '</div>'
+      );
+    }
+
+    function stepHealthOverview(){
+      const rows =
+        healthChecklistRow('GP', isProviderAdded(HEALTH_DATA.gp), isProviderAdded(HEALTH_DATA.gp) ? '' : 'Not added yet', 'gp') +
+        healthChecklistRow('Dentist', isProviderAdded(HEALTH_DATA.dentist), isProviderAdded(HEALTH_DATA.dentist) ? '' : 'Not added yet', 'dentist') +
+        healthChecklistRow('Optician', isProviderAdded(HEALTH_DATA.optician), isProviderAdded(HEALTH_DATA.optician) ? '' : 'Not added yet', 'optician') +
+        healthChecklistRow('Other Health Services', HEALTH_DATA.other.length > 0, HEALTH_DATA.other.length + ' added', 'other');
+
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">My Health Overview</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="selectHealthNav(\'gp\')">Update details</button>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">A summary of the healthcare services you\'ve added. Tap View to open a section.</p>' +
+
+          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:16px">' + rows + '</div>' +
+        '</div>' +
+
+        renderHealthStatusBox() +
+
+        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+          '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Shared provider field set (GP / Dentist / Optician / Other) --------
+    function providerFieldsHtml(p, updateFn){
+      return (
+        '<div class="field"><div class="label">Practice / provider name</div>' +
+          '<input class="input" type="text" value="' + p.name + '" onchange="' + updateFn + '(\'name\', this.value)" placeholder="e.g. Riverside Medical Practice" />' +
+        '</div>' +
+        '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
+          '<textarea class="textarea" style="min-height:70px" onchange="' + updateFn + '(\'address\', this.value)" placeholder="Full address, so you can find it again quickly">' + p.address + '</textarea>' +
+        '</div>' +
+        '<div class="field-grid">' +
+          '<div class="field"><div class="label">Telephone number</div><input class="input" type="tel" value="' + p.phone + '" onchange="' + updateFn + '(\'phone\', this.value)" /></div>' +
+          '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + p.email + '" onchange="' + updateFn + '(\'email\', this.value)" /></div>' +
+          '<div class="field"><div class="label">Website (optional)</div><input class="input" type="text" value="' + p.website + '" onchange="' + updateFn + '(\'website\', this.value)" /></div>' +
+          '<div class="field"><div class="label">Named contact / clinician (optional)</div><input class="input" type="text" value="' + p.contact + '" onchange="' + updateFn + '(\'contact\', this.value)" /></div>' +
+        '</div>' +
+        '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div>' +
+          '<textarea class="textarea" style="min-height:70px" onchange="' + updateFn + '(\'notes\', this.value)" placeholder="Anything useful to remember, e.g. opening hours or how to book">' + p.notes + '</textarea>' +
+        '</div>' +
+        '<div class="field" style="margin-top:16px;max-width:320px"><div class="label">Is this your current provider?</div>' +
+          '<div class="segmented">' +
+            '<button type="button" class="seg-btn yes' + (p.current ? ' on' : '') + '" onclick="' + updateFn + '(\'current\', true)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>' +
+            '<button type="button" class="seg-btn no' + (!p.current ? ' on' : '') + '" onclick="' + updateFn + '(\'current\', false)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> No</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function updateGpField(field, value){
+      HEALTH_DATA.gp[field] = value;
+      HEALTH_DATA.gp.added = !!HEALTH_DATA.gp.name;
+      renderHealthNav();
+      renderHealthContent();
+    }
+    function updateDentistField(field, value){
+      HEALTH_DATA.dentist[field] = value;
+      HEALTH_DATA.dentist.added = !!HEALTH_DATA.dentist.name;
+      renderHealthNav();
+      renderHealthContent();
+    }
+    function updateOpticianField(field, value){
+      HEALTH_DATA.optician[field] = value;
+      HEALTH_DATA.optician.added = !!HEALTH_DATA.optician.name;
+      renderHealthNav();
+      renderHealthContent();
+    }
+
+    function stepGp(){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">GP</div>' +
+          '<p class="intro">Add your GP practice details here, so you always know where to go and who to call.</p>' +
+          providerFieldsHtml(HEALTH_DATA.gp, 'updateGpField') +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'overview\')">Back to My Health</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'dentist\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    function stepDentist(){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Dentist</div>' +
+          '<p class="intro">Add your dentist details here, so they\'re easy to find when you need an appointment.</p>' +
+          providerFieldsHtml(HEALTH_DATA.dentist, 'updateDentistField') +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'gp\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'optician\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    function stepOptician(){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Optician</div>' +
+          '<p class="intro">Add your optician details here, so you know where to go for eye tests or glasses.</p>' +
+          providerFieldsHtml(HEALTH_DATA.optician, 'updateOpticianField') +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'dentist\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'other\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Other Health Services (tab 5) --------------------------------------
+    function updateOtherField(id, field, value){
+      const row = HEALTH_DATA.other.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderHealthNav();
+      renderHealthContent();
+    }
+    function removeOtherService(id){
+      HEALTH_DATA.other = HEALTH_DATA.other.filter(function(r){ return r.id !== id; });
+      renderHealthNav();
+      renderHealthContent();
+    }
+    function addOtherService(){
+      HEALTH_DATA.other.push(Object.assign(blankProvider(), { id: nextHealthRowId++, category: OTHER_SERVICE_CATEGORIES[0] }));
+      renderHealthNav();
+      renderHealthContent();
+    }
+
+    function otherServiceCardHtml(row, index){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:320px;flex:1"><div class="label">Type of service</div>' +
+              '<select class="select" onchange="updateOtherField(' + row.id + ',\'category\',this.value)">' +
+                OTHER_SERVICE_CATEGORIES.map(function(c){ return '<option' + (c === row.category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove service" onclick="removeOtherService(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field"><div class="label">Service / provider name</div>' +
+              '<input class="input" type="text" value="' + row.name + '" onchange="updateOtherField(' + row.id + ',\'name\', this.value)" />' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
+              '<textarea class="textarea" style="min-height:70px" onchange="updateOtherField(' + row.id + ',\'address\', this.value)">' + row.address + '</textarea>' +
+            '</div>' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Telephone number</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateOtherField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateOtherField(' + row.id + ',\'email\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Website (optional)</div><input class="input" type="text" value="' + row.website + '" onchange="updateOtherField(' + row.id + ',\'website\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Named contact (optional)</div><input class="input" type="text" value="' + row.contact + '" onchange="updateOtherField(' + row.id + ',\'contact\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div>' +
+              '<textarea class="textarea" style="min-height:70px" onchange="updateOtherField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepOther(){
+      const cards = HEALTH_DATA.other.length
+        ? HEALTH_DATA.other.map(otherServiceCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any other health services yet. Add your first one below - for example a pharmacy or wellbeing support service.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Other Health Services</div>' +
+          '<p class="intro">Add any other health services that are relevant to you, such as a pharmacy or wellbeing support service.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addOtherService()">+ Add another service</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'optician\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'overview\')">View My Health Overview</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Shared row helper (same shape as my-money.html's summaryRow) -------
+    function summaryRow(label, value, opts){
+      opts = opts || {};
+      const cls = ['summary-row'];
+      if (opts.total) cls.push('total');
+      if (opts.tight) cls.push('tight');
+      if (opts.big) cls.push('big');
+      return (
+        '<div class="' + cls.join(' ') + '">' +
+          '<div class="label">' + label + '</div>' +
+          '<div class="value">' + value + '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderHealthContent(){
+      const renderers = {
+        overview: stepHealthOverview,
+        gp: stepGp,
+        dentist: stepDentist,
+        optician: stepOptician,
+        other: stepOther
+      };
+      document.getElementById('healthContent').innerHTML = renderers[activeHealthSection]();
+    }
+
+    renderHealthNav();
+    renderHealthContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

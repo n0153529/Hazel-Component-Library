@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Area</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Firm Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">My Area</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">Know where important things are, how to get around, and who your support is.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="areaNav"></div>
+        </aside>
+
+        <div class="hre-main" id="areaContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const AREA_SECTIONS = [
+      { id: 'overview', title: 'My Area Overview', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'transport', title: 'Transport', icon: '<rect x="4" y="5" width="16" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 12h16" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="18" r="1.5" fill="currentColor"/><circle cx="16" cy="18" r="1.5" fill="currentColor"/>' },
+      { id: 'places', title: 'Important Places', icon: '<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/>' },
+      { id: 'support', title: 'My Support Network', icon: '<circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'community', title: 'Community &amp; Local Life', icon: '<path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
+      { id: 'emergency', title: 'Emergency Help', icon: '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor"/>' }
+    ];
+    let activeAreaSection = 'overview';
+
+    function selectAreaNav(id){
+      activeAreaSection = id;
+      renderAreaNav();
+      renderAreaContent();
+    }
+
+    function renderAreaNav(){
+      document.getElementById('areaNav').innerHTML = AREA_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeAreaSection;
+        const caption = areaNavCaption(sec.id);
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectAreaNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div style="min-width:0">' +
+              '<div class="title">' + sec.title + '</div>' +
+              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Shared data model --------------------------------------------------
+    // Same pattern as my-money.html / home-readiness.html / my-health.html:
+    // one shared object, the Overview reads live from it. This focuses on
+    // location, transport, local services and support networks only - it
+    // deliberately doesn't repeat anything already captured in My Health or
+    // My Home.
+    const PLACE_CATEGORIES = ['Health', 'Education & work', 'Housing & care', 'Everyday services', 'Shopping', 'Other'];
+    const SUPPORT_ROLES = ['Personal Adviser', 'Leaving Care Team', 'Social worker', 'Key worker', 'Housing support worker', 'College/training contact', 'Careers adviser', 'Former foster carer', 'Family/friend/trusted adult', 'Other'];
+    const COMMUNITY_CATEGORIES = ['Parks', 'Gyms', 'Sports clubs', 'Youth/community groups', 'Libraries', 'Leisure centres', 'Volunteering', 'Hobbies/clubs', 'Cultural/community activities', 'Other'];
+
+    let nextAreaRowId = 1;
+
+    const AREA_DATA = {
+      areaName: 'Nottingham City Centre',
+      postcode: 'NG1 1AB',
+      transport: {
+        busStop: 'Broadmarsh Bus Station - 5 minute walk',
+        trainStation: 'Nottingham Railway Station',
+        mainRoutes: 'Bus 44 to college, tram Line 1 into the city centre',
+        travelPass: 'NCT Unirider pass, renews monthly',
+        regularJourneys: 'College Monday to Friday, PA office every two weeks',
+        travelMethod: 'Usually walk or bus'
+      },
+      places: [
+        { id: nextAreaRowId++, category: 'Housing & care', name: 'Leaving Care Team Office', address: '15 Talbot Street, Nottingham, NG1 5GG', phone: '0115 555 0160', website: '', hours: 'Mon-Fri 9am-5pm', notes: '' }
+      ],
+      support: [
+        { id: nextAreaRowId++, name: 'Jamie Clarke', role: 'Personal Adviser', organisation: 'Hazelton City Council', phone: '0115 555 0171', email: 'jamie.clarke@hazelton.example.gov.uk', location: 'Talbot Street office', notes: 'Best contacted by phone on weekday mornings.', important: true }
+      ],
+      community: [
+        { id: nextAreaRowId++, category: 'Leisure centres', name: 'Riverside Leisure Centre', address: '', notes: 'Has a student discount on the gym.' }
+      ],
+      emergency: 'Out-of-hours housing line: 0115 555 0199 (evenings and weekends).'
+    };
+
+    function transportAdded(){
+      const t = AREA_DATA.transport;
+      return !!(t.busStop || t.trainStation || t.mainRoutes || t.travelPass || t.regularJourneys || t.travelMethod);
+    }
+    function emergencyAdded(){ return !!(AREA_DATA.emergency && AREA_DATA.emergency.trim()); }
+    function areaOutstandingCount(){
+      let count = 0;
+      if (!transportAdded()) count++;
+      if (AREA_DATA.places.length === 0) count++;
+      if (AREA_DATA.support.length === 0) count++;
+      if (!emergencyAdded()) count++;
+      return count;
+    }
+    function areaNavCaption(id){
+      if (id === 'transport') return transportAdded() ? 'Added' : 'Not added yet';
+      if (id === 'places') return AREA_DATA.places.length ? (AREA_DATA.places.length + ' saved') : 'None saved';
+      if (id === 'support') return AREA_DATA.support.length ? (AREA_DATA.support.length + ' saved') : 'None saved';
+      if (id === 'community') return AREA_DATA.community.length ? (AREA_DATA.community.length + ' saved') : 'None saved';
+      if (id === 'emergency') return emergencyAdded() ? 'Added' : 'Not added yet';
+      return '';
+    }
+
+    function markerSvg(status){
+      if (status === 'completed'){
+        return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+      return '';
+    }
+
+    function areaChecklistRow(title, added, caption, sectionId){
+      return (
+        '<div class="curr-item" style="cursor:default;align-items:center">' +
+          '<div class="marker ' + (added ? 'completed' : 'not-started') + '">' + (added ? markerSvg('completed') : '') + '</div>' +
+          '<div class="curr-item-body"><div class="curr-item-title">' + title + '</div>' +
+            (caption ? '<div class="curr-item-caption">' + caption + '</div>' : '') +
+          '</div>' +
+          '<button type="button" class="btn btn-secondary btn-sm" onclick="selectAreaNav(\'' + sectionId + '\')">View</button>' +
+        '</div>'
+      );
+    }
+
+    function renderAreaStatusBox(){
+      const outstanding = areaOutstandingCount();
+      const cfg = outstanding === 0
+        ? { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', titleColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>', title: 'Your area information is up to date', text: "You've added your transport details, important places and support network." }
+        : { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>', title: 'You have ' + outstanding + (outstanding === 1 ? ' thing' : ' things') + ' still to add', text: 'Add the missing sections below so everything is easy to find when you need it.' };
+      return (
+        '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+            '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+            '</div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + cfg.text + '</p></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- My Area Overview (tab 1) --------------------------------------------
+    function updateAreaField(field, value){
+      AREA_DATA[field] = value;
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function updateEmergency(value){
+      AREA_DATA.emergency = value;
+    }
+
+    function stepAreaOverview(){
+      const rows =
+        areaChecklistRow('Transport', transportAdded(), transportAdded() ? '' : 'Not added yet', 'transport') +
+        areaChecklistRow('Important Places', AREA_DATA.places.length > 0, AREA_DATA.places.length + ' saved', 'places') +
+        areaChecklistRow('My Support Network', AREA_DATA.support.length > 0, AREA_DATA.support.length + ' saved', 'support') +
+        areaChecklistRow('Community &amp; Local Life', AREA_DATA.community.length > 0, AREA_DATA.community.length + ' saved', 'community') +
+        areaChecklistRow('Emergency Help', emergencyAdded(), emergencyAdded() ? '' : 'Not added yet', 'emergency');
+
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">My Area Overview</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="selectAreaNav(\'transport\')">Update details</button>' +
+          '</div>' +
+          '<p class="small" style="margin-top:4px">A summary of your local area, transport and support network.</p>' +
+
+          '<div class="field-grid" style="margin-top:16px">' +
+            '<div class="field"><div class="label">Where you live</div><input class="input" type="text" value="' + AREA_DATA.areaName + '" onchange="updateAreaField(\'areaName\', this.value)" /></div>' +
+            '<div class="field"><div class="label">Postcode</div><input class="input" type="text" value="' + AREA_DATA.postcode + '" onchange="updateAreaField(\'postcode\', this.value)" /></div>' +
+          '</div>' +
+
+          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:20px">' + rows + '</div>' +
+        '</div>' +
+
+        renderAreaStatusBox() +
+
+        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+          '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Emergency Help (tab 6) -----------------------------------------------
+    // Deliberately minimal - just one field. A fuller emergency / out-of-hours
+    // contact section belongs on Planning My Move - People & Support, so this
+    // stays a simple personal note rather than duplicating that.
+    function stepEmergency(){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Emergency Help</div>' +
+          '<p class="intro">Space for emergency or out-of-hours contacts, such as your local authority\'s emergency duty team or an out-of-hours housing line.</p>' +
+          '<textarea class="textarea" style="min-height:100px" onchange="updateEmergency(this.value)">' + AREA_DATA.emergency + '</textarea>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectAreaNav(\'community\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectAreaNav(\'overview\')">View My Area Overview</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Transport (tab 2) ---------------------------------------------------
+    const TRANSPORT_FIELDS = [
+      { key: 'busStop', label: 'Nearest bus stop', type: 'input' },
+      { key: 'trainStation', label: 'Train / tram station', type: 'input' },
+      { key: 'mainRoutes', label: 'Main routes you use', type: 'textarea' },
+      { key: 'travelPass', label: 'Travel pass information', type: 'input' },
+      { key: 'regularJourneys', label: 'Important regular journeys', type: 'textarea' },
+      { key: 'travelMethod', label: 'How you normally travel to college, work or support services', type: 'textarea' }
+    ];
+
+    function updateTransportField(key, value){
+      AREA_DATA.transport[key] = value;
+      renderAreaNav();
+      renderAreaContent();
+    }
+
+    function transportFieldHtml(f){
+      const value = AREA_DATA.transport[f.key];
+      if (f.type === 'textarea'){
+        return '<div class="field" style="margin-top:16px"><div class="label">' + f.label + '</div><textarea class="textarea" style="min-height:70px" onchange="updateTransportField(\'' + f.key + '\', this.value)">' + value + '</textarea></div>';
+      }
+      return '<div class="field" style="margin-top:16px"><div class="label">' + f.label + '</div><input class="input" type="text" value="' + value + '" onchange="updateTransportField(\'' + f.key + '\', this.value)" /></div>';
+    }
+
+    function stepTransport(){
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Transport</div>' +
+          '<p class="intro">Save your usual transport details here, so you always know how to get where you need to go.</p>' +
+          TRANSPORT_FIELDS.map(transportFieldHtml).join('') +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectAreaNav(\'overview\')">Back to My Area</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectAreaNav(\'places\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Important Places (tab 3) --------------------------------------------
+    function updatePlaceField(id, field, value){
+      const row = AREA_DATA.places.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function removePlace(id){
+      AREA_DATA.places = AREA_DATA.places.filter(function(r){ return r.id !== id; });
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function addPlace(){
+      AREA_DATA.places.push({ id: nextAreaRowId++, category: PLACE_CATEGORIES[0], name: '', address: '', phone: '', website: '', hours: '', notes: '' });
+      renderAreaNav();
+      renderAreaContent();
+    }
+
+    function placeCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Category</div>' +
+              '<select class="select" onchange="updatePlaceField(' + row.id + ',\'category\',this.value)">' +
+                PLACE_CATEGORIES.map(function(c){ return '<option' + (c === row.category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove place" onclick="removePlace(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updatePlaceField(' + row.id + ',\'name\', this.value)" placeholder="e.g. Jobcentre, college, pharmacy" /></div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Address</div><textarea class="textarea" style="min-height:60px" onchange="updatePlaceField(' + row.id + ',\'address\', this.value)">' + row.address + '</textarea></div>' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updatePlaceField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Website</div><input class="input" type="text" value="' + row.website + '" onchange="updatePlaceField(' + row.id + ',\'website\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Opening hours</div><input class="input" type="text" value="' + row.hours + '" onchange="updatePlaceField(' + row.id + ',\'hours\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updatePlaceField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepPlaces(){
+      const cards = AREA_DATA.places.length
+        ? AREA_DATA.places.map(placeCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t saved any places yet. Add your first one below - for example your GP, college or the Jobcentre.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Important Places</div>' +
+          '<p class="intro">Save the local places and services you use, so they\'re easy to find again.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addPlace()">+ Add another place</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectAreaNav(\'transport\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectAreaNav(\'support\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- My Support Network (tab 4) ------------------------------------------
+    function updateSupportField(id, field, value){
+      const row = AREA_DATA.support.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function removeSupport(id){
+      AREA_DATA.support = AREA_DATA.support.filter(function(r){ return r.id !== id; });
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function addSupport(){
+      AREA_DATA.support.push({ id: nextAreaRowId++, name: '', role: SUPPORT_ROLES[0], organisation: '', phone: '', email: '', location: '', notes: '', important: false });
+      renderAreaNav();
+      renderAreaContent();
+    }
+
+    function supportCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Role / relationship</div>' +
+              '<select class="select" onchange="updateSupportField(' + row.id + ',\'role\',this.value)">' +
+                SUPPORT_ROLES.map(function(r){ return '<option' + (r === row.role ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove contact" onclick="removeSupport(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field-grid">' +
+              '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateSupportField(' + row.id + ',\'name\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Organisation</div><input class="input" type="text" value="' + row.organisation + '" onchange="updateSupportField(' + row.id + ',\'organisation\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateSupportField(' + row.id + ',\'phone\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateSupportField(' + row.id + ',\'email\', this.value)" /></div>' +
+              '<div class="field"><div class="label">Location / office (optional)</div><input class="input" type="text" value="' + row.location + '" onchange="updateSupportField(' + row.id + ',\'location\', this.value)" /></div>' +
+            '</div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateSupportField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div class="field" style="margin-top:16px;max-width:320px"><div class="label">Mark as an important contact?</div>' +
+              '<div class="segmented">' +
+                '<button type="button" class="seg-btn yes' + (row.important ? ' on' : '') + '" onclick="updateSupportField(' + row.id + ',\'important\', true)"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Yes</button>' +
+                '<button type="button" class="seg-btn no' + (!row.important ? ' on' : '') + '" onclick="updateSupportField(' + row.id + ',\'important\', false)"><svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> No</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepSupport(){
+      const cards = AREA_DATA.support.length
+        ? AREA_DATA.support.map(supportCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t saved any support contacts yet. Add your first one below - for example your Personal Adviser.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">My Support Network</div>' +
+          '<p class="intro">Save the important people who support you, so you always know who to contact.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addSupport()">+ Add another contact</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectAreaNav(\'places\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectAreaNav(\'community\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Community & Local Life (tab 5) ---------------------------------------
+    function updateCommunityField(id, field, value){
+      const row = AREA_DATA.community.find(function(r){ return r.id === id; });
+      if (!row) return;
+      row[field] = value;
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function removeCommunity(id){
+      AREA_DATA.community = AREA_DATA.community.filter(function(r){ return r.id !== id; });
+      renderAreaNav();
+      renderAreaContent();
+    }
+    function addCommunity(){
+      AREA_DATA.community.push({ id: nextAreaRowId++, category: COMMUNITY_CATEGORIES[0], name: '', address: '', notes: '' });
+      renderAreaNav();
+      renderAreaContent();
+    }
+
+    function communityCardHtml(row){
+      return (
+        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+            '<div class="field" style="max-width:280px;flex:1"><div class="label">Type</div>' +
+              '<select class="select" onchange="updateCommunityField(' + row.id + ',\'category\',this.value)">' +
+                COMMUNITY_CATEGORIES.map(function(c){ return '<option' + (c === row.category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
+              '</select>' +
+            '</div>' +
+            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove" onclick="removeCommunity(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+          '</div>' +
+          '<div style="margin-top:12px">' +
+            '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateCommunityField(' + row.id + ',\'name\', this.value)" placeholder="e.g. Riverside Leisure Centre" /></div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Address (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateCommunityField(' + row.id + ',\'address\', this.value)">' + row.address + '</textarea></div>' +
+            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateCommunityField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepCommunity(){
+      const cards = AREA_DATA.community.length
+        ? AREA_DATA.community.map(communityCardHtml).join('')
+        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t saved any places or activities yet. Add somewhere you enjoy or would like to try.</p>';
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Community &amp; Local Life</div>' +
+          '<p class="intro">Save places and activities you use or enjoy - just the ones that matter to you, not a full directory.</p>' +
+          cards +
+          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addCommunity()">+ Add another place</button>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+          '<button type="button" class="btn btn-secondary" onclick="selectAreaNav(\'support\')">Back</button>' +
+          '<button type="button" class="btn btn-primary" onclick="selectAreaNav(\'emergency\')">Save &amp; Continue</button>' +
+        '</div>'
+      );
+    }
+
+    // ---- Shared row helper (same shape as my-money.html's summaryRow) -------
+    function summaryRow(label, value, opts){
+      opts = opts || {};
+      const cls = ['summary-row'];
+      if (opts.total) cls.push('total');
+      if (opts.tight) cls.push('tight');
+      if (opts.big) cls.push('big');
+      return (
+        '<div class="' + cls.join(' ') + '">' +
+          '<div class="label">' + label + '</div>' +
+          '<div class="value">' + value + '</div>' +
+        '</div>'
+      );
+    }
+
+    function renderAreaContent(){
+      const renderers = {
+        overview: stepAreaOverview,
+        transport: stepTransport,
+        places: stepPlaces,
+        support: stepSupport,
+        community: stepCommunity,
+        emergency: stepEmergency
+      };
+      document.getElementById('areaContent').innerHTML = renderers[activeAreaSection]();
+    }
+
+    renderAreaNav();
+    renderAreaContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

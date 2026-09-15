@@ -116,7 +116,6 @@
         <div style="min-width:0">
           <div style="display:flex;align-items:center;gap:8px">
             <div class="h2" style="margin:0">Home Ready Essentials</div>
-            <span class="badge badge-primary">PA view</span>
             <span class="info-tip" tabindex="0">
               <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--subtle)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
               <span class="bubble">Work through each section with the care leaver, then record the outcome and mark the assessment.</span>
@@ -367,7 +366,7 @@
           '<div style="display:flex;align-items:flex-start;gap:14px;min-width:0">' +
             '<div class="hre-section-num">' + (secIndex + 1) + '</div>' +
             '<div style="min-width:0">' +
-              '<div class="h4" style="margin:0">' + sec.title + '</div>' +
+              '<div class="h3" style="margin:0">' + sec.title + '</div>' +
               '<div class="h5" style="margin-top:12px">' + it.title + '</div>' +
               '<p class="small" style="margin-top:4px">Explore and record understanding of ' + it.title.toLowerCase().replace(/\?$/, '') + '.</p>' +
             '</div>' +
@@ -381,7 +380,7 @@
           '<div class="h6" style="margin:0">Resource Documents</div>' +
           '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadResourceDoc()">' +
             '<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M12 15V4M7 9l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-            ' Upload' +
+            ' Add / Upload' +
           '</button>' +
         '</div>' +
         docsHtml +
@@ -427,9 +426,7 @@
         //   '<p class="small" style="margin-top:4px">Your professional will make the assessment available when you are ready.</p>' +
         // '</div>' +
 
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div class="h5" style="margin:0">Outcome for this topic</div>' +
-          '<p class="small" style="margin-top:4px">Record the outcome of this session before moving on.</p>' +
+        '<div style="margin-top:20px">' +
           '<div class="curriculum-grid" style="margin-top:16px">' +
 
             '<div class="card padded" style="text-align:center;' + (outcome === 'complete' ? 'background:var(--success-soft);border-color:var(--success-border)' : '') + '">' +
