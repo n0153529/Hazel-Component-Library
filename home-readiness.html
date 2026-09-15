@@ -478,7 +478,7 @@
 
     function furnitureGroupHtml(groupName){
       const rows = HOME_DATA.furniture.filter(function(r){ return r.group === groupName; }).map(furnitureRowHtml).join('');
-      return '<div class="h6" style="margin-top:20px">' + groupName + '</div>' + rows;
+      return '<div class="h4" style="margin-top:20px">' + groupName + '</div>' + rows;
     }
 
     function stepFurniture(){
@@ -488,7 +488,7 @@
           '<div class="h4" style="margin:0">Furniture &amp; Moving</div>' +
           '<p class="intro">Keep track of what you already have and what still needs sorting - and who\'s helping with each item.</p>' +
           groups.map(furnitureGroupHtml).join('') +
-          '<div style="margin-top:20px">' + summaryRow('Ready', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length, { total: true, big: true }) + '</div>' +
+          '<div style="margin-top:40px">' + summaryRow('Ready', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length, { total: true, big: true }) + '</div>' +
         '</div>' +
         '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'tenancy\')">Back</button>' +
