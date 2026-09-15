@@ -15,17 +15,14 @@ that work — Section 6 specifically flags what needs attention.
 
 ## 1. IMPORTANT — file sync status
 
-The user has **local edits to four files that are newer than what's in this
-environment**: `home-readiness.html`, `my-health.html`, `my-money.html`, and
-`curriculum-completed.html`. Only `curriculum-completed.html` was actually
-re-uploaded and applied in this session (see Section 7). **Before doing any
-work on `home-readiness.html`, `my-health.html`, or `my-money.html`, ask for
-current copies** — do not assume the versions in this handover/zip are
-up to date for those three.
-
-`firm-recommendation.html` was also uploaded this session as a reference (it
-matched the existing build exactly, no local edits) and was then redesigned —
-see Section 7.
+**Resolved as of this session.** The user re-uploaded the full project as a
+zip (`Hazel_System_redesign_v2_5`) containing small tweaks across almost
+every page, and confirmed it should be treated as the current, up-to-date
+working version going forward. The previous handover's warning about stale
+local copies of `home-readiness.html`, `my-health.html`, `my-money.html` and
+`curriculum-completed.html` no longer applies — this zip supersedes it. If a
+future session is handed an older zip or individual files claiming to be
+newer, re-confirm sync status with the user before trusting either source.
 
 ---
 
@@ -75,8 +72,9 @@ see Section 7.
 | `home-ready-essentials.html` | Young-person view of the Home Essentials curriculum (24 items across 4 sections, click-through detail panel, shared/discussion notes, Mic/Upload/AI action buttons). | Built. **User has newer local copy.** |
 | `home-ready-essentials-pa.html` | PA/support-worker view of the same curriculum. Adds: PA-view badge, Download PDF button, Upload button on Resource Documents (+ per-document Edit/Remove), Outcome-for-topic 3-box workflow (Complete / Needs more support / Ready for assessment — genuinely gated), restored Assessment section, Section-achievement notice. | Built, stable. |
 | `curriculum-completed.html` | Success page shown once Home Essentials is 100% complete. Big green tick, Curriculum Summary checklist (View buttons to Guarantor Scheme / Firm Recommendation / Planning My Move). | **Just updated** this session — see Section 7. |
-| `firm-recommendation.html` | "Request a Firm Recommendation for Social Housing" page. | **Just redesigned** this session — see Section 7. |
+| `firm-recommendation.html` | "Request a Firm Recommendation for Social Housing" page. | Built, stable. |
 | `guarantor-scheme.html` | 5-step wizard (Eligibility → Property → Application (placeholder) → Charter & Signature → Approval) using the `.owizard-*` pattern from `create-offer.html`, wrapped in `.wizard-container.page` inside the dashboard shell. Interactive signature boxes (dropzone-style), live signed-count. | Built, stable. |
+| `tenancy.html` | Ongoing tenancy-management area (property details, next check-in, tenancy status, check-in history, document library, message inbox). Built this session — see Section 4a and Section 7. Unlike the "Planning My Move" family, this one **is** in the sidebar (My Home group, above Planning My Move). | Built, stable. |
 
 ### Planning My Move (reached via curriculum cards on `planning-my-move.html`)
 This is the big architectural family. All five of these pages share **one
@@ -177,6 +175,55 @@ behavior specifically.**
 
 ---
 
+## 4a. `tenancy.html` — a sixth member of the section-tab family (with differences)
+
+`tenancy.html` reuses the same `.hre-layout`/`.hre-sidebar`/`.hre-main` +
+`.money-nav-item` architecture as Section 4, with one shared `TENANCY_DATA`
+object and a `renderTenancyContent()`/`renderers` dispatch, same as the
+other five. Worth folding into the same cleanup/documentation pass, with a
+few differences to note:
+
+- **It's in the main sidebar** (My Home group, above Planning My Move),
+  unlike the other five section-tab pages which are deliberately excluded
+  per Section 5. This was a specific, confirmed instruction for this page —
+  don't assume it should be hidden like the others, and don't assume the
+  others should follow suit.
+- **Its Overview tab doesn't use either existing Overview pattern.** It's
+  its own composition: a property card (address/since, with the page's two
+  header-level actions — Action Plan, Update property — living inside it),
+  a Next check-in card reusing the `.calendar-item`/`.cal-dot` pattern from
+  the dashboard's My Calendar panel, and a Tenancy Status checklist reusing
+  the Eligibility Check `.curr-item`/`.marker` pattern from
+  `guarantor-scheme.html`. If `my-money.html`'s Overview migration happens
+  during cleanup (see Section 6, item 2), Tenancy's Overview is a third
+  reference point worth looking at rather than assuming the other four are
+  the only precedent.
+- **New marker states.** `.curr-item .marker` only had `completed` and
+  `in-progress` before this session. Added `.marker.attention` (amber) and
+  `.marker.overdue` (red) in `styles.css` so Tenancy Status can represent
+  "Action required" / "Overdue" states later, following the exact same
+  border+background convention as `.marker.completed`. All sample status
+  data currently renders as `completed` — the new states are wired into
+  `tenancyStatusBadge()` but nothing exercises them yet.
+- **Action Plan is a deliberate placeholder** — same dashed-border /
+  "coming soon" treatment as `guarantor-scheme.html` Step 3. Do not design
+  this without a fresh brief; it's planned as separate future work.
+- **Check-ins and Messages both have click-through detail views** (a listed
+  row opens into a full detail with a "Back" button, reusing the `.nav-row`
+  list pattern with `.chev`). Messages additionally has a simple inline
+  "New message" compose form (contact select + subject + textarea) rather
+  than a modal — no modal system is used anywhere else in the real app
+  pages (the only `.modal-backdrop` usage in the project is the unrelated
+  "View code" feature in `components.html`), so this stays consistent.
+- **Non-functional actions use `alert()` placeholders**, matching the
+  convention already established in `home-ready-essentials-pa.html`'s
+  `uploadResourceDoc()` / `editResourceDoc()` / `removeResourceDoc()` —
+  e.g. `updateProperty()`, `addTenancyEvent()`, `uploadTenancyDocument()`,
+  `viewDocument()`, `sendTenancyMessage()`. These are intentional stubs for
+  a backend dev, not oversights.
+
+---
+
 ## 5. Sidebar navigation map
 
 The sidebar is duplicated verbatim (not templated — this is static HTML) at
@@ -187,9 +234,21 @@ the top of every page. The "My Home" group's sub-items, in order:
 3. Home Essentials PA → `home-ready-essentials-pa.html` *(added "temporarily"
    per the user — flag for removal/promotion decision at some point)*
 4. Life Skills → `#` (not built)
-5. Planning My Move → `planning-my-move.html`
-6. Firm Recommendation → `firm-recommendation.html`
-7. Guarantor Scheme → `guarantor-scheme.html`
+5. Tenancy → `tenancy.html` *(added this session, deliberately placed above
+   Planning My Move per the user)*
+6. Planning My Move → `planning-my-move.html`
+7. Firm Recommendation → `firm-recommendation.html`
+8. Guarantor Scheme → `guarantor-scheme.html`
+
+**Note on propagation**: the sidebar link for Tenancy was only added to
+`dashboard.html` this session (the page explicitly named in scope) and to
+`tenancy.html` itself. It was **not** propagated to the other pages that
+also duplicate this sidebar (`curriculum-completed.html`,
+`firm-recommendation.html`, `guarantor-scheme.html`, `home-ready-essentials.html`,
+`home-ready-essentials-pa.html`, `planning-my-move.html`) to keep this
+session's footprint to what was asked. If full consistency across every
+page is wanted, that's a quick follow-up — flag it rather than assuming
+it's already done.
 
 **Deliberately NOT in the sidebar**: `my-money.html`, `home-readiness.html`,
 `my-health.html`, `my-area.html`, `people-support.html`, and
@@ -251,6 +310,7 @@ This is the punch list for the next session:
 
 ## 7. This session's changes
 
+### Previous session
 1. **`curriculum-completed.html`** — adopted the user's locally-edited version
    as-is (moved the "View Certificate" button to sit inside the top green
    card, directly after the description, rather than as a separate full-width
@@ -271,6 +331,32 @@ This is the punch list for the next session:
      `curriculum-completed.html` and confirmed the two now share an
      identical visual pattern.
 3. Full 17-page regression run — zero console errors.
+
+### This session
+1. **Full project re-sync** — user re-uploaded the whole project as
+   `Hazel_System_redesign_v2_5.zip` with small tweaks across almost every
+   page, confirmed as the new source of truth (see Section 1).
+2. **`tenancy.html`** — new page, built from a full written brief. Reuses
+   `my-money.html` as the structural reference (see Section 4a for the
+   detailed breakdown). Five tabs: Overview, Action Plan (placeholder),
+   Check-ins, Documents, Messages. Added to the My Home sidebar group above
+   Planning My Move, in `dashboard.html` only (see Section 5 note on
+   propagation).
+3. **`styles.css`** — added `.curr-item .marker.attention` and
+   `.curr-item .marker.overdue` modifiers (amber/red, same convention as
+   the existing `.completed`/`.in-progress` states) to support future
+   non-green Tenancy Status rows. Embedded stylesheet in `components.html`
+   fully re-synced to match — this also caught and fixed **pre-existing
+   drift** unrelated to this session's edit (a stray leading blank line, and
+   `.notice-bar-title` had an extra `flex:1 1 auto` in the embedded copy that
+   wasn't in the real `styles.css`). Verified byte-identical after resync.
+4. Full 18-page regression run (Playwright, headless Chromium) — loaded
+   every page and exercised all interactive elements on `tenancy.html`
+   specifically (all 5 nav tabs, check-in detail view + back, document
+   view action, message detail view + back, new message compose + send).
+   Zero console/page errors across all 18 pages (the two recurring
+   `403` resource-load messages are pre-existing and reproduce identically
+   on the untouched `my-money.html`, unrelated to this session's work).
 
 ---
 

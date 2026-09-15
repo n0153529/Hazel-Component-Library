@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tenancy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-shell">
+  <div class="dashboard-shell" id="dashboardShell">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <img class="brand-logo" src="assets/hazel-logo-cream.png" alt="Hazel" />
+        </div>
+        <div class="sidebar-top-actions">
+          <button type="button" class="sidebar-backbtn" onclick="history.back()" aria-label="Back to previous page">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sidebar-collapse" aria-label="Collapse sidebar" onclick="sidebarCollapseToggle()">&#9776;</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item" href="dashboard.html"><span class="sidebar-icon">&#9776;</span><span>Overview &amp; Actions</span></a>
+          <div class="sidebar-group" id="grp-work">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-work')">
+              <span class="sidebar-icon">&#9636;</span><span>My Work</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>CV Builder</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Documents &amp; Readiness</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group open" id="grp-home">
+            <button type="button" class="sidebar-item active" onclick="sidebarGroupToggle('grp-home')">
+              <span class="sidebar-icon">&#8962;</span><span>My Home</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="my-home.html"><span class="sidebar-icon">&#9678;</span><span>Overview</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials</span></a>
+              <a class="sidebar-subitem" href="home-ready-essentials-pa.html"><span class="sidebar-icon">&#9678;</span><span>Home Essentials PA</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Life Skills</span></a>
+              <a class="sidebar-subitem active" href="tenancy.html"><span class="sidebar-icon">&#9678;</span><span>Tenancy</span></a>
+              <a class="sidebar-subitem" href="planning-my-move.html"><span class="sidebar-icon">&#9678;</span><span>Planning My Move</span></a>
+              <a class="sidebar-subitem" href="firm-recommendation.html"><span class="sidebar-icon">&#9678;</span><span>Recommendation</span></a>
+              <a class="sidebar-subitem" href="guarantor-scheme.html"><span class="sidebar-icon">&#9678;</span><span>Guarantor Scheme</span></a>
+            </div>
+          </div>
+
+          <div class="sidebar-group" id="grp-journey">
+            <button type="button" class="sidebar-item" onclick="sidebarGroupToggle('grp-journey')">
+              <span class="sidebar-icon">&#10148;</span><span>My Journey</span><span class="sidebar-chevron">&#9662;</span>
+            </button>
+            <div class="sidebar-group-body">
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>My Growth Map</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Evaluation</span></a>
+              <a class="sidebar-subitem" href="#"><span class="sidebar-icon">&#9678;</span><span>Opportunities</span></a>
+            </div>
+          </div>
+
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9637;</span><span>My Support Plans</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#10022;</span><span>Claimed Offers</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9638;</span><span>My Calendar</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon">&#9993;</span><span>Messages</span></a>
+          <a class="sidebar-item" href="#"><span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>My Trusted Network</span></a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-help-card">
+          <div class="sidebar-help-text">
+            <div class="title">Need support?</div>
+            <div class="desc">We're here if you need help with anything.</div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm sidebar-help-btn">
+            <span>Chat to us</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-sidebar-backdrop" onclick="mobileSidebarToggle()" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <div class="dashboard-topbar">
+        <button type="button" class="icon-btn mobile-menu-btn" aria-label="Open menu" onclick="mobileSidebarToggle()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="topbar-user">
+          <div class="name">Sunny Barker</div>
+          <div class="type">Hazel Card Member</div>
+        </div>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input placeholder="Search offers, users, campaigns&hellip;" />
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="icon-btn" aria-label="Help">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+          </button>
+          <div class="dropdown">
+            <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
+            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+              <div class="menu-item">Membership card</div>
+              <div class="menu-item">Account &amp; Privacy</div>
+              <div class="menu-sep"></div>
+              <div class="menu-item danger">Logout</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-heading">
+        <div class="h2">Tenancy</div>
+        <p class="body" style="color:var(--muted);margin:6px 0 0">View and manage your tenancy details, important dates and any actions.</p>
+      </div>
+
+      <div class="hre-layout">
+
+        <aside class="hre-sidebar">
+          <div id="tenancyNav"></div>
+        </aside>
+
+        <div class="hre-main" id="tenancyContent">
+          <!-- injected per section -->
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---- Section nav -----------------------------------------------------
+    const TENANCY_SECTIONS = [
+      { id: 'overview', title: 'Overview', icon: '<path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      { id: 'actionplan', title: 'Action Plan', icon: '<rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'checkins', title: 'Check-ins', icon: '<rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      { id: 'documents', title: 'Documents', icon: '<path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      { id: 'messages', title: 'Messages', icon: '<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }
+    ];
+    let activeTenancySection = 'overview';
+
+    function selectTenancyNav(id){
+      activeTenancySection = id;
+      // Leaving a sub-view resets any open detail/compose state so coming
+      // back to a section always lands on its list view, not a stale detail.
+      selectedCheckinId = null;
+      selectedMessageId = null;
+      composingMessage = false;
+      renderTenancyNav();
+      renderTenancyContent();
+    }
+
+    // ---- Shared tenancy data model -----------------------------------------
+    // One shared model powers every tab, pre-filled with sample data so the
+    // journey can be demonstrated. All in-memory, no backend - a backend dev
+    // can swap this for real persistence later.
+    const TENANCY_DATA = {
+      property: {
+        address: '14 Marigold Close, Hazelton, HZ3 9QW',
+        since: '3 March 2026'
+      },
+      nextCheckin: {
+        title: 'Next PA check-in',
+        due: 'Due by 7 December 2026',
+        frequency: 'Every 8 weeks'
+      },
+      status: [
+        { title: 'Rent up to date', state: 'completed' },
+        { title: 'No open concerns', state: 'completed' },
+        { title: 'Action Plan not required', state: 'completed' },
+        { title: 'Guarantor Active (until 11 October 2027)', state: 'completed' }
+      ],
+      nextCheckinDetail: {
+        type: 'PA Check-in', date: '7 December 2026', shortDate: '7 Dec 2026',
+        time: '10:00', person: 'Sarah Jones', location: 'Home visit'
+      },
+      checkinHistory: [
+        {
+          id: 1, date: '12 October 2026', type: 'PA Check-in', person: 'Sarah Jones',
+          location: 'Home visit',
+          summary: 'Sunny is settling in well. Rent is up to date and no concerns were raised during the visit.',
+          actions: 'Continue budgeting as planned. Revisit contents insurance before winter.',
+          next: '7 December 2026'
+        },
+        {
+          id: 2, date: '17 August 2026', type: 'Tenancy Visit', person: 'Housing Officer',
+          location: 'Home visit',
+          summary: 'Routine tenancy visit. Property in good condition, no repairs required.',
+          actions: 'No further action needed.',
+          next: '12 October 2026'
+        }
+      ],
+      documents: [
+        { id: 1, name: 'Tenancy Agreement', category: 'Tenancy', dateAdded: '3 March 2026', status: 'current' },
+        { id: 2, name: 'Rent Statement', category: 'Tenancy', dateAdded: '1 September 2026', status: 'current' },
+        { id: 3, name: 'Tenancy Renewal', category: 'Tenancy', dateAdded: 'Not yet added', status: 'awaiting' },
+        { id: 4, name: 'Property Inventory', category: 'Property', dateAdded: '3 March 2026', status: 'current' },
+        { id: 5, name: 'Property Inspection Report', category: 'Property', dateAdded: '17 August 2026', status: 'current' },
+        { id: 6, name: 'Gas Safety Certificate', category: 'Property', dateAdded: '20 February 2026', status: 'expiring' },
+        { id: 7, name: 'Electrical Safety Certificate', category: 'Property', dateAdded: '15 January 2025', status: 'expired' },
+        { id: 8, name: 'EPC', category: 'Property', dateAdded: '3 March 2026', status: 'current' },
+        { id: 9, name: 'Guarantor Documentation', category: 'Financial & Support', dateAdded: '3 March 2026', status: 'current' },
+        { id: 10, name: 'Housing Benefit / UC Housing Documentation', category: 'Financial & Support', dateAdded: '3 March 2026', status: 'current' }
+      ],
+      messages: [
+        {
+          id: 1, sender: 'Sarah Jones', role: 'Personal Adviser', subject: 'Your next check-in',
+          date: '2 September 2026, 09:14', unread: true,
+          body: "Hi Sunny, just confirming your next PA check-in is booked for 7 December 2026. Let me know if that time doesn't work for you."
+        },
+        {
+          id: 2, sender: 'Hazelton Housing', role: 'Housing provider', subject: 'Gas safety check reminder',
+          date: '28 August 2026, 15:40', unread: true,
+          body: 'Your annual gas safety check is coming up. Please let us know some times that would work for an engineer to visit.'
+        },
+        {
+          id: 3, sender: 'Sarah Jones', role: 'Personal Adviser', subject: 'Well done!',
+          date: '17 August 2026, 12:20', unread: false,
+          body: "Great to see you at today's visit, everything looked good. Keep up the great work."
+        }
+      ]
+    };
+
+    const DOCUMENT_CATEGORIES = ['Tenancy', 'Property', 'Financial & Support'];
+    const MESSAGE_CONTACTS = ['Personal Adviser - Sarah Jones', 'Housing provider - Hazelton Housing', 'Landlord', 'Support worker'];
+
+    function unreadMessageCount(){
+      return TENANCY_DATA.messages.filter(function(m){ return m.unread; }).length;
+    }
+
+    function navCaption(id){
+      if (id === 'actionplan') return 'Coming soon';
+      if (id === 'checkins') return 'Next: ' + TENANCY_DATA.nextCheckinDetail.shortDate;
+      if (id === 'documents') return TENANCY_DATA.documents.length + ' documents';
+      if (id === 'messages'){
+        const unread = unreadMessageCount();
+        return unread ? (unread + ' unread') : 'All read';
+      }
+      return '';
+    }
+
+    function renderTenancyNav(){
+      document.getElementById('tenancyNav').innerHTML = TENANCY_SECTIONS.map(function(sec){
+        const isActive = sec.id === activeTenancySection;
+        const caption = navCaption(sec.id);
+        return (
+          '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectTenancyNav(\'' + sec.id + '\')">' +
+            '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
+            '<div style="min-width:0">' +
+              '<div class="title">' + sec.title + '</div>' +
+              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // ---- Shared helpers -----------------------------------------------------
+    function iconCheck(){
+      return '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    function iconExclaim(){
+      return '<svg viewBox="0 0 24 24" fill="none"><path d="M12 7v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="currentColor"/></svg>';
+    }
+    function chevSvg(){
+      return '<svg class="chev" viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    function docIconSvg(){
+      return '<svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+    }
+    function houseIconSvg(){
+      return '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+    }
+    function calendarIconSvg(){
+      return '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    }
+    function initials(name){
+      return name.split(' ').map(function(p){ return p[0] || ''; }).join('').slice(0, 2).toUpperCase();
+    }
+
+    // Named status maps rather than scattering colour/label logic through
+    // the render functions - and easy to extend with further states later.
+    function tenancyStatusBadge(state){
+      const map = {
+        completed: { cls: 'badge-success', label: 'Completed' },
+        attention: { cls: 'badge-warning', label: 'Action required' },
+        overdue: { cls: 'badge-danger', label: 'Overdue' },
+        'not-started': { cls: 'badge-neutral', label: 'Needs attention' }
+      };
+      return map[state] || map['not-started'];
+    }
+    function docStatusBadge(status){
+      const map = {
+        current: { cls: 'badge-success', label: 'Current' },
+        expiring: { cls: 'badge-warning', label: 'Expiring soon' },
+        expired: { cls: 'badge-danger', label: 'Expired' },
+        awaiting: { cls: 'badge-neutral', label: 'Awaiting' }
+      };
+      return map[status] || map.awaiting;
+    }
+
+    function statusRowHtml(item){
+      const markerIcon = item.state === 'completed' ? iconCheck() : (item.state === 'attention' || item.state === 'overdue' ? iconExclaim() : '');
+      const badge = tenancyStatusBadge(item.state);
+      return (
+        '<div class="curr-item" style="cursor:default;align-items:center">' +
+          '<div class="marker ' + item.state + '">' + markerIcon + '</div>' +
+          '<div class="curr-item-body"><div class="curr-item-title">' + item.title + '</div></div>' +
+          '<span class="badge ' + badge.cls + '">' + badge.label + '</span>' +
+        '</div>'
+      );
+    }
+
+    function updateProperty(){
+      alert('This would let you update your current property details.');
+    }
+    function addTenancyEvent(){
+      alert('This would let you add a new event to My Calendar.');
+    }
+
+    // ---- Overview (tab 1) ---------------------------------------------------
+    function stepOverview(){
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">Current Address</div>' +
+            '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+              '<button type="button" class="btn btn-secondary btn-sm" onclick="selectTenancyNav(\'actionplan\')">Action Plan</button>' +
+              '<button type="button" class="btn btn-secondary btn-sm" onclick="updateProperty()">Update property</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap">' +
+            '<div class="journey-icon primary">' + houseIconSvg() + '</div>' +
+            '<div>' +
+              '<div class="h5" style="margin:0">' + TENANCY_DATA.property.address + '</div>' +
+              '<div class="small" style="color:var(--subtle);margin-top:4px">Since: ' + TENANCY_DATA.property.since + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="card" style="margin-top:20px">' +
+          '<div class="card-header">' +
+            '<div class="h3" style="margin:0">' + TENANCY_DATA.nextCheckin.title + '</div>' +
+            '<div style="display:flex;align-items:center;gap:14px">' +
+              '<a href="#" class="btn-link" style="font-size:var(--text-sm)" onclick="return false">View calendar</a>' +
+              '<button type="button" class="btn btn-primary btn-sm" onclick="addTenancyEvent()">Add event</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="card-body">' +
+            '<div class="calendar-item" style="border-bottom:none;padding-bottom:0">' +
+              '<span class="cal-dot appointment"></span>' +
+              '<div class="cal-body">' +
+                '<div class="cal-title-row"><div class="cal-title">' + TENANCY_DATA.nextCheckin.due + '</div></div>' +
+                '<div class="cal-desc">' + TENANCY_DATA.nextCheckin.frequency + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="card padded" style="margin-top:20px">' +
+          '<div class="h4" style="margin:0">Tenancy Status</div>' +
+          '<p class="intro">An overview of your current tenancy standing.</p>' +
+          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' +
+            TENANCY_DATA.status.map(statusRowHtml).join('') +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // ---- Action Plan (tab 2) - deliberate placeholder ------------------------
+    // Per the brief, this is not designed yet - a separate session will
+    // define the Action Plan workflow. Keep this a simple, honest placeholder
+    // (matching the pattern already used for the Guarantor Scheme's Step 3)
+    // rather than inventing functionality ahead of that design.
+    function stepActionPlan(){
+      return (
+        '<div class="h4">Action Plan</div>' +
+        '<p class="intro">This section is still being designed.</p>' +
+        '<div style="border:1px dashed var(--border);border-radius:var(--radius-lg);padding:48px 24px;text-align:center;color:var(--subtle)">' +
+          '<p class="small" style="margin:0">Content for this section is coming soon.</p>' +
+        '</div>'
+      );
+    }
+
+    // ---- Check-ins (tab 3) ----------------------------------------------
+    let selectedCheckinId = null;
+    function openCheckin(id){
+      selectedCheckinId = id;
+      renderTenancyContent();
+    }
+    function closeCheckin(){
+      selectedCheckinId = null;
+      renderTenancyContent();
+    }
+
+    function checkinRowHtml(c){
+      return (
+        '<div class="nav-row" onclick="openCheckin(' + c.id + ')" style="margin-top:10px">' +
+          '<div class="avatar avatar-sm avatar-primary">' + initials(c.person) + '</div>' +
+          '<div class="body"><div class="title">' + c.type + '</div><div class="desc">' + c.date + ' &middot; ' + c.person + '</div></div>' +
+          '<span class="badge badge-success">Completed</span>' +
+          chevSvg() +
+        '</div>'
+      );
+    }
+
+    function detailField(label, value){
+      return '<div class="field"><div class="label">' + label + '</div><div class="small" style="margin-top:2px">' + value + '</div></div>';
+    }
+
+    function checkinDetailHtml(c){
+      return (
+        '<button type="button" class="btn btn-secondary btn-sm" onclick="closeCheckin()">&larr; Back to check-ins</button>' +
+        '<div class="card padded" style="margin-top:16px">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div class="h4" style="margin:0">' + c.type + '</div>' +
+            '<span class="badge badge-success">Completed</span>' +
+          '</div>' +
+          '<div class="field-grid" style="margin-top:18px">' +
+            detailField('Date', c.date) +
+            detailField('Type', c.type) +
+            detailField('Who attended', c.person) +
+            detailField('Location / method', c.location) +
+          '</div>' +
+          '<div style="margin-top:20px"><div class="label">Summary</div><p class="small" style="margin-top:6px">' + c.summary + '</p></div>' +
+          '<div style="margin-top:18px"><div class="label">Actions agreed</div><p class="small" style="margin-top:6px">' + c.actions + '</p></div>' +
+          '<div style="margin-top:18px"><div class="label">Next check-in</div><p class="small" style="margin-top:6px">' + c.next + '</p></div>' +
+        '</div>'
+      );
+    }
+
+    function stepCheckins(){
+      if (selectedCheckinId){
+        const c = TENANCY_DATA.checkinHistory.find(function(r){ return r.id === selectedCheckinId; });
+        if (c) return checkinDetailHtml(c);
+      }
+      const n = TENANCY_DATA.nextCheckinDetail;
+      return (
+        '<div class="card padded">' +
+          '<div class="h4" style="margin:0">Next scheduled check-in</div>' +
+          '<div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap">' +
+            '<div class="journey-icon primary">' + calendarIconSvg() + '</div>' +
+            '<div>' +
+              '<div class="h5" style="margin:0">' + n.type + '</div>' +
+              '<div class="small" style="color:var(--subtle);margin-top:4px">' + n.date + ' at ' + n.time + ' &middot; ' + n.person + ' &middot; ' + n.location + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="card padded" style="margin-top:20px">' +
+          '<div class="h4" style="margin:0">Previous check-ins</div>' +
+          '<p class="intro">Tap a check-in to see the full summary.</p>' +
+          TENANCY_DATA.checkinHistory.map(checkinRowHtml).join('') +
+        '</div>'
+      );
+    }
+
+    // ---- Documents (tab 4) ----------------------------------------------
+    function docRowHtml(d){
+      const badge = docStatusBadge(d.status);
+      return (
+        '<div class="nav-row" style="cursor:default;margin-top:10px">' +
+          '<div class="resource-doc-icon info">' + docIconSvg() + '</div>' +
+          '<div class="body"><div class="title">' + d.name + '</div><div class="desc">Added ' + d.dateAdded + '</div></div>' +
+          '<span class="badge ' + badge.cls + '">' + badge.label + '</span>' +
+          '<button type="button" class="btn btn-secondary btn-sm" onclick="viewDocument(\'' + d.name.replace(/'/g, "\\'") + '\')">View</button>' +
+        '</div>'
+      );
+    }
+
+    function docGroupHtml(category){
+      const docs = TENANCY_DATA.documents.filter(function(d){ return d.category === category; });
+      if (!docs.length) return '';
+      return '<div class="h6" style="margin-top:20px">' + category + '</div>' + docs.map(docRowHtml).join('');
+    }
+
+    function uploadTenancyDocument(){
+      alert('This would let you upload a new tenancy document.');
+    }
+    function viewDocument(name){
+      alert('This would open "' + name + '".');
+    }
+
+    function stepDocuments(){
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div>' +
+              '<div class="h4" style="margin:0">Documents</div>' +
+              '<p class="small" style="margin-top:4px">All the important documents relating to your tenancy.</p>' +
+            '</div>' +
+            '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadTenancyDocument()">+ Upload document</button>' +
+          '</div>' +
+          DOCUMENT_CATEGORIES.map(docGroupHtml).join('') +
+        '</div>'
+      );
+    }
+
+    // ---- Messages (tab 5) ----------------------------------------------
+    let selectedMessageId = null;
+    let composingMessage = false;
+
+    function openMessage(id){
+      selectedMessageId = id;
+      const m = TENANCY_DATA.messages.find(function(r){ return r.id === id; });
+      if (m) m.unread = false;
+      renderTenancyNav();
+      renderTenancyContent();
+    }
+    function closeMessage(){
+      selectedMessageId = null;
+      renderTenancyContent();
+    }
+    function startNewMessage(){
+      composingMessage = true;
+      selectedMessageId = null;
+      renderTenancyContent();
+    }
+    function cancelNewMessage(){
+      composingMessage = false;
+      renderTenancyContent();
+    }
+    function sendTenancyMessage(){
+      alert('This would send your message. (Prototype only - nothing is actually sent.)');
+      composingMessage = false;
+      renderTenancyContent();
+    }
+
+    function messageRowHtml(m){
+      return (
+        '<div class="nav-row" onclick="openMessage(' + m.id + ')" style="margin-top:10px' + (m.unread ? ';border-color:var(--primary)' : '') + '">' +
+          '<div class="avatar avatar-sm' + (m.unread ? ' avatar-primary' : '') + '">' + initials(m.sender) + '</div>' +
+          '<div class="body">' +
+            '<div class="title" style="' + (m.unread ? 'font-weight:700' : '') + '">' + m.subject + '</div>' +
+            '<div class="desc">' + m.sender + ' (' + m.role + ') &middot; ' + m.date + '</div>' +
+          '</div>' +
+          (m.unread ? '<span class="badge badge-primary">Unread</span>' : '') +
+          chevSvg() +
+        '</div>'
+      );
+    }
+
+    function messageDetailHtml(m){
+      return (
+        '<button type="button" class="btn btn-secondary btn-sm" onclick="closeMessage()">&larr; Back to messages</button>' +
+        '<div class="card padded" style="margin-top:16px">' +
+          '<div class="h4" style="margin:0">' + m.subject + '</div>' +
+          '<div class="small" style="color:var(--subtle);margin-top:4px">' + m.sender + ' (' + m.role + ') &middot; ' + m.date + '</div>' +
+          '<p class="body" style="margin-top:18px">' + m.body + '</p>' +
+        '</div>'
+      );
+    }
+
+    function newMessageFormHtml(){
+      return (
+        '<button type="button" class="btn btn-secondary btn-sm" onclick="cancelNewMessage()">&larr; Back to messages</button>' +
+        '<div class="card padded" style="margin-top:16px">' +
+          '<div class="h4" style="margin:0">New message</div>' +
+          '<div class="field" style="margin-top:16px"><div class="label">Send to</div>' +
+            '<select class="select" id="newMessageContact">' + MESSAGE_CONTACTS.map(function(c){ return '<option>' + c + '</option>'; }).join('') + '</select>' +
+          '</div>' +
+          '<div class="field" style="margin-top:14px"><div class="label">Subject</div><input class="input" id="newMessageSubject" placeholder="What is this about?" /></div>' +
+          '<div class="field" style="margin-top:14px"><div class="label">Message</div><textarea class="textarea" id="newMessageBody" placeholder="Write your message here"></textarea></div>' +
+          '<div style="display:flex;justify-content:flex-end;margin-top:16px">' +
+            '<button type="button" class="btn btn-primary" onclick="sendTenancyMessage()">Send message</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function stepMessages(){
+      if (composingMessage) return newMessageFormHtml();
+      if (selectedMessageId){
+        const m = TENANCY_DATA.messages.find(function(r){ return r.id === selectedMessageId; });
+        if (m) return messageDetailHtml(m);
+      }
+      return (
+        '<div class="card padded">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+            '<div>' +
+              '<div class="h4" style="margin:0">Messages</div>' +
+              '<p class="small" style="margin-top:4px">Messages relating to your tenancy.</p>' +
+            '</div>' +
+            '<button type="button" class="btn btn-primary btn-sm" onclick="startNewMessage()">+ New message</button>' +
+          '</div>' +
+          TENANCY_DATA.messages.map(messageRowHtml).join('') +
+        '</div>'
+      );
+    }
+
+    function renderTenancyContent(){
+      const renderers = {
+        overview: stepOverview,
+        actionplan: stepActionPlan,
+        checkins: stepCheckins,
+        documents: stepDocuments,
+        messages: stepMessages
+      };
+      document.getElementById('tenancyContent').innerHTML = renderers[activeTenancySection]();
+    }
+
+    renderTenancyNav();
+    renderTenancyContent();
+  </script>
+
+  <script>
+    function sidebarGroupToggle(id){
+      document.getElementById(id).classList.toggle('open');
+    }
+    function sidebarCollapseToggle(){
+      document.getElementById('dashboardShell').classList.toggle('is-collapsed');
+    }
+    function mobileSidebarToggle(){
+      const shell = document.getElementById('dashboardShell');
+      shell.classList.toggle('mobile-sidebar-open');
+      document.body.style.overflow = shell.classList.contains('mobile-sidebar-open') ? 'hidden' : '';
+    }
+    function toggleProfileMenu(e){
+      e.stopPropagation();
+      const menu = document.getElementById('profileMenu');
+      menu.hidden = !menu.hidden;
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('profileMenu');
+      if (menu && !menu.hidden && !e.target.closest('.dropdown')){
+        menu.hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>
