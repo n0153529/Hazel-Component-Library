@@ -117,10 +117,10 @@
 
         <div class="main-heading">
           <div class="h2">Guarantor Scheme</div>
-          <p class="body" style="color:var(--muted);margin:6px 0 0">Apply for the council Guarantor Scheme now you have completed the Home Essentials and have a property.</p>
+          <p class="body page-subtitle">Apply for the council Guarantor Scheme now you have completed the Home Essentials and have a property.</p>
         </div>
 
-        <div class="owizard-steps" id="stepper" style="margin-top:20px"></div>
+        <div class="owizard-steps mt-20" id="stepper"></div>
 
         <div class="owizard-card">
           <div class="owizard-body" id="stepBody">
@@ -203,7 +203,7 @@
     function infoTip(text){
       return (
         '<span class="info-tip tip-below tip-wide tip-align-right" tabindex="0" style="flex:none">' +
-          '<svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--subtle)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>' +
+          '<svg class="text-subtle" viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>' +
           '<span class="bubble">' + text + '</span>' +
         '</span>'
       );
@@ -212,7 +212,7 @@
     function stepEligibility(){
       const rows = ELIGIBILITY_ITEMS.map(function(item){
         return (
-          '<div class="curr-item" style="cursor:default;align-items:center">' +
+          '<div class="curr-item curr-item-static">' +
             '<div class="marker ' + item.state + '">' + (item.state === 'completed' ? iconCheck() : '') + '</div>' +
             '<div class="curr-item-body"><div class="curr-item-title">' + item.title + '</div></div>' +
             '<span class="' + badgeClassFor(item.label) + '">' + item.label + '</span>' +
@@ -224,7 +224,7 @@
       return (
         '<div class="h4">Eligibility Check</div>' +
         '<p class="intro">Confirm the following before applying for the Guarantor Scheme.</p>' +
-        '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' + rows + '</div>'
+        '<div class="bordered-list">' + rows + '</div>'
       );
     }
 
@@ -234,8 +234,8 @@
         '<div class="h4">Property Details</div>' +
         '<p class="intro">Confirm the prospective property details carried over from Planning My Move.</p>' +
         '<div class="card padded" style="background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
-            '<div class="h5" style="margin:0">Prospective property</div>' +
+          '<div class="row-between gap-12">' +
+            '<div class="h5 m-0">Prospective property</div>' +
             '<span class="badge badge-warning">Awaiting confirmation</span>' +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap">' +
@@ -243,8 +243,8 @@
               '<svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M3 11 12 4l9 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
             '</div>' +
             '<div>' +
-              '<div class="h6" style="margin:0">24 Example Street, Nottingham, NG1 1AB</div>' +
-              '<div class="small" style="margin-top:4px">Moving date: 30th October 2026</div>' +
+              '<div class="h6 m-0">24 Example Street, Nottingham, NG1 1AB</div>' +
+              '<div class="small mt-4">Moving date: 30th October 2026</div>' +
             '</div>' +
           '</div>' +
           '<div class="hr" style="margin:18px 0"></div>' +
@@ -259,7 +259,7 @@
         '<div class="h4">Submit Application</div>' +
         '<p class="intro">This step is still being designed.</p>' +
         '<div style="border:1px dashed var(--border);border-radius:var(--radius-lg);padding:48px 24px;text-align:center;color:var(--subtle)">' +
-          '<p class="small" style="margin:0">Content for this step is coming soon.</p>' +
+          '<p class="small m-0">Content for this step is coming soon.</p>' +
         '</div>'
       );
     }
@@ -366,13 +366,13 @@
         '<p class="intro">Care leaver guarantor scheme charter. This agreement sets out the responsibilities and commitments of the council, the care leaver and the landlord/letting agent.</p>' +
         '<div>' + sections + '</div>' +
 
-        '<div class="card padded" style="margin-top:24px">' +
+        '<div class="card padded mt-24">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">' +
-            '<div class="h5" style="margin:0">Signatures</div>' +
+            '<div class="h5 m-0">Signatures</div>' +
             '<span class="badge ' + (signedCount === SIGNATORIES.length ? 'badge-success' : 'badge-neutral') + '">' + signedCount + '/' + SIGNATORIES.length + ' completed</span>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">All parties must sign to confirm their agreement.</p>' +
-          '<div class="curriculum-grid" style="margin-top:16px">' +
+          '<p class="small mt-4">All parties must sign to confirm their agreement.</p>' +
+          '<div class="curriculum-grid mt-16">' +
             SIGNATORIES.map(signatureBox).join('') +
           '</div>' +
           '<button type="button" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:20px"' + (signedCount === SIGNATORIES.length ? '' : ' disabled') + '>Send all signatures</button>' +
@@ -387,25 +387,25 @@
           '<div style="width:96px;height:96px;border-radius:999px;background:var(--success);display:grid;place-items:center;margin:0 auto">' +
             '<svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px"><path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
           '</div>' +
-          '<div class="h3" style="margin-top:16px">Ready to send for approval</div>' +
-          '<p class="small" style="margin-top:6px">Review the summary below, then send your application to your council contact for approval.</p>' +
+          '<div class="h3 mt-16">Ready to send for approval</div>' +
+          '<p class="small mt-6">Review the summary below, then send your application to your council contact for approval.</p>' +
         '</div>' +
 
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div class="h5" style="margin:0">Application summary</div>' +
+        '<div class="card padded mt-20">' +
+          '<div class="h5 m-0">Application summary</div>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">' +
-            '<div class="small" style="font-weight:700;color:var(--text-strong)">Eligibility Check</div>' +
+            '<div class="small text-strong">Eligibility Check</div>' +
             '<span class="badge badge-success">Completed</span>' +
           '</div>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">' +
             '<div>' +
-              '<div class="small" style="font-weight:700;color:var(--text-strong)">Property Details</div>' +
-              '<div class="small" style="margin-top:2px">24 Example Street, Nottingham, NG1 1AB</div>' +
+              '<div class="small text-strong">Property Details</div>' +
+              '<div class="small mt-2">24 Example Street, Nottingham, NG1 1AB</div>' +
             '</div>' +
             '<span class="badge badge-warning">Awaiting confirmation</span>' +
           '</div>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">' +
-            '<div class="small" style="font-weight:700;color:var(--text-strong)">Charter &amp; Signature</div>' +
+            '<div class="small text-strong">Charter &amp; Signature</div>' +
             '<span class="badge ' + (signatures.size === 3 ? 'badge-success' : 'badge-neutral') + '">' + (signatures.size === 3 ? 'All signed' : signatures.size + '/3 signed') + '</span>' +
           '</div>' +
         '</div>'

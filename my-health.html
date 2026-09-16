@@ -115,7 +115,7 @@
 
       <div class="main-heading">
         <div class="h2">My Health</div>
-        <p class="body" style="color:var(--muted);margin:6px 0 0">Keep a simple record of your healthcare services, so you always know where to go and who to contact.</p>
+        <p class="body page-subtitle">Keep a simple record of your healthcare services, so you always know where to go and who to contact.</p>
       </div>
 
       <div class="hre-layout">
@@ -157,9 +157,9 @@
         return (
           '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectHealthNav(\'' + sec.id + '\')">' +
             '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
-            '<div style="min-width:0">' +
+            '<div class="min-w-0">' +
               '<div class="title">' + sec.title + '</div>' +
-              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+              (caption ? '<div class="small subtle-mt-2">' + caption + '</div>' : '') +
             '</div>' +
           '</div>'
         );
@@ -225,11 +225,11 @@
         : { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>', title: 'Your health information needs a few more details', text: 'Add the missing services below so you always know who to contact.' };
       return (
         '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
-          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+          '<div class="row-start-gap-14">' +
             '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
-              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+              '<svg class="icon-20" viewBox="0 0 24 24" fill="none">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + cfg.text + '</p></div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small mt-4">' + cfg.text + '</p></div>' +
           '</div>' +
         '</div>'
       );
@@ -238,7 +238,7 @@
     // ---- My Health Overview (tab 1) -----------------------------------------
     function healthChecklistRow(title, added, caption, sectionId){
       return (
-        '<div class="curr-item" style="cursor:default;align-items:center">' +
+        '<div class="curr-item curr-item-static">' +
           '<div class="marker ' + (added ? 'completed' : 'not-started') + '">' + (added ? markerSvg('completed') : '') + '</div>' +
           '<div class="curr-item-body"><div class="curr-item-title">' + title + '</div>' +
             (caption ? '<div class="curr-item-caption">' + caption + '</div>' : '') +
@@ -257,18 +257,18 @@
 
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">My Health Overview</div>' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">My Health Overview</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="selectHealthNav(\'gp\')">Update details</button>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">A summary of the healthcare services you\'ve added. Tap View to open a section.</p>' +
+          '<p class="small mt-4">A summary of the healthcare services you\'ve added. Tap View to open a section.</p>' +
 
-          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:16px">' + rows + '</div>' +
+          '<div class="bordered-list mt-16">' + rows + '</div>' +
         '</div>' +
 
         renderHealthStatusBox() +
 
-        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+        '<div class="row-end mt-20">' +
           '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
         '</div>'
       );
@@ -280,8 +280,8 @@
         '<div class="field"><div class="label">Practice / provider name</div>' +
           '<input class="input" type="text" value="' + p.name + '" onchange="' + updateFn + '(\'name\', this.value)" placeholder="e.g. Riverside Medical Practice" />' +
         '</div>' +
-        '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
-          '<textarea class="textarea" style="min-height:70px" onchange="' + updateFn + '(\'address\', this.value)" placeholder="Full address, so you can find it again quickly">' + p.address + '</textarea>' +
+        '<div class="field mt-16"><div class="label">Address</div>' +
+          '<textarea class="textarea h-70" onchange="' + updateFn + '(\'address\', this.value)" placeholder="Full address, so you can find it again quickly">' + p.address + '</textarea>' +
         '</div>' +
         '<div class="field-grid">' +
           '<div class="field"><div class="label">Telephone number</div><input class="input" type="tel" value="' + p.phone + '" onchange="' + updateFn + '(\'phone\', this.value)" /></div>' +
@@ -289,8 +289,8 @@
           '<div class="field"><div class="label">Website (optional)</div><input class="input" type="text" value="' + p.website + '" onchange="' + updateFn + '(\'website\', this.value)" /></div>' +
           '<div class="field"><div class="label">Named contact / clinician (optional)</div><input class="input" type="text" value="' + p.contact + '" onchange="' + updateFn + '(\'contact\', this.value)" /></div>' +
         '</div>' +
-        '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div>' +
-          '<textarea class="textarea" style="min-height:70px" onchange="' + updateFn + '(\'notes\', this.value)" placeholder="Anything useful to remember, e.g. opening hours or how to book">' + p.notes + '</textarea>' +
+        '<div class="field mt-16"><div class="label">Notes (optional)</div>' +
+          '<textarea class="textarea h-70" onchange="' + updateFn + '(\'notes\', this.value)" placeholder="Anything useful to remember, e.g. opening hours or how to book">' + p.notes + '</textarea>' +
         '</div>' +
         '<div class="field" style="margin-top:16px;max-width:320px"><div class="label">Is this your current provider?</div>' +
           '<div class="segmented">' +
@@ -323,11 +323,11 @@
     function stepGp(){
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">GP</div>' +
+          '<div class="h4 m-0">GP</div>' +
           '<p class="intro">Add your GP practice details here, so you always know where to go and who to call.</p>' +
           providerFieldsHtml(HEALTH_DATA.gp, 'updateGpField') +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'overview\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'dentist\')">Save &amp; Continue</button>' +
         '</div>'
@@ -337,11 +337,11 @@
     function stepDentist(){
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Dentist</div>' +
+          '<div class="h4 m-0">Dentist</div>' +
           '<p class="intro">Add your dentist details here, so they\'re easy to find when you need an appointment.</p>' +
           providerFieldsHtml(HEALTH_DATA.dentist, 'updateDentistField') +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'gp\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'optician\')">Save &amp; Continue</button>' +
         '</div>'
@@ -351,11 +351,11 @@
     function stepOptician(){
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Optician</div>' +
+          '<div class="h4 m-0">Optician</div>' +
           '<p class="intro">Add your optician details here, so you know where to go for eye tests or glasses.</p>' +
           providerFieldsHtml(HEALTH_DATA.optician, 'updateOpticianField') +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'dentist\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'other\')">Save &amp; Continue</button>' +
         '</div>'
@@ -383,21 +383,21 @@
 
     function otherServiceCardHtml(row, index){
       return (
-        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+        '<div class="card padded mt-16 surface-2">' +
+          '<div class="row-between gap-12">' +
             '<div class="field" style="max-width:320px;flex:1"><div class="label">Type of service</div>' +
               '<select class="select" onchange="updateOtherField(' + row.id + ',\'category\',this.value)">' +
                 OTHER_SERVICE_CATEGORIES.map(function(c){ return '<option' + (c === row.category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
               '</select>' +
             '</div>' +
-            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove service" onclick="removeOtherService(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="icon-btn icon-btn-sm mt-20" aria-label="Remove service" onclick="removeOtherService(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
           '</div>' +
-          '<div style="margin-top:12px">' +
+          '<div class="mt-12">' +
             '<div class="field"><div class="label">Service / provider name</div>' +
               '<input class="input" type="text" value="' + row.name + '" onchange="updateOtherField(' + row.id + ',\'name\', this.value)" />' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
-              '<textarea class="textarea" style="min-height:70px" onchange="updateOtherField(' + row.id + ',\'address\', this.value)">' + row.address + '</textarea>' +
+            '<div class="field mt-16"><div class="label">Address</div>' +
+              '<textarea class="textarea h-70" onchange="updateOtherField(' + row.id + ',\'address\', this.value)">' + row.address + '</textarea>' +
             '</div>' +
             '<div class="field-grid">' +
               '<div class="field"><div class="label">Telephone number</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateOtherField(' + row.id + ',\'phone\', this.value)" /></div>' +
@@ -405,8 +405,8 @@
               '<div class="field"><div class="label">Website (optional)</div><input class="input" type="text" value="' + row.website + '" onchange="updateOtherField(' + row.id + ',\'website\', this.value)" /></div>' +
               '<div class="field"><div class="label">Named contact (optional)</div><input class="input" type="text" value="' + row.contact + '" onchange="updateOtherField(' + row.id + ',\'contact\', this.value)" /></div>' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div>' +
-              '<textarea class="textarea" style="min-height:70px" onchange="updateOtherField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea>' +
+            '<div class="field mt-16"><div class="label">Notes (optional)</div>' +
+              '<textarea class="textarea h-70" onchange="updateOtherField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea>' +
             '</div>' +
           '</div>' +
         '</div>'
@@ -416,16 +416,16 @@
     function stepOther(){
       const cards = HEALTH_DATA.other.length
         ? HEALTH_DATA.other.map(otherServiceCardHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any other health services yet. Add your first one below - for example a pharmacy or wellbeing support service.</p>';
+        : '<p class="small empty-state">You haven\'t added any other health services yet. Add your first one below - for example a pharmacy or wellbeing support service.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Other Health Services</div>' +
+          '<div class="h4 m-0">Other Health Services</div>' +
           '<p class="intro">Add any other health services that are relevant to you, such as a pharmacy or wellbeing support service.</p>' +
           cards +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addOtherService()">+ Add another service</button>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-16" onclick="addOtherService()">+ Add another service</button>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHealthNav(\'optician\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHealthNav(\'overview\')">View My Health Overview</button>' +
         '</div>'

@@ -1838,6 +1838,61 @@ tr:last-child td{border-bottom:none}
 @media (max-width: 900px){
   .hre-sidebar{position:static;flex-basis:100%}
 }
+
+/* ==========================================================================
+   Utilities — added during the CSS cleanup pass.
+   These replace the most commonly repeated inline `style="..."` combinations
+   found across the section-tab pages (My Money/Home/Health/Area, People &
+   Support), the Home Essentials/PA/Curriculum family, Firm Recommendation,
+   Guarantor Scheme and Tenancy. See HANDOVER.md Section 6/7 for the audit
+   this was based on. Genuinely one-off or data-driven inline styles (e.g.
+   colours computed from a JS config object) were deliberately left as-is.
+   ========================================================================== */
+
+/* Spacing utilities */
+.m-0{margin:0}
+.mt-2{margin-top:2px}
+.mt-4{margin-top:4px}
+.mt-6{margin-top:6px}
+.mt-8{margin-top:8px}
+.mt-12{margin-top:12px}
+.mt-14{margin-top:14px}
+.mt-16{margin-top:16px}
+.mt-18{margin-top:18px}
+.mt-20{margin-top:20px}
+.mt-24{margin-top:24px}
+.min-w-0{min-width:0}
+
+/* Layout utilities - flex row patterns reused across every card header,
+   section footer and list row on the section-tab pages. */
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.row-between.gap-12{gap:12px}
+.row-between.gap-20{gap:20px}
+.row-between-plain{display:flex;justify-content:space-between}
+.row-end{display:flex;justify-content:flex-end}
+.row-start-gap-14{display:flex;align-items:flex-start;gap:14px}
+.row-gap-8{display:flex;align-items:center;gap:8px}
+
+/* Text utilities */
+.text-subtle{color:var(--subtle)}
+.text-strong{font-weight:700;color:var(--text-strong)}
+.subtle-mt-2{color:var(--subtle);margin-top:2px}
+.subtle-mt-4{color:var(--subtle);margin-top:4px}
+.page-subtitle{color:var(--muted);margin:6px 0 0}
+.empty-state{color:var(--subtle);padding:20px 0}
+
+/* Component modifiers */
+.curr-item.curr-item-static{cursor:default;align-items:center}
+.bordered-list{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.surface-2{background:var(--surface-2)}
+.btn-block{width:100%;justify-content:center}
+.field.field-narrow{max-width:280px;flex:1}
+.textarea.h-60{min-height:60px}
+.textarea.h-70{min-height:70px}
+.icon-20{width:20px;height:20px}
+.mx-auto{margin:0 auto}
+.text-right{text-align:right}
+.row-gap-16-noflex{display:flex;align-items:center;gap:16px;flex:none}
 </style>
 <style>
   .lib-layout{display:grid;grid-template-columns:240px 1fr;gap:0;align-items:start}

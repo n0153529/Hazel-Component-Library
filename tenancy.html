@@ -115,7 +115,7 @@
 
       <div class="main-heading">
         <div class="h2">Tenancy</div>
-        <p class="body" style="color:var(--muted);margin:6px 0 0">View and manage your tenancy details, important dates and any actions.</p>
+        <p class="body page-subtitle">View and manage your tenancy details, important dates and any actions.</p>
       </div>
 
       <div class="hre-layout">
@@ -256,9 +256,9 @@
         return (
           '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectTenancyNav(\'' + sec.id + '\')">' +
             '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
-            '<div style="min-width:0">' +
+            '<div class="min-w-0">' +
               '<div class="title">' + sec.title + '</div>' +
-              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+              (caption ? '<div class="small subtle-mt-2">' + caption + '</div>' : '') +
             '</div>' +
           '</div>'
         );
@@ -313,7 +313,7 @@
       const markerIcon = item.state === 'completed' ? iconCheck() : (item.state === 'attention' || item.state === 'overdue' ? iconExclaim() : '');
       const badge = tenancyStatusBadge(item.state);
       return (
-        '<div class="curr-item" style="cursor:default;align-items:center">' +
+        '<div class="curr-item curr-item-static">' +
           '<div class="marker ' + item.state + '">' + markerIcon + '</div>' +
           '<div class="curr-item-body"><div class="curr-item-title">' + item.title + '</div></div>' +
           '<span class="badge ' + badge.cls + '">' + badge.label + '</span>' +
@@ -332,8 +332,8 @@
     function stepOverview(){
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h3" style="margin:0">Current Address</div>' +
+          '<div class="row-between">' +
+            '<div class="h3 m-0">Current Address</div>' +
             '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="selectTenancyNav(\'actionplan\')">Action Plan</button>' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="updateProperty()">Update property</button>' +
@@ -342,15 +342,15 @@
           '<div style="display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap">' +
             '<div class="journey-icon primary">' + houseIconSvg() + '</div>' +
             '<div>' +
-              '<div class="h5" style="margin:0">' + TENANCY_DATA.property.address + '</div>' +
-              '<div class="small" style="color:var(--subtle);margin-top:4px">Since: ' + TENANCY_DATA.property.since + '</div>' +
+              '<div class="h5 m-0">' + TENANCY_DATA.property.address + '</div>' +
+              '<div class="small subtle-mt-4">Since: ' + TENANCY_DATA.property.since + '</div>' +
             '</div>' +
           '</div>' +
         '</div>' +
 
-        '<div class="card" style="margin-top:20px">' +
+        '<div class="card mt-20">' +
           '<div class="card-header">' +
-            '<div class="h3" style="margin:0">' + TENANCY_DATA.nextCheckin.title + '</div>' +
+            '<div class="h3 m-0">' + TENANCY_DATA.nextCheckin.title + '</div>' +
             '<div style="display:flex;align-items:center;gap:14px">' +
               '<a href="#" class="btn-link" style="font-size:var(--text-sm)" onclick="return false">View calendar</a>' +
               '<button type="button" class="btn btn-primary btn-sm" onclick="addTenancyEvent()">Add event</button>' +
@@ -367,10 +367,10 @@
           '</div>' +
         '</div>' +
 
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div class="h4" style="margin:0">Tenancy Status</div>' +
+        '<div class="card padded mt-20">' +
+          '<div class="h4 m-0">Tenancy Status</div>' +
           '<p class="intro">An overview of your current tenancy standing.</p>' +
-          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' +
+          '<div class="bordered-list">' +
             TENANCY_DATA.status.map(statusRowHtml).join('') +
           '</div>' +
         '</div>'
@@ -507,18 +507,18 @@
     function actionDetailHtml(a){
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="closeActionDetail()">&larr; Back to actions</button>' +
-        '<div class="card padded" style="margin-top:16px">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">' + a.name + '</div>' +
+        '<div class="card padded mt-16">' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">' + a.name + '</div>' +
             '<span class="badge ' + actionStatusBadgeClass(a.status) + '">' + a.status + '</span>' +
           '</div>' +
-          '<div class="field-grid" style="margin-top:18px">' +
+          '<div class="field-grid mt-18">' +
             detailField('Who', a.who) +
             detailField('Due', a.due) +
           '</div>' +
-          '<div style="margin-top:20px"><div class="label">Notes</div><p class="small" style="margin-top:6px">' + a.notes + '</p></div>' +
+          '<div class="mt-20"><div class="label">Notes</div><p class="small mt-6">' + a.notes + '</p></div>' +
           (a.status !== 'Completed'
-            ? '<div style="margin-top:20px"><button type="button" class="btn btn-primary btn-sm" onclick="markActionComplete(' + a.id + ')">Mark as complete</button></div>'
+            ? '<div class="mt-20"><button type="button" class="btn btn-primary btn-sm" onclick="markActionComplete(' + a.id + ')">Mark as complete</button></div>'
             : '') +
         '</div>'
       );
@@ -527,18 +527,18 @@
     function addActionFormHtml(){
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="cancelAddAction()">&larr; Back to actions</button>' +
-        '<div class="card padded" style="margin-top:16px">' +
-          '<div class="h3" style="margin:0">Add an action</div>' +
-          '<div class="field" style="margin-top:16px"><div class="label">Action</div><input class="input" id="newActionName" placeholder="What needs to happen?" /></div>' +
-          '<div class="field-grid" style="margin-top:14px">' +
+        '<div class="card padded mt-16">' +
+          '<div class="h3 m-0">Add an action</div>' +
+          '<div class="field mt-16"><div class="label">Action</div><input class="input" id="newActionName" placeholder="What needs to happen?" /></div>' +
+          '<div class="field-grid mt-14">' +
             '<div class="field"><div class="label">Who</div><input class="input" id="newActionWho" placeholder="Who is responsible?" /></div>' +
             '<div class="field"><div class="label">Due</div><input class="input" id="newActionDue" placeholder="e.g. 10 Oct 2026" /></div>' +
           '</div>' +
-          '<div class="field" style="margin-top:14px"><div class="label">Status</div>' +
+          '<div class="field mt-14"><div class="label">Status</div>' +
             '<select class="select" id="newActionStatus">' + ACTION_STATUS_OPTIONS.map(function(s){ return '<option>' + s + '</option>'; }).join('') + '</select>' +
           '</div>' +
-          '<div class="field" style="margin-top:14px"><div class="label">Notes</div><textarea class="textarea" id="newActionNotes" placeholder="Any extra detail"></textarea></div>' +
-          '<div style="display:flex;justify-content:flex-end;margin-top:16px">' +
+          '<div class="field mt-14"><div class="label">Notes</div><textarea class="textarea" id="newActionNotes" placeholder="Any extra detail"></textarea></div>' +
+          '<div class="row-end mt-16">' +
             '<button type="button" class="btn btn-primary" onclick="saveNewAction()">Add action</button>' +
           '</div>' +
         '</div>'
@@ -549,7 +549,7 @@
       return (
         '<div style="display:flex;align-items:center;gap:12px;margin-top:' + (isFirst ? '14px' : '16px') + '">' +
           '<div class="avatar avatar-primary">' + initials(p.name) + '</div>' +
-          '<div style="flex:1;min-width:0"><div class="small" style="font-weight:700;color:var(--text-strong)">' + p.name + '</div></div>' +
+          '<div style="flex:1;min-width:0"><div class="small text-strong">' + p.name + '</div></div>' +
           '<span class="badge badge-neutral">' + p.role + '</span>' +
         '</div>'
       );
@@ -576,16 +576,16 @@
       }
 
       return (
-        '<div class="h3" style="margin:0">' + ACTION_PLAN_INFO.title + '</div>' +
-        '<p class="small" style="color:var(--subtle);margin-top:4px">' + ACTION_PLAN_INFO.subtitle + '</p>' +
+        '<div class="h3 m-0">' + ACTION_PLAN_INFO.title + '</div>' +
+        '<p class="small subtle-mt-4">' + ACTION_PLAN_INFO.subtitle + '</p>' +
 
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h3" style="margin:0">Actions</div>' +
+        '<div class="card padded mt-20">' +
+          '<div class="row-between">' +
+            '<div class="h3 m-0">Actions</div>' +
             '<button type="button" class="btn btn-primary btn-sm" onclick="startAddAction()">+ Add action</button>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">' + ACTION_PLAN_INFO.actionsIntro + '</p>' +
-          '<div class="table-wrap" style="margin-top:16px">' +
+          '<p class="small mt-4">' + ACTION_PLAN_INFO.actionsIntro + '</p>' +
+          '<div class="table-wrap mt-16">' +
             '<table>' +
               '<thead><tr><th></th><th>Action</th><th>Who</th><th>Due</th><th>Status</th><th>Notes</th><th></th></tr></thead>' +
               '<tbody>' + TENANCY_ACTIONS.map(actionRowHtml).join('') + '</tbody>' +
@@ -595,21 +595,21 @@
 
         '<div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:20px">' +
           '<div class="card padded" style="flex:1 1 320px;min-width:280px">' +
-            '<div class="h3" style="margin:0">Involved in the plan</div>' +
+            '<div class="h3 m-0">Involved in the plan</div>' +
             PLAN_PEOPLE.map(function(p, i){ return personRowHtml(p, i === 0); }).join('') +
           '</div>' +
           '<div class="card padded" style="flex:1 1 320px;min-width:280px">' +
-            '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-              '<div class="h3" style="margin:0">Key Dates</div>' +
+            '<div class="row-between">' +
+              '<div class="h3 m-0">Key Dates</div>' +
               '<button type="button" class="btn btn-secondary btn-sm" onclick="updatePlanDates()">Add / Change</button>' +
             '</div>' +
-            '<div style="margin-top:14px">' + PLAN_KEY_DATES.map(keyDateRowHtml).join('') + '</div>' +
+            '<div class="mt-14">' + PLAN_KEY_DATES.map(keyDateRowHtml).join('') + '</div>' +
           '</div>' +
         '</div>' +
 
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h3" style="margin:0">Documents</div>' +
+        '<div class="card padded mt-20">' +
+          '<div class="row-between">' +
+            '<div class="h3 m-0">Documents</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadPlanDocument()">Upload</button>' +
           '</div>' +
           PLAN_DOCUMENTS.map(planDocRowHtml).join('') +
@@ -641,26 +641,26 @@
     }
 
     function detailField(label, value){
-      return '<div class="field"><div class="label">' + label + '</div><div class="small" style="margin-top:2px">' + value + '</div></div>';
+      return '<div class="field"><div class="label">' + label + '</div><div class="small mt-2">' + value + '</div></div>';
     }
 
     function checkinDetailHtml(c){
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="closeCheckin()">&larr; Back to check-ins</button>' +
-        '<div class="card padded" style="margin-top:16px">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">' + c.type + '</div>' +
+        '<div class="card padded mt-16">' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">' + c.type + '</div>' +
             '<span class="badge badge-success">Completed</span>' +
           '</div>' +
-          '<div class="field-grid" style="margin-top:18px">' +
+          '<div class="field-grid mt-18">' +
             detailField('Date', c.date) +
             detailField('Type', c.type) +
             detailField('Who attended', c.person) +
             detailField('Location / method', c.location) +
           '</div>' +
-          '<div style="margin-top:20px"><div class="label">Summary</div><p class="small" style="margin-top:6px">' + c.summary + '</p></div>' +
-          '<div style="margin-top:18px"><div class="label">Actions agreed</div><p class="small" style="margin-top:6px">' + c.actions + '</p></div>' +
-          '<div style="margin-top:18px"><div class="label">Next check-in</div><p class="small" style="margin-top:6px">' + c.next + '</p></div>' +
+          '<div class="mt-20"><div class="label">Summary</div><p class="small mt-6">' + c.summary + '</p></div>' +
+          '<div class="mt-18"><div class="label">Actions agreed</div><p class="small mt-6">' + c.actions + '</p></div>' +
+          '<div class="mt-18"><div class="label">Next check-in</div><p class="small mt-6">' + c.next + '</p></div>' +
         '</div>'
       );
     }
@@ -673,17 +673,17 @@
       const n = TENANCY_DATA.nextCheckinDetail;
       return (
         '<div class="card padded">' +
-          '<div class="h3" style="margin:0">Next scheduled check-in</div>' +
+          '<div class="h3 m-0">Next scheduled check-in</div>' +
           '<div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap">' +
             '<div class="journey-icon primary">' + calendarIconSvg() + '</div>' +
             '<div>' +
-              '<div class="h5" style="margin:0">' + n.type + '</div>' +
-              '<div class="small" style="color:var(--subtle);margin-top:4px">' + n.date + ' at ' + n.time + ' &middot; ' + n.person + ' &middot; ' + n.location + '</div>' +
+              '<div class="h5 m-0">' + n.type + '</div>' +
+              '<div class="small subtle-mt-4">' + n.date + ' at ' + n.time + ' &middot; ' + n.person + ' &middot; ' + n.location + '</div>' +
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="card padded" style="margin-top:20px">' +
-          '<div class="h4" style="margin:0">Previous check-ins</div>' +
+        '<div class="card padded mt-20">' +
+          '<div class="h4 m-0">Previous check-ins</div>' +
           '<p class="intro">Tap a check-in to see the full summary.</p>' +
           TENANCY_DATA.checkinHistory.map(checkinRowHtml).join('') +
         '</div>'
@@ -706,7 +706,7 @@
     function docGroupHtml(category){
       const docs = TENANCY_DATA.documents.filter(function(d){ return d.category === category; });
       if (!docs.length) return '';
-      return '<div class="h6" style="margin-top:20px">' + category + '</div>' + docs.map(docRowHtml).join('');
+      return '<div class="h6 mt-20">' + category + '</div>' + docs.map(docRowHtml).join('');
     }
 
     function uploadTenancyDocument(){
@@ -719,10 +719,10 @@
     function stepDocuments(){
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+          '<div class="row-between">' +
             '<div>' +
-              '<div class="h3" style="margin:0">Documents</div>' +
-              '<p class="small" style="margin-top:4px">All the important documents relating to your tenancy.</p>' +
+              '<div class="h3 m-0">Documents</div>' +
+              '<p class="small mt-4">All the important documents relating to your tenancy.</p>' +
             '</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="uploadTenancyDocument()">+ Upload document</button>' +
           '</div>' +
@@ -778,10 +778,10 @@
     function messageDetailHtml(m){
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="closeMessage()">&larr; Back to messages</button>' +
-        '<div class="card padded" style="margin-top:16px">' +
-          '<div class="h4" style="margin:0">' + m.subject + '</div>' +
-          '<div class="small" style="color:var(--subtle);margin-top:4px">' + m.sender + ' (' + m.role + ') &middot; ' + m.date + '</div>' +
-          '<p class="body" style="margin-top:18px">' + m.body + '</p>' +
+        '<div class="card padded mt-16">' +
+          '<div class="h4 m-0">' + m.subject + '</div>' +
+          '<div class="small subtle-mt-4">' + m.sender + ' (' + m.role + ') &middot; ' + m.date + '</div>' +
+          '<p class="body mt-18">' + m.body + '</p>' +
         '</div>'
       );
     }
@@ -789,14 +789,14 @@
     function newMessageFormHtml(){
       return (
         '<button type="button" class="btn btn-secondary btn-sm" onclick="cancelNewMessage()">&larr; Back to messages</button>' +
-        '<div class="card padded" style="margin-top:16px">' +
-          '<div class="h4" style="margin:0">New message</div>' +
-          '<div class="field" style="margin-top:16px"><div class="label">Send to</div>' +
+        '<div class="card padded mt-16">' +
+          '<div class="h4 m-0">New message</div>' +
+          '<div class="field mt-16"><div class="label">Send to</div>' +
             '<select class="select" id="newMessageContact">' + MESSAGE_CONTACTS.map(function(c){ return '<option>' + c + '</option>'; }).join('') + '</select>' +
           '</div>' +
-          '<div class="field" style="margin-top:14px"><div class="label">Subject</div><input class="input" id="newMessageSubject" placeholder="What is this about?" /></div>' +
-          '<div class="field" style="margin-top:14px"><div class="label">Message</div><textarea class="textarea" id="newMessageBody" placeholder="Write your message here"></textarea></div>' +
-          '<div style="display:flex;justify-content:flex-end;margin-top:16px">' +
+          '<div class="field mt-14"><div class="label">Subject</div><input class="input" id="newMessageSubject" placeholder="What is this about?" /></div>' +
+          '<div class="field mt-14"><div class="label">Message</div><textarea class="textarea" id="newMessageBody" placeholder="Write your message here"></textarea></div>' +
+          '<div class="row-end mt-16">' +
             '<button type="button" class="btn btn-primary" onclick="sendTenancyMessage()">Send message</button>' +
           '</div>' +
         '</div>'
@@ -811,10 +811,10 @@
       }
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
+          '<div class="row-between">' +
             '<div>' +
-              '<div class="h3" style="margin:0">Messages</div>' +
-              '<p class="small" style="margin-top:4px">Messages relating to your tenancy.</p>' +
+              '<div class="h3 m-0">Messages</div>' +
+              '<p class="small mt-4">Messages relating to your tenancy.</p>' +
             '</div>' +
             '<button type="button" class="btn btn-primary btn-sm" onclick="startNewMessage()">+ New message</button>' +
           '</div>' +

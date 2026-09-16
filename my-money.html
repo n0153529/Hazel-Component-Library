@@ -115,7 +115,7 @@
 
       <div class="main-heading">
         <div class="h2">My Money</div>
-        <p class="body" style="color:var(--muted);margin:6px 0 0">Check that this property is affordable and plan your income and expenditure.</p>
+        <p class="body page-subtitle">Check that this property is affordable and plan your income and expenditure.</p>
       </div>
 
       <div class="hre-layout">
@@ -157,9 +157,9 @@
         return (
           '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectMoneyNav(\'' + sec.id + '\')">' +
             '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
-            '<div style="min-width:0">' +
+            '<div class="min-w-0">' +
               '<div class="title">' + sec.title + '</div>' +
-              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+              (caption ? '<div class="small subtle-mt-2">' + caption + '</div>' : '') +
             '</div>' +
           '</div>'
         );
@@ -304,11 +304,11 @@
 
       return (
         '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
-          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+          '<div class="row-start-gap-14">' +
             '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
-              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+              '<svg class="icon-20" viewBox="0 0 24 24" fill="none">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h3" style="margin:0">Tenancy Assessment: <span style="color:' + cfg.labelColor + '">' + cfg.label + '</span></div><p class="small" style="margin: 4px 0px 0px 0px">' + text + '</p></div>' +
+            '<div><div class="h3 m-0">Tenancy Assessment: <span style="color:' + cfg.labelColor + '">' + cfg.label + '</span></div><p class="small mt-4">' + text + '</p></div>' +
           '</div>' +
         '</div>'
       );
@@ -347,24 +347,24 @@
 
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">Affordability Summary</div>' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">Affordability Summary</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="selectMoneyNav(\'income\')">Update figures</button>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">A breakdown of income and costs for this property.</p>' +
+          '<p class="small mt-4">A breakdown of income and costs for this property.</p>' +
 
-          '<div style="margin-top:18px">' +
+          '<div class="mt-18">' +
             summaryRow('Property', money(propertyCost)) +
             summaryRow('Benefit &amp; housing support', money(-support), { tight: true }) +
             summaryRow('Your Contribution', money(contribution), { total: true }) +
           '</div>' +
 
-          '<div style="margin-top:24px">' +
+          '<div class="mt-24">' +
             incomeRows +
             summaryRow('Total monthly income', money(income), { total: true }) +
           '</div>' +
 
-          '<div style="margin-top:24px">' +
+          '<div class="mt-24">' +
             summaryRow('Essential expenditure', money(-essentials), { tight: true }) +
             summaryRow('Remaining', money(remaining), { total: true, big: true }) +
           '</div>' +
@@ -372,7 +372,7 @@
 
         renderAssessmentBox(status, summaryAssessmentText(status)) +
 
-        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+        '<div class="row-end mt-20">' +
           '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
         '</div>'
       );
@@ -429,17 +429,17 @@
     function stepMoneyIncome(){
       const rows = MONEY_DATA.income.length
         ? MONEY_DATA.income.map(incomeRowHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any income yet. Add your first income source to get started.</p>';
+        : '<p class="small empty-state">You haven\'t added any income yet. Add your first income source to get started.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Income</div>' +
+          '<div class="h4 m-0">Income</div>' +
           '<p class="intro">Tell us about the money you have coming in each month. Add all regular sources of income so we can work out what you can afford.</p>' +
           '<div id="incomeRows">' + rows + '</div>' +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:14px" onclick="addIncomeRow()">+ Add income</button>' +
-          '<div style="margin-top:8px">' + summaryRow('Total monthly income', money(totalMonthlyIncome()), { total: true, big: true }) + '</div>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-14" onclick="addIncomeRow()">+ Add income</button>' +
+          '<div class="mt-8">' + summaryRow('Total monthly income', money(totalMonthlyIncome()), { total: true, big: true }) + '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectMoneyNav(\'summary\')">Back to My Money</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectMoneyNav(\'housing\')">Save &amp; Continue</button>' +
         '</div>'
@@ -480,22 +480,22 @@
     function stepMoneyHousing(){
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Housing Costs</div>' +
+          '<div class="h4 m-0">Housing Costs</div>' +
           '<p class="intro">Tell us about the costs for the property you\'re considering, and any housing benefit or Universal Credit support towards it.</p>' +
 
-          '<div class="h6" style="margin-top:20px">Property &amp; tenancy information</div>' +
+          '<div class="h6 mt-20">Property &amp; tenancy information</div>' +
           '<div class="field-grid">' + HOUSING_FIELDS.map(housingFieldHtml).join('') + '</div>' +
 
-          '<div class="h6" style="margin-top:24px">Benefit &amp; housing support</div>' +
+          '<div class="h6 mt-24">Benefit &amp; housing support</div>' +
           '<div class="field-grid">' + HOUSING_SUPPORT_FIELDS.map(housingFieldHtml).join('') + '</div>' +
 
-          '<div style="margin-top:24px">' +
+          '<div class="mt-24">' +
             summaryRow('Total property cost', money(totalHousingCost())) +
             summaryRow('Housing support', money(-totalHousingSupport()), { tight: true }) +
             summaryRow('Your contribution', money(netHousingContribution()), { total: true, big: true }) +
           '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectMoneyNav(\'income\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectMoneyNav(\'expenditure\')">Save &amp; Continue</button>' +
         '</div>'
@@ -549,17 +549,17 @@
     function stepMoneyExpenditure(){
       const rows = MONEY_DATA.expenditure.length
         ? MONEY_DATA.expenditure.map(expenditureRowHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any essential expenditure yet. Add your first cost to get started.</p>';
+        : '<p class="small empty-state">You haven\'t added any essential expenditure yet. Add your first cost to get started.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Essential Expenditure</div>' +
+          '<div class="h4 m-0">Essential Expenditure</div>' +
           '<p class="intro">This is for the regular spending you need to cover each month after your housing costs - things like food, travel and phone bills, not day-to-day extras.</p>' +
           '<div id="expenditureRows">' + rows + '</div>' +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:14px" onclick="addExpenditureRow()">+ Add expenditure</button>' +
-          '<div style="margin-top:8px">' + summaryRow('Essential expenditure', money(totalEssentialExpenditure()), { total: true, big: true }) + '</div>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-14" onclick="addExpenditureRow()">+ Add expenditure</button>' +
+          '<div class="mt-8">' + summaryRow('Essential expenditure', money(totalEssentialExpenditure()), { total: true, big: true }) + '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectMoneyNav(\'housing\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectMoneyNav(\'outcome\')">Save &amp; Continue</button>' +
         '</div>'
@@ -581,7 +581,7 @@
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Budget Outcome</div>' +
+          '<div class="h4 m-0">Budget Outcome</div>' +
           '<p class="intro">Here\'s how your money in compares to your costs each month.</p>' +
 
           '<div style="display:flex;height:28px;border-radius:999px;overflow:hidden;margin-top:20px;background:var(--surface-3)">' +
@@ -595,7 +595,7 @@
             '<div class="small"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:var(--success);margin-right:6px"></span>Remaining</div>' +
           '</div>' +
 
-          '<div style="margin-top:24px">' +
+          '<div class="mt-24">' +
             summaryRow('Monthly income', money(income)) +
             summaryRow('Housing contribution', money(-housing)) +
             summaryRow('Essential expenditure', money(-essentials), { tight: true }) +
@@ -605,7 +605,7 @@
 
         renderAssessmentBox(status, outcomeAssessmentText(status)) +
 
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectMoneyNav(\'expenditure\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectMoneyNav(\'summary\')">View Affordability Summary</button>' +
         '</div>'

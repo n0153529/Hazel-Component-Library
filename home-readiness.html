@@ -115,7 +115,7 @@
 
       <div class="main-heading">
         <div class="h2">My Home</div>
-        <p class="body" style="color:var(--muted);margin:6px 0 0">Tell us about your current housing and get ready for your new home.</p>
+        <p class="body page-subtitle">Tell us about your current housing and get ready for your new home.</p>
       </div>
 
       <div class="hre-layout">
@@ -157,9 +157,9 @@
         return (
           '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectHomeNav(\'' + sec.id + '\')">' +
             '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
-            '<div style="min-width:0">' +
+            '<div class="min-w-0">' +
               '<div class="title">' + sec.title + '</div>' +
-              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+              (caption ? '<div class="small subtle-mt-2">' + caption + '</div>' : '') +
             '</div>' +
           '</div>'
         );
@@ -282,11 +282,11 @@
       }[status];
       return (
         '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
-          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+          '<div class="row-start-gap-14">' +
             '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
-              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+              '<svg class="icon-20" viewBox="0 0 24 24" fill="none">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + copy.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + copy.text + '</p></div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + copy.title + '</div><p class="small mt-4">' + copy.text + '</p></div>' +
           '</div>' +
         '</div>'
       );
@@ -296,19 +296,19 @@
     function stepHomeOverview(){
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">My Home Overview</div>' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">My Home Overview</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="selectHomeNav(\'current\')">Update details</button>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">A summary of your current housing and how ready you are for your new home.</p>' +
+          '<p class="small mt-4">A summary of your current housing and how ready you are for your new home.</p>' +
 
-          '<div style="margin-top:18px">' +
+          '<div class="mt-18">' +
             summaryRow('Current housing situation', HOME_DATA.currentHousing || 'Not yet added') +
             summaryRow('Proposed property', HOME_DATA.newHome.address || 'Not yet added', { tight: true }) +
             summaryRow('Move-in date', formatDate(HOME_DATA.newHome.moveInDate), { total: true }) +
           '</div>' +
 
-          '<div style="margin-top:24px">' +
+          '<div class="mt-24">' +
             summaryRow('Tenancy status', HOME_DATA.newHome.status) +
             summaryRow('Home setup progress', tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length + ' completed', { tight: true }) +
             summaryRow('Furniture progress', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length + ' ready', { total: true }) +
@@ -317,7 +317,7 @@
 
         renderReadinessBox() +
 
-        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+        '<div class="row-end mt-20">' +
           '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
         '</div>'
       );
@@ -350,7 +350,7 @@
       const options = CURRENT_HOUSING_OPTIONS[HOME_DATA.ageBand];
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Current Housing</div>' +
+          '<div class="h4 m-0">Current Housing</div>' +
           '<p class="intro">Tell us a little about where you\'re living right now. This helps your worker understand your situation - there\'s no wrong answer.</p>' +
 
           '<div class="field" style="max-width:320px"><div class="label">How old are you?</div>' +
@@ -363,11 +363,11 @@
             '</select>' +
           '</div>' +
 
-          '<div class="field" style="margin-top:20px"><div class="label">Anything else we should know? (optional)</div>' +
+          '<div class="field mt-20"><div class="label">Anything else we should know? (optional)</div>' +
             '<textarea class="textarea" style="min-height:90px" placeholder="For example, how long you\'ve been there, or anything that would help your worker support you." oninput="updateCurrentHousingNotes(this.value)">' + HOME_DATA.currentHousingNotes + '</textarea>' +
           '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'overview\')">Back to My Home</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'newhome\')">Save &amp; Continue</button>' +
         '</div>'
@@ -385,10 +385,10 @@
       const nh = HOME_DATA.newHome;
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Your New Home</div>' +
+          '<div class="h4 m-0">Your New Home</div>' +
           '<p class="intro">Tell us about the property you\'re moving into. Some of this may already match what you added in Planning My Move.</p>' +
 
-          '<div class="field" style="margin-top:16px"><div class="label">Address</div>' +
+          '<div class="field mt-16"><div class="label">Address</div>' +
             '<input class="input" type="text" value="' + nh.address + '" onchange="updateNewHomeField(\'address\', this.value)" />' +
           '</div>' +
 
@@ -408,7 +408,7 @@
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'current\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'tenancy\')">Save &amp; Continue</button>' +
         '</div>'
@@ -442,12 +442,12 @@
       const rows = HOME_DATA.tenancySetup.map(tenancyRowHtml).join('');
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Tenancy &amp; Home Setup</div>' +
+          '<div class="h4 m-0">Tenancy &amp; Home Setup</div>' +
           '<p class="intro">Tap an item to mark it as done. This is just for you to keep track - your worker can help with anything you\'re not sure about.</p>' +
-          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden">' + rows + '</div>' +
-          '<div style="margin-top:8px">' + summaryRow('Completed', tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length, { total: true, big: true }) + '</div>' +
+          '<div class="bordered-list">' + rows + '</div>' +
+          '<div class="mt-8">' + summaryRow('Completed', tenancyDoneCount() + ' of ' + HOME_DATA.tenancySetup.length, { total: true, big: true }) + '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'newhome\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'furniture\')">Save &amp; Continue</button>' +
         '</div>'
@@ -466,7 +466,7 @@
     function furnitureRowHtml(row){
       return (
         '<div class="money-item-row">' +
-          '<div style="font-weight:700;color:var(--text-strong)">' + row.title + '</div>' +
+          '<div class="text-strong">' + row.title + '</div>' +
           '<div class="field"><select class="select" onchange="updateFurnitureField(' + row.id + ',\'status\',this.value)">' +
             FURNITURE_STATUS_OPTIONS.map(function(o){ return '<option' + (o === row.status ? ' selected' : '') + '>' + o + '</option>'; }).join('') +
           '</select></div>' +
@@ -479,19 +479,19 @@
 
     function furnitureGroupHtml(groupName){
       const rows = HOME_DATA.furniture.filter(function(r){ return r.group === groupName; }).map(furnitureRowHtml).join('');
-      return '<div class="h4" style="margin-top:20px">' + groupName + '</div>' + rows;
+      return '<div class="h4 mt-20">' + groupName + '</div>' + rows;
     }
 
     function stepFurniture(){
       const groups = ['Bedroom', 'Living room', 'Kitchen', 'Cleaning & household'];
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Furniture &amp; Moving</div>' +
+          '<div class="h4 m-0">Furniture &amp; Moving</div>' +
           '<p class="intro">Keep track of what you already have and what still needs sorting - and who\'s helping with each item.</p>' +
           groups.map(furnitureGroupHtml).join('') +
           '<div style="margin-top:40px">' + summaryRow('Ready', furnitureReadyCount() + ' of ' + HOME_DATA.furniture.length, { total: true, big: true }) + '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectHomeNav(\'tenancy\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectHomeNav(\'overview\')">View My Home Overview</button>' +
         '</div>'

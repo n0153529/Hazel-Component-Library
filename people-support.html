@@ -115,7 +115,7 @@
 
       <div class="main-heading">
         <div class="h2">People &amp; Support</div>
-        <p class="body" style="color:var(--muted);margin:6px 0 0">Keep track of the people helping you with your move, and what they're helping with.</p>
+        <p class="body page-subtitle">Keep track of the people helping you with your move, and what they're helping with.</p>
       </div>
 
       <div class="hre-layout">
@@ -157,9 +157,9 @@
         return (
           '<div class="money-nav-item' + (isActive ? ' active' : '') + '" onclick="selectSupportNav(\'' + sec.id + '\')">' +
             '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20">' + sec.icon + '</svg></div>' +
-            '<div style="min-width:0">' +
+            '<div class="min-w-0">' +
               '<div class="title">' + sec.title + '</div>' +
-              (caption ? '<div class="small" style="color:var(--subtle);margin-top:2px">' + caption + '</div>' : '') +
+              (caption ? '<div class="small subtle-mt-2">' + caption + '</div>' : '') +
             '</div>' +
           '</div>'
         );
@@ -222,7 +222,7 @@
 
     function supportChecklistRow(title, added, caption, sectionId){
       return (
-        '<div class="curr-item" style="cursor:default;align-items:center">' +
+        '<div class="curr-item curr-item-static">' +
           '<div class="marker ' + (added ? 'completed' : 'not-started') + '">' + (added ? markerSvg('completed') : '') + '</div>' +
           '<div class="curr-item-body"><div class="curr-item-title">' + title + '</div>' +
             (caption ? '<div class="curr-item-caption">' + caption + '</div>' : '') +
@@ -239,11 +239,11 @@
         : { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', titleColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>', title: 'You have ' + outstanding + (outstanding === 1 ? ' thing' : ' things') + ' still to confirm', text: 'There are still a few people or tasks to confirm before your move.' };
       return (
         '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
-          '<div style="display:flex;align-items:flex-start;gap:14px">' +
+          '<div class="row-start-gap-14">' +
             '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
-              '<svg viewBox="0 0 24 24" fill="none" style="width:20px;height:20px">' + cfg.icon + '</svg>' +
+              '<svg class="icon-20" viewBox="0 0 24 24" fill="none">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small" style="margin: 4px 0px 0px 0px">' + cfg.text + '</p></div>' +
+            '<div><div class="h3" style="margin:0;color:' + cfg.titleColor + '">' + cfg.title + '</div><p class="small mt-4">' + cfg.text + '</p></div>' +
           '</div>' +
         '</div>'
       );
@@ -259,18 +259,18 @@
 
       return (
         '<div class="card padded">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
-            '<div class="h4" style="margin:0">People &amp; Support Overview</div>' +
+          '<div class="row-between">' +
+            '<div class="h4 m-0">People &amp; Support Overview</div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="selectSupportNav(\'people\')">Update details</button>' +
           '</div>' +
-          '<p class="small" style="margin-top:4px">A summary of the people and support helping with your move.</p>' +
+          '<p class="small mt-4">A summary of the people and support helping with your move.</p>' +
 
-          '<div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:16px">' + rows + '</div>' +
+          '<div class="bordered-list mt-16">' + rows + '</div>' +
         '</div>' +
 
         renderSupportStatusBox() +
 
-        '<div style="display:flex;justify-content:flex-end;margin-top:20px">' +
+        '<div class="row-end mt-20">' +
           '<button type="button" class="btn btn-primary">Save &amp; Submit</button>' +
         '</div>'
       );
@@ -297,24 +297,24 @@
 
     function personCardHtml(row){
       return (
-        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
-            '<div class="field" style="max-width:280px;flex:1"><div class="label">Role / relationship</div>' +
+        '<div class="card padded mt-16 surface-2">' +
+          '<div class="row-between gap-12">' +
+            '<div class="field field-narrow"><div class="label">Role / relationship</div>' +
               '<select class="select" onchange="updatePersonField(' + row.id + ',\'role\',this.value)">' +
                 PEOPLE_ROLES.map(function(r){ return '<option' + (r === row.role ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
               '</select>' +
             '</div>' +
-            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove person" onclick="removePerson(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="icon-btn icon-btn-sm mt-20" aria-label="Remove person" onclick="removePerson(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
           '</div>' +
-          '<div style="margin-top:12px">' +
+          '<div class="mt-12">' +
             '<div class="field-grid">' +
               '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updatePersonField(' + row.id + ',\'name\', this.value)" /></div>' +
               '<div class="field"><div class="label">Organisation (optional)</div><input class="input" type="text" value="' + row.organisation + '" onchange="updatePersonField(' + row.id + ',\'organisation\', this.value)" /></div>' +
               '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updatePersonField(' + row.id + ',\'phone\', this.value)" /></div>' +
               '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updatePersonField(' + row.id + ',\'email\', this.value)" /></div>' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">What are they helping with?</div><textarea class="textarea" style="min-height:60px" onchange="updatePersonField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updatePersonField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div class="field mt-16"><div class="label">What are they helping with?</div><textarea class="textarea h-60" onchange="updatePersonField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
+            '<div class="field mt-16"><div class="label">Notes (optional)</div><textarea class="textarea h-60" onchange="updatePersonField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
           '</div>' +
         '</div>'
       );
@@ -323,16 +323,16 @@
     function stepPeople(){
       const cards = SUPPORT_DATA.people.length
         ? SUPPORT_DATA.people.map(personCardHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added anyone yet. Add the people actively helping with your move - for example a foster carer or a friend.</p>';
+        : '<p class="small empty-state">You haven\'t added anyone yet. Add the people actively helping with your move - for example a foster carer or a friend.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">People Helping With My Move</div>' +
+          '<div class="h4 m-0">People Helping With My Move</div>' +
           '<p class="intro">These are the people around you helping with your move - not your full trusted network, just who\'s involved this time.</p>' +
           cards +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addPerson()">+ Add another person</button>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-16" onclick="addPerson()">+ Add another person</button>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'overview\')">Back to People &amp; Support</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'professionals\')">Save &amp; Continue</button>' +
         '</div>'
@@ -360,24 +360,24 @@
 
     function professionalCardHtml(row){
       return (
-        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
-            '<div class="field" style="max-width:280px;flex:1"><div class="label">Role</div>' +
+        '<div class="card padded mt-16 surface-2">' +
+          '<div class="row-between gap-12">' +
+            '<div class="field field-narrow"><div class="label">Role</div>' +
               '<select class="select" onchange="updateProfessionalField(' + row.id + ',\'role\',this.value)">' +
                 PROFESSIONAL_ROLES.map(function(r){ return '<option' + (r === row.role ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
               '</select>' +
             '</div>' +
-            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove professional" onclick="removeProfessional(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="icon-btn icon-btn-sm mt-20" aria-label="Remove professional" onclick="removeProfessional(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
           '</div>' +
-          '<div style="margin-top:12px">' +
+          '<div class="mt-12">' +
             '<div class="field-grid">' +
               '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateProfessionalField(' + row.id + ',\'name\', this.value)" /></div>' +
               '<div class="field"><div class="label">Organisation</div><input class="input" type="text" value="' + row.organisation + '" onchange="updateProfessionalField(' + row.id + ',\'organisation\', this.value)" /></div>' +
               '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateProfessionalField(' + row.id + ',\'phone\', this.value)" /></div>' +
               '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateProfessionalField(' + row.id + ',\'email\', this.value)" /></div>' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">What are they helping with?</div><textarea class="textarea" style="min-height:60px" onchange="updateProfessionalField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateProfessionalField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div class="field mt-16"><div class="label">What are they helping with?</div><textarea class="textarea h-60" onchange="updateProfessionalField(' + row.id + ',\'helpingWith\', this.value)">' + row.helpingWith + '</textarea></div>' +
+            '<div class="field mt-16"><div class="label">Notes (optional)</div><textarea class="textarea h-60" onchange="updateProfessionalField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
           '</div>' +
         '</div>'
       );
@@ -386,16 +386,16 @@
     function stepProfessionals(){
       const cards = SUPPORT_DATA.professionals.length
         ? SUPPORT_DATA.professionals.map(professionalCardHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any professional support yet. Add your first contact below - for example your Personal Adviser.</p>';
+        : '<p class="small empty-state">You haven\'t added any professional support yet. Add your first contact below - for example your Personal Adviser.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Professional Support</div>' +
+          '<div class="h4 m-0">Professional Support</div>' +
           '<p class="intro">Save the professionals specifically involved in your move, and what they\'re helping with.</p>' +
           cards +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addProfessional()">+ Add another professional</button>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-16" onclick="addProfessional()">+ Add another professional</button>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'people\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'tasks\')">Save &amp; Continue</button>' +
         '</div>'
@@ -429,24 +429,24 @@
 
     function taskCardHtml(row){
       return (
-        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
-            '<div class="field" style="max-width:280px;flex:1"><div class="label">Task</div>' +
+        '<div class="card padded mt-16 surface-2">' +
+          '<div class="row-between gap-12">' +
+            '<div class="field field-narrow"><div class="label">Task</div>' +
               '<select class="select" onchange="updateTaskField(' + row.id + ',\'task\',this.value)">' +
                 TASK_TYPES.map(function(t){ return '<option' + (t === row.task ? ' selected' : '') + '>' + t + '</option>'; }).join('') +
               '</select>' +
             '</div>' +
-            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove task" onclick="removeTask(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="icon-btn icon-btn-sm mt-20" aria-label="Remove task" onclick="removeTask(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
           '</div>' +
-          '<div style="margin-top:12px">' +
+          '<div class="mt-12">' +
             '<div class="field-grid">' +
               '<div class="field"><div class="label">Person responsible / helping</div><input class="input" type="text" value="' + row.person + '" onchange="updateTaskField(' + row.id + ',\'person\', this.value)" /></div>' +
               '<div class="field"><div class="label">Status</div><select class="select" onchange="updateTaskField(' + row.id + ',\'status\',this.value)">' +
                 TASK_STATUSES.map(function(s){ return '<option' + (s === row.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') +
               '</select></div>' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateTaskField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
-            '<div style="margin-top:12px"><span class="' + taskStatusBadgeClass(row.status) + '">' + row.status + '</span></div>' +
+            '<div class="field mt-16"><div class="label">Notes (optional)</div><textarea class="textarea h-60" onchange="updateTaskField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div class="mt-12"><span class="' + taskStatusBadgeClass(row.status) + '">' + row.status + '</span></div>' +
           '</div>' +
         '</div>'
       );
@@ -455,17 +455,17 @@
     function stepTasks(){
       const cards = SUPPORT_DATA.tasks.length
         ? SUPPORT_DATA.tasks.map(taskCardHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t added any moving tasks yet. Add your first one below.</p>';
+        : '<p class="small empty-state">You haven\'t added any moving tasks yet. Add your first one below.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Moving Tasks &amp; Responsibilities</div>' +
+          '<div class="h4 m-0">Moving Tasks &amp; Responsibilities</div>' +
           '<p class="intro">Keep track of who\'s helping with the important jobs, and how things are progressing.</p>' +
           cards +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addTask()">+ Add another task</button>' +
-          '<div style="margin-top:8px">' + summaryRow('Tasks complete', (SUPPORT_DATA.tasks.length - tasksIncompleteCount()) + ' of ' + SUPPORT_DATA.tasks.length, { total: true, big: true }) + '</div>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-16" onclick="addTask()">+ Add another task</button>' +
+          '<div class="mt-8">' + summaryRow('Tasks complete', (SUPPORT_DATA.tasks.length - tasksIncompleteCount()) + ' of ' + SUPPORT_DATA.tasks.length, { total: true, big: true }) + '</div>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'professionals\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'contacts\')">Save &amp; Continue</button>' +
         '</div>'
@@ -493,22 +493,22 @@
 
     function contactCardHtml(row){
       return (
-        '<div class="card padded" style="margin-top:16px;background:var(--surface-2)">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+        '<div class="card padded mt-16 surface-2">' +
+          '<div class="row-between gap-12">' +
             '<div class="field" style="max-width:320px;flex:1"><div class="label">Type of contact</div>' +
               '<select class="select" onchange="updateContactField(' + row.id + ',\'type\',this.value)">' +
                 CONTACT_TYPES.map(function(t){ return '<option' + (t === row.type ? ' selected' : '') + '>' + t + '</option>'; }).join('') +
               '</select>' +
             '</div>' +
-            '<button type="button" class="icon-btn icon-btn-sm" style="margin-top:20px" aria-label="Remove contact" onclick="removeContact(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="icon-btn icon-btn-sm mt-20" aria-label="Remove contact" onclick="removeContact(' + row.id + ')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
           '</div>' +
-          '<div style="margin-top:12px">' +
+          '<div class="mt-12">' +
             '<div class="field-grid">' +
               '<div class="field"><div class="label">Name</div><input class="input" type="text" value="' + row.name + '" onchange="updateContactField(' + row.id + ',\'name\', this.value)" /></div>' +
               '<div class="field"><div class="label">Telephone</div><input class="input" type="tel" value="' + row.phone + '" onchange="updateContactField(' + row.id + ',\'phone\', this.value)" /></div>' +
               '<div class="field"><div class="label">Email (optional)</div><input class="input" type="email" value="' + row.email + '" onchange="updateContactField(' + row.id + ',\'email\', this.value)" /></div>' +
             '</div>' +
-            '<div class="field" style="margin-top:16px"><div class="label">Notes (optional)</div><textarea class="textarea" style="min-height:60px" onchange="updateContactField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
+            '<div class="field mt-16"><div class="label">Notes (optional)</div><textarea class="textarea h-60" onchange="updateContactField(' + row.id + ',\'notes\', this.value)">' + row.notes + '</textarea></div>' +
           '</div>' +
         '</div>'
       );
@@ -517,16 +517,16 @@
     function stepContacts(){
       const cards = SUPPORT_DATA.contacts.length
         ? SUPPORT_DATA.contacts.map(contactCardHtml).join('')
-        : '<p class="small" style="color:var(--subtle);padding:20px 0">You haven\'t saved any move-related contacts yet. Add your first one below.</p>';
+        : '<p class="small empty-state">You haven\'t saved any move-related contacts yet. Add your first one below.</p>';
 
       return (
         '<div class="card padded">' +
-          '<div class="h4" style="margin:0">Important Contacts</div>' +
+          '<div class="h4 m-0">Important Contacts</div>' +
           '<p class="intro">A small number of contacts you might need regularly during your move - not your wider trusted network.</p>' +
           cards +
-          '<button type="button" class="btn btn-dashed" style="width:100%;justify-content:center;margin-top:16px" onclick="addContact()">+ Add another contact</button>' +
+          '<button type="button" class="btn btn-dashed btn-block mt-16" onclick="addContact()">+ Add another contact</button>' +
         '</div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:20px">' +
+        '<div class="row-between-plain mt-20">' +
           '<button type="button" class="btn btn-secondary" onclick="selectSupportNav(\'tasks\')">Back</button>' +
           '<button type="button" class="btn btn-primary" onclick="selectSupportNav(\'overview\')">View People &amp; Support Overview</button>' +
         '</div>'

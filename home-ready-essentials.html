@@ -113,21 +113,21 @@
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-        <div style="min-width:0">
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="h2" style="margin:0">Home Ready Essentials</div>
+      <div class="row-between gap-20">
+        <div class="min-w-0">
+          <div class="row-gap-8">
+            <div class="h2 m-0">Home Ready Essentials</div>
             <span class="info-tip" tabindex="0">
-              <svg viewBox="0 0 24 24" fill="none" width="16" height="16" style="color:var(--subtle)"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+              <svg class="text-subtle" viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
               <span class="bubble">Work through each section with your PA or support worker.</span>
             </span>
           </div>
-          <p class="small" style="margin-top:4px">Build the knowledge and confidence to manage a home successfully.</p>
+          <p class="small mt-4">Build the knowledge and confidence to manage a home successfully.</p>
         </div>
-        <div style="display:flex;align-items:center;gap:16px;flex:none">
+        <div class="row-gap-16-noflex">
           <button type="button" class="btn btn-secondary" id="submitCurriculumBtn" disabled onclick="if(!this.disabled) location.href='curriculum-completed.html'">Completed</button>
-          <div style="text-align:right">
-            <div class="small" style="font-weight:700;color:var(--text-strong)">Curriculum progress</div>
+          <div class="text-right">
+            <div class="small text-strong">Curriculum progress</div>
             <div class="small" id="progressCaption">0 of 24 completed</div>
           </div>
           <div class="progress-ring" role="img" aria-label="Programme progress" id="progressRing" style="--pct:0">
@@ -274,7 +274,7 @@
                 '<div class="curr-item-title">' + it.title + '</div>' +
                 (it.status === 'not-started'
                   ? '<div class="curr-item-caption">Not started</div>'
-                  : '<span class="' + statusBadgeClass(it.status) + '" style="margin-top:6px">' + statusLabel(it.status) + '</span>') +
+                  : '<span class="' + statusBadgeClass(it.status) + ' mt-6">' + statusLabel(it.status) + '</span>') +
               '</div>' +
             '</div>'
           );
@@ -337,10 +337,10 @@
         '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">' +
           '<div style="display:flex;align-items:flex-start;gap:14px;min-width:0">' +
             '<div class="hre-section-num">' + (secIndex + 1) + '</div>' +
-            '<div style="min-width:0">' +
-              '<div class="h3" style="margin:0">' + sec.title + '</div>' +
-              '<div class="h5" style="margin-top:12px">' + it.title + '</div>' +
-              '<p class="small" style="margin-top:4px">Explore and record understanding of ' + it.title.toLowerCase().replace(/\?$/, '') + '.</p>' +
+            '<div class="min-w-0">' +
+              '<div class="h3 m-0">' + sec.title + '</div>' +
+              '<div class="h5 mt-12">' + it.title + '</div>' +
+              '<p class="small mt-4">Explore and record understanding of ' + it.title.toLowerCase().replace(/\?$/, '') + '.</p>' +
             '</div>' +
           '</div>' +
           '<span class="' + statusBadgeClass(sec.items.every(function(i){return i.status==='completed';}) ? 'completed' : (completedInSection > 0 ? 'in-progress' : 'not-started')) + '">' +
@@ -349,7 +349,7 @@
         '</div>' +
 
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:24px;margin-bottom:10px">' +
-          '<div class="h6" style="margin:0">Resource Documents</div>' +
+          '<div class="h6 m-0">Resource Documents</div>' +
         '</div>' +
         docsHtml +
 
@@ -358,7 +358,7 @@
             '<div>' +
               '<span class="badge badge-primary">Shared record</span>' +
               '<div class="h6" style="margin:8px 0 0">' + it.title + '</div>' +
-              '<p class="small" style="margin-top:2px">Discussion notes shared by your PA or support professional.</p>' +
+              '<p class="small mt-2">Discussion notes shared by your PA or support professional.</p>' +
             '</div>' +
             '<span class="' + statusBadgeClass(it.status) + '">' + statusLabel(it.status) + '</span>' +
           '</div>' +
@@ -389,9 +389,9 @@
         '</div>' +
 
         // '<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">' +
-        //   '<div class="h6" style="margin:0">Assessment</div>' +
-        //   '<p class="small" style="margin-top:4px">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
-        //   '<p class="small" style="margin-top:4px">Your professional will make the assessment available when you are ready.</p>' +
+        //   '<div class="h6 m-0">Assessment</div>' +
+        //   '<p class="small mt-4">5 saved questions &middot; 5 per attempt &middot; 70% pass mark</p>' +
+        //   '<p class="small mt-4">Your professional will make the assessment available when you are ready.</p>' +
         // '</div>' +
 
         '<div class="hre-actions">' +

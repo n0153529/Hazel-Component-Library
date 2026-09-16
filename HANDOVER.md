@@ -283,15 +283,27 @@ This is the punch list for the next session:
    variants), the `.owizard-*` wizard stepper (exists from `create-offer.html`
    but may not be documented either — check), `.icon-btn-ai` (the gradient
    AI-assist icon button variant), `.dropzone` reused as a signature-capture
-   UI on `guarantor-scheme.html`, and the `.curr-item`/`.marker` checklist row
+   UI on `guarantor-scheme.html`, the `.curr-item`/`.marker` checklist row
    (originally from the curriculum click-through, now reused everywhere for
-   "list of things with a status and maybe a button").
-4. **Heavy reliance on inline `style="..."` attributes** throughout every
-   page built after `components.html` itself. This was a deliberate
-   speed/pragmatism tradeoff during rapid page-building, but a lot of it
-   (spacing, flex layout, one-off color overrides) could reasonably be
-   promoted into real classes now that patterns have stabilized across 5+
-   pages using the same inline combinations repeatedly.
+   "list of things with a status and maybe a button"), and the **~38 new
+   utility classes added this session** (see Section 7) — these were added
+   to `styles.css` and applied across all 13 pages, but `components.html`
+   has no demo/reference section for them yet. Worth a dedicated "Utilities"
+   section in the component library with live examples, same treatment as
+   everything else catalogued there.
+4. **~~Heavy reliance on inline `style="..."` attributes~~ — largely addressed
+   this session.** See Section 7 for the full breakdown: 395 of 521 inline
+   styles across the 13 built pages were promoted into ~38 new utility/
+   component classes in `styles.css`. What remains (~126) is either
+   JS-computed at render time (colors/percentages driven by a data object)
+   or a genuine one-off below the reuse threshold — both left inline
+   deliberately. One item **not** addressed: the dropdown-menu positioning
+   override `style="right:0;left:auto"` (13 uses) is identical across
+   *every* page in the whole app, not just the 13 in scope for this pass —
+   promoting it needs a decision on whether to touch the out-of-scope pages
+   too (`dashboard.html`, `dashboard-org.html`, `index.html`,
+   `create-offer.html`, `components.html`), so it was left as-is rather than
+   creating a split where some pages use a class and others don't.
 5. **`.info-tip` has accumulated modifiers** (`.tip-below`, `.tip-wide`,
    `.tip-align-right`) added incrementally as specific pages needed them.
    Worth reviewing whether these should just be the default behavior with an
@@ -357,6 +369,80 @@ This is the punch list for the next session:
    Zero console/page errors across all 18 pages (the two recurring
    `403` resource-load messages are pre-existing and reproduce identically
    on the untouched `my-money.html`, unrelated to this session's work).
+
+### Previous session (Tenancy Action Plan)
+1. **`tenancy.html`** — built out the previously-placeholder Action Plan
+   tab in full: a "Tenancy Sustainment Action Plan" heading, an editable
+   Actions table (checkbox / name / who / due date / status chip / notes /
+   View-or-Complete button, using the existing `.table-wrap` responsive
+   table component) backed by a real `TENANCY_ACTIONS` array, an
+   "Involved in the plan" card (avatar + role chip per person), a "Key
+   Dates" card (`.summary-row` label/value pattern), and a Documents card
+   (reusing the resource-doc-row pattern). Click-through detail view for
+   each action, an inline "Add action" form, and a working
+   Complete/checkbox toggle — all wired to genuinely mutate the in-memory
+   data model and re-render, consistent with the rest of the page.
+2. Full Playwright interaction test of the new tab (5 rows render, status
+   chips correct, Complete/View/checkbox/Add all work) plus an 18-page
+   regression — zero errors.
+
+### This session (CSS cleanup pass)
+Scope: `my-home.html`, `home-ready-essentials.html`,
+`home-ready-essentials-pa.html`, `curriculum-completed.html`,
+`planning-my-move.html`, `my-money.html`, `home-readiness.html`,
+`my-health.html`, `my-area.html`, `people-support.html`,
+`firm-recommendation.html`, `guarantor-scheme.html`, `tenancy.html` — the
+13 pages the user explicitly named. `dashboard.html`, `dashboard-org.html`,
+`index.html`, `create-offer.html` and `components.html` were left untouched
+in content (the user had made their own local edits, including sidebar
+updates across every page, and re-uploaded — those were adopted as-is).
+
+1. **Audited inline `style="..."` usage** across the 13 in-scope pages:
+   521 occurrences total. Counted exact-match repeats to find genuinely
+   reused combinations rather than guessing.
+2. **Added ~38 new classes to `styles.css`** (a new "Utilities" section
+   at the end of the file): spacing (`.mt-2` through `.mt-24`, `.m-0`),
+   layout (`.row-between` + `.gap-12`/`.gap-20` modifiers,
+   `.row-between-plain`, `.row-end`, `.row-start-gap-14`, `.row-gap-8`,
+   `.row-gap-16-noflex`, `.min-w-0`, `.mx-auto`, `.text-right`), text
+   (`.text-subtle`, `.text-strong`, `.subtle-mt-2`, `.subtle-mt-4`,
+   `.page-subtitle`, `.empty-state`), and component modifiers
+   (`.curr-item.curr-item-static`, `.bordered-list`, `.surface-2`,
+   `.btn-block`, `.field.field-narrow`, `.textarea.h-60`/`.h-70`,
+   `.icon-20`). Each was based on an actual repeated pattern found in the
+   audit, not invented speculatively — see the comment block at the top of
+   the Utilities section in `styles.css` for the rationale.
+3. **Wrote a script-driven refactor** (matches whole opening tags via
+   regex, merges new classes into any existing `class="..."` attribute,
+   strips the now-redundant `style="..."`) and ran it across all 13 files.
+   Checked first for stray `<`/`>` characters inside dynamic JS
+   expressions (e.g. `completedInSection > 0` inside a template string)
+   that could confuse tag-boundary detection — confirmed safe because the
+   script only ever *replaces a match with itself unchanged* unless the
+   exact target style string is found, so a mis-scanned tag can't corrupt
+   output, it just fails to match (verified this reasoning held in
+   practice — zero corruption found afterwards).
+4. **Result: 395 of 521 inline styles eliminated (76%)**. The ~126
+   remaining are either genuinely dynamic (JS-computed colors from a
+   `cfg` object, calculated percentages/widths for progress bars, custom
+   `--pct` properties) or one-off enough that forcing them into a shared
+   class would reduce clarity rather than add reuse value — both
+   deliberately left inline. Not addressed: `style="right:0;left:auto"`
+   (13 uses, the profile-dropdown positioning override) is identical
+   sitewide, not just on the 13 in-scope pages — flagged in Section 6
+   rather than fixed, to avoid creating a split where some pages use a
+   class for this and others don't.
+5. **Resynced the embedded stylesheet in `components.html`** after the
+   `styles.css` changes — verified byte-identical.
+6. **Verification**: CRLF byte-count check on every touched file after
+   every edit; full 18-page Playwright regression (zero console errors);
+   a `html.parser` structural sanity pass on all 13 files; re-ran the
+   Tenancy/Action Plan interaction test suite from the previous session
+   (still fully working — checkbox toggle, Complete/View buttons, Add
+   action form, detail views); full-page screenshots of all 13 pages
+   plus a couple of deeper interaction screenshots (My Area → Important
+   Places → Add another place) to visually confirm no layout regressions
+   from the class swap.
 
 ---
 
