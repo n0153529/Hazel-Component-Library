@@ -103,7 +103,7 @@
           </button>
           <div class="dropdown">
             <div class="avatar topbar-avatar" title="Your profile" onclick="toggleProfileMenu(event)">AP</div>
-            <div class="menu" id="profileMenu" style="right:0;left:auto" hidden>
+            <div class="menu menu-right" id="profileMenu" hidden>
               <div class="menu-item">Membership card</div>
               <div class="menu-item">Account &amp; Privacy</div>
               <div class="menu-sep"></div>
@@ -151,6 +151,14 @@
     let activePropertyContext = 'prospective';
     let viewMode = 'edit'; // 'edit' | 'compare'
 
+    // Single source of truth for how each property is labelled, so renaming
+    // one only means changing it here - used in the toggle buttons, the
+    // Affordability Summary title, the Compare screen and its table.
+    const PROPERTY_LABELS = { prospective: 'Prospective Property', current: 'Current Tenancy' };
+    function propertyLabel(ctx){
+      return PROPERTY_LABELS[ctx || activePropertyContext];
+    }
+
     function data(){
       return MONEY_DATA_BY_PROPERTY[activePropertyContext];
     }
@@ -161,10 +169,10 @@
       renderMoneyContent();
     }
 
-    function propertyToggleBtn(ctx, label){
+    function propertyToggleBtn(ctx){
       const isOn = activePropertyContext === ctx;
-      const style = isOn ? 'background:var(--primary);border-color:var(--primary);color:#fff' : '';
-      return '<button type="button" class="seg-btn" style="' + style + '" onclick="selectPropertyContext(\'' + ctx + '\')">' + label + '</button>';
+      const cls = 'btn btn-block ' + (isOn ? 'btn-primary' : 'btn-secondary');
+      return '<button type="button" class="' + cls + '" onclick="selectPropertyContext(\'' + ctx + '\')">' + propertyLabel(ctx) + '</button>';
     }
 
     function selectPropertyContext(ctx){
@@ -188,7 +196,7 @@
 
       document.getElementById('moneyToolbar').innerHTML = viewMode === 'compare'
         ? ''
-        : '<div class="segmented mt-16">' + propertyToggleBtn('current', 'Current Property') + propertyToggleBtn('prospective', 'Prospective Property') + '</div>';
+        : '<div class="property-toggle-row">' + propertyToggleBtn('prospective') + propertyToggleBtn('current') + '</div>';
     }
 
     function renderMoneyBody(){
@@ -382,23 +390,25 @@
     // empty) - used on Affordability Summary, Budget Outcome, and the
     // Compare screen's per-property verdict cards, each supplying their own
     // wording, so the colour/icon/label lookup itself isn't duplicated.
+    // Colours themselves live in styles.css as .status-box/.status-icon/
+    // .status-label modifiers keyed by this same status name - see below.
     const ASSESSMENT_CONFIG = {
-      green: { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', label: 'SUSTAINABLE', labelColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' },
-      amber: { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', label: 'LIKELY TO BE TIGHT', labelColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>' },
-      red: { bg: 'var(--danger-soft)', border: 'var(--danger-border)', iconBg: 'var(--danger)', label: 'NOT VIABLE', labelColor: 'var(--danger)', icon: '<path d="M18 6 6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>' },
-      empty: { bg: 'var(--surface-2)', border: 'var(--border)', iconBg: 'var(--muted)', label: 'COMPLETE YOUR FIGURES', labelColor: 'var(--muted)', icon: '<path d="M7 12h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>' }
+      green: { label: 'SUSTAINABLE', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' },
+      amber: { label: 'LIKELY TO BE TIGHT', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>' },
+      red: { label: 'NOT VIABLE', icon: '<path d="M18 6 6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>' },
+      empty: { label: 'COMPLETE YOUR FIGURES', icon: '<path d="M7 12h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>' }
     };
 
     function renderAssessmentBox(status, text){
       const cfg = ASSESSMENT_CONFIG[status];
 
       return (
-        '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+        '<div class="card padded status-box ' + status + ' mt-20">' +
           '<div class="row-start-gap-14">' +
-            '<div style="width:40px;height:40px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+            '<div class="icon-circle-40 status-icon ' + status + '">' +
               '<svg class="icon-20" viewBox="0 0 24 24" fill="none">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h3 m-0">Tenancy Assessment: <span style="color:' + cfg.labelColor + '">' + cfg.label + '</span></div><p class="small mt-4">' + text + '</p></div>' +
+            '<div><div class="h3 m-0">Tenancy Assessment: <span class="status-label ' + status + '">' + cfg.label + '</span></div><p class="small mt-4">' + text + '</p></div>' +
           '</div>' +
         '</div>'
       );
@@ -436,7 +446,7 @@
       return (
         '<div class="card padded">' +
           '<div class="row-between">' +
-            '<div class="h4 m-0">Affordability Summary</div>' +
+            '<div class="h4 m-0">Affordability Summary <span class="small text-subtle">(' + propertyLabel() + ')</span></div>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="selectMoneyNav(\'income\')">Update figures</button>' +
           '</div>' +
           '<p class="small mt-4">A breakdown of income and costs for this property.</p>' +
@@ -489,7 +499,7 @@
           '<div class="field"><div class="label">Frequency</div>' +
             '<select class="select" onchange="updateIncomeField(' + row.id + ',\'frequency\',this.value)">' + frequencyOptionsHtml(row.frequency) + '</select>' +
           '</div>' +
-          '<button type="button" class="icon-btn icon-btn-sm" style="margin-bottom:2px" onclick="removeIncomeRow(' + row.id + ')" aria-label="Remove income">' + removeRowIconSvg() + '</button>' +
+          '<button type="button" class="icon-btn icon-btn-sm mb-2" onclick="removeIncomeRow(' + row.id + ')" aria-label="Remove income">' + removeRowIconSvg() + '</button>' +
         '</div>'
       );
     }
@@ -598,7 +608,7 @@
           '<div class="field"><div class="label">Frequency</div>' +
             '<select class="select" onchange="updateExpenditureField(' + row.id + ',\'frequency\',this.value)">' + frequencyOptionsHtml(row.frequency) + '</select>' +
           '</div>' +
-          '<button type="button" class="icon-btn icon-btn-sm" style="margin-bottom:2px" onclick="removeExpenditureRow(' + row.id + ')" aria-label="Remove expenditure">' + removeRowIconSvg() + '</button>' +
+          '<button type="button" class="icon-btn icon-btn-sm mb-2" onclick="removeExpenditureRow(' + row.id + ')" aria-label="Remove expenditure">' + removeRowIconSvg() + '</button>' +
         '</div>'
       );
     }
@@ -659,15 +669,15 @@
           '<div class="h4 m-0">Budget Outcome</div>' +
           '<p class="intro">Here\'s how your money in compares to your costs each month.</p>' +
 
-          '<div style="display:flex;height:28px;border-radius:999px;overflow:hidden;margin-top:20px;background:var(--surface-3)">' +
-            '<div style="width:' + pct(housing) + '%;background:var(--info)"></div>' +
-            '<div style="width:' + pct(essentials) + '%;background:var(--warning)"></div>' +
-            '<div style="width:' + pct(Math.max(remaining, 0)) + '%;background:var(--success)"></div>' +
+          '<div class="budget-bar">' +
+            '<div class="color-info" style="width:' + pct(housing) + '%"></div>' +
+            '<div class="color-warning" style="width:' + pct(essentials) + '%"></div>' +
+            '<div class="color-success" style="width:' + pct(Math.max(remaining, 0)) + '%"></div>' +
           '</div>' +
-          '<div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px">' +
-            '<div class="small"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:var(--info);margin-right:6px"></span>Housing</div>' +
-            '<div class="small"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:var(--warning);margin-right:6px"></span>Essential spending</div>' +
-            '<div class="small"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:var(--success);margin-right:6px"></span>Remaining</div>' +
+          '<div class="budget-legend">' +
+            '<div class="small"><span class="legend-dot color-info"></span>Housing</div>' +
+            '<div class="small"><span class="legend-dot color-warning"></span>Essential spending</div>' +
+            '<div class="small"><span class="legend-dot color-success"></span>Remaining</div>' +
           '</div>' +
 
           '<div class="mt-24">' +
@@ -698,7 +708,7 @@
       document.getElementById('moneyContent').innerHTML = renderers[activeMoneySection]();
     }
 
-    // ---- Compare (Current Property vs Prospective Property) ----------------
+    // ---- Compare (Current Tenancy vs Prospective Property) ----------------
     function editProperty(ctx){
       activePropertyContext = ctx;
       viewMode = 'edit';
@@ -707,17 +717,17 @@
       renderMoneyBody();
     }
 
-    function compareVerdictCard(title, d){
+    function compareVerdictCard(ctx, d){
       const status = affordabilityStatus(d);
       const cfg = ASSESSMENT_CONFIG[status];
       return (
-        '<div class="card padded" style="flex:1 1 260px;min-width:240px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
-          '<div class="small text-strong">' + title + '</div>' +
+        '<div class="card padded compare-card status-box ' + status + '">' +
+          '<div class="h3 m-0">' + propertyLabel(ctx) + '</div>' +
           '<div class="row-start-gap-14 mt-8">' +
-            '<div style="width:36px;height:36px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+            '<div class="icon-circle-36 status-icon ' + status + '">' +
               '<svg viewBox="0 0 24 24" fill="none" width="16" height="16">' + cfg.icon + '</svg>' +
             '</div>' +
-            '<div><div class="h5 m-0" style="color:' + cfg.labelColor + '">' + cfg.label + '</div><div class="small mt-2">' + money(remainingBudget(d)) + ' left over each month</div></div>' +
+            '<div><div class="h5 m-0 status-label ' + status + '">' + cfg.label + '</div><div class="small mt-2">' + money(remainingBudget(d)) + ' left over each month</div></div>' +
           '</div>' +
         '</div>'
       );
@@ -731,52 +741,96 @@
       let diffHtml = '<span class="small text-subtle">No change</span>';
       if (diff !== 0){
         const better = row.good === 'higher' ? diff > 0 : diff < 0;
-        const color = better ? 'var(--success)' : 'var(--danger)';
+        const cls = better ? 'diff-better' : 'diff-worse';
         const sign = diff > 0 ? '+' : '';
-        diffHtml = '<span class="small" style="color:' + color + ';font-weight:700">' + sign + money(diff) + '</span>';
+        diffHtml = '<span class="small ' + cls + '">' + sign + money(diff) + '</span>';
       }
       return (
-        '<tr>' +
+        '<tr' + (row.subtotal ? ' class="text-strong"' : '') + '>' +
           '<td data-label="">' + row.label + '</td>' +
-          '<td data-label="Current Property">' + money(row.curVal) + '</td>' +
-          '<td data-label="Prospective Property">' + money(row.proVal) + '</td>' +
+          '<td data-label="' + propertyLabel('current') + '">' + money(row.curVal) + '</td>' +
+          '<td data-label="' + propertyLabel('prospective') + '">' + money(row.proVal) + '</td>' +
           '<td data-label="Difference">' + diffHtml + '</td>' +
         '</tr>'
       );
+    }
+
+    function compareSubheadHtml(label){
+      return '<tr class="compare-subhead"><td colspan="4">' + label + '</td></tr>';
+    }
+
+    // Every income/expenditure category present in EITHER property, so a
+    // source or cost that only exists on one side still shows up (as £0 on
+    // the other) rather than being silently left out of the comparison.
+    function compareCategoryRows(curList, proList, good){
+      const categories = [];
+      function collect(list){
+        list.forEach(function(row){
+          if (categories.indexOf(row.category) === -1) categories.push(row.category);
+        });
+      }
+      collect(curList);
+      collect(proList);
+      return categories.map(function(cat){
+        const curRow = curList.find(function(r){ return r.category === cat; });
+        const proRow = proList.find(function(r){ return r.category === cat; });
+        return {
+          label: cat,
+          curVal: curRow ? toMonthly(curRow.amount, curRow.frequency) : 0,
+          proVal: proRow ? toMonthly(proRow.amount, proRow.frequency) : 0,
+          good: good
+        };
+      });
     }
 
     function stepCompare(){
       const cur = MONEY_DATA_BY_PROPERTY.current;
       const pro = MONEY_DATA_BY_PROPERTY.prospective;
 
-      const rows = [
-        { label: 'Total property cost', curVal: totalHousingCost(cur), proVal: totalHousingCost(pro), good: 'lower' },
-        { label: 'Total monthly income', curVal: totalMonthlyIncome(cur), proVal: totalMonthlyIncome(pro), good: 'higher' },
-        { label: 'Essential expenditure', curVal: totalEssentialExpenditure(cur), proVal: totalEssentialExpenditure(pro), good: 'lower' },
-        { label: 'Money left over', curVal: remainingBudget(cur), proVal: remainingBudget(pro), good: 'higher' }
-      ];
+      const housingRows = HOUSING_FIELDS.map(function(f){
+        return { label: f.label, curVal: cur.housing[f.key], proVal: pro.housing[f.key], good: 'lower' };
+      });
+      const incomeRows = compareCategoryRows(cur.income, pro.income, 'higher');
+      const expenditureRows = compareCategoryRows(cur.expenditure, pro.expenditure, 'lower');
+
+      const bodyRows = (
+        compareSubheadHtml('Housing costs') +
+        housingRows.map(compareRowHtml).join('') +
+        compareRowHtml({ label: 'Total property cost', curVal: totalHousingCost(cur), proVal: totalHousingCost(pro), good: 'lower', subtotal: true }) +
+
+        compareSubheadHtml('Income') +
+        incomeRows.map(compareRowHtml).join('') +
+        compareRowHtml({ label: 'Total monthly income', curVal: totalMonthlyIncome(cur), proVal: totalMonthlyIncome(pro), good: 'higher', subtotal: true }) +
+
+        compareSubheadHtml('Essential expenditure') +
+        expenditureRows.map(compareRowHtml).join('') +
+        compareRowHtml({ label: 'Total essential expenditure', curVal: totalEssentialExpenditure(cur), proVal: totalEssentialExpenditure(pro), good: 'lower', subtotal: true }) +
+
+        compareSubheadHtml('Outcome') +
+        compareRowHtml({ label: 'Money left over', curVal: remainingBudget(cur), proVal: remainingBudget(pro), good: 'higher', subtotal: true })
+      );
 
       return (
         '<div class="card padded">' +
-          '<div class="h4 m-0">Compare your properties</div>' +
-          '<p class="intro">See how the property you\'re considering compares to where you live now.</p>' +
+          '<div class="h3 m-0">Compare your properties</div>' +
+          '<p class="intro tight">See how the property you\'re considering compares to where you live now, figure by figure.</p>' +
 
-          '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px">' +
-            compareVerdictCard('Current Property', cur) +
-            compareVerdictCard('Prospective Property', pro) +
+          '<div class="cards-row mt-16">' +
+            compareVerdictCard('current', cur) +
+            compareVerdictCard('prospective', pro) +
           '</div>' +
 
           '<div class="table-wrap mt-20">' +
             '<table>' +
-              '<thead><tr><th></th><th>Current Property</th><th>Prospective Property</th><th>Difference</th></tr></thead>' +
-              '<tbody>' + rows.map(compareRowHtml).join('') + '</tbody>' +
+              '<thead><tr><th></th><th>' + propertyLabel('current') + '</th><th>' + propertyLabel('prospective') + '</th><th>Difference</th></tr></thead>' +
+              '<tbody>' + bodyRows + '</tbody>' +
             '</table>' +
           '</div>' +
         '</div>' +
 
         '<div class="row-end mt-20">' +
-          '<button type="button" class="btn btn-secondary" onclick="editProperty(\'current\')">Edit Current Property</button>' +
-          '<button type="button" class="btn btn-primary" onclick="editProperty(\'prospective\')">Edit Prospective Property</button>' +
+          '<button type="button" class="btn btn-secondary" onclick="editProperty(\'current\')">Edit ' + propertyLabel('current') + '</button>' +
+          '<button type="button" class="btn btn-primary" onclick="editProperty(\'prospective\')">Edit ' + propertyLabel('prospective') + '</button>' +
         '</div>'
       );
     }

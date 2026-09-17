@@ -506,7 +506,8 @@ tr:last-child td{border-bottom:none}
 .owizard-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
 .owizard-body{padding:32px}
 .owizard-body .h4{margin:0 0 6px}
-.owizard-body>p.intro{margin:0 0 24px;color:var(--muted)}
+.intro{margin:0 0 24px;color:var(--muted)}
+.intro.tight{margin:0}
 .owizard-foot{padding:20px 32px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px}
 
 .step-progress{display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -1852,6 +1853,7 @@ tr:last-child td{border-bottom:none}
 /* Spacing utilities */
 .m-0{margin:0}
 .mt-2{margin-top:2px}
+.mb-2{margin-bottom:2px}
 .mt-4{margin-top:4px}
 .mt-6{margin-top:6px}
 .mt-8{margin-top:8px}
@@ -1872,6 +1874,43 @@ tr:last-child td{border-bottom:none}
 .row-end{display:flex;justify-content:flex-end;gap:12px}
 .row-start-gap-14{display:flex;align-items:flex-start;gap:14px}
 .row-gap-8{display:flex;align-items:center;gap:8px}
+.compare-subhead td{background:var(--surface-2);text-transform:uppercase;letter-spacing:.04em;font-size:var(--text-sm);font-weight:700;color:var(--subtle)}
+.menu-right{right:0;left:auto}
+.cards-row{display:flex;gap:16px;flex-wrap:wrap}
+.property-toggle-row{display:flex;gap:8px}
+.property-toggle-row .btn{flex:1}
+.icon-circle-36{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex:none}
+.icon-circle-40{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;flex:none}
+.compare-card{flex:1 1 260px;min-width:240px}
+
+/* Status-driven visuals shared by the assessment box (My Money, Tenancy
+   Assessment) and the Compare screen's verdict cards, so a status only
+   needs a class name rather than inline colours pulled from a JS config
+   object at render time. */
+.status-box.green{background:var(--success-soft);border-color:var(--success-border)}
+.status-box.amber{background:var(--warning-soft);border-color:var(--warning-border)}
+.status-box.red{background:var(--danger-soft);border-color:var(--danger-border)}
+.status-box.empty{background:var(--surface-2);border-color:var(--border)}
+.status-icon.green{background:var(--success)}
+.status-icon.amber{background:var(--warning)}
+.status-icon.red{background:var(--danger)}
+.status-icon.empty{background:var(--muted)}
+.status-label.green{color:var(--success)}
+.status-label.amber{color:var(--warning)}
+.status-label.red{color:var(--danger)}
+.status-label.empty{color:var(--muted)}
+
+/* Budget Outcome stacked bar */
+.budget-bar{display:flex;height:28px;border-radius:999px;overflow:hidden;margin-top:20px;background:var(--surface-3)}
+.budget-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px}
+.color-info{background:var(--info)}
+.color-warning{background:var(--warning)}
+.color-success{background:var(--success)}
+
+/* Compare screen's difference column */
+.diff-better{color:var(--success);font-weight:700}
+.diff-worse{color:var(--danger);font-weight:700}
 
 /* Text utilities */
 .text-subtle{color:var(--subtle)}
