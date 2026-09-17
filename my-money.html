@@ -113,21 +113,18 @@
         </div>
       </div>
 
-      <div class="main-heading">
-        <div class="h2">My Money</div>
-        <p class="body page-subtitle">Check that this property is affordable and plan your income and expenditure.</p>
+      <div class="main-heading row-between">
+        <div>
+          <div class="h2">My Money</div>
+          <p class="body page-subtitle">Check that this property is affordable and plan your income and expenditure.</p>
+        </div>
+        <div id="compareBtnSlot"></div>
       </div>
 
-      <div class="hre-layout">
+      <div id="moneyToolbar"></div>
 
-        <aside class="hre-sidebar">
-          <div id="moneyNav"></div>
-        </aside>
-
-        <div class="hre-main" id="moneyContent">
-          <!-- injected per section -->
-        </div>
-
+      <div id="moneyBody">
+        <!-- injected per view (edit / compare) -->
       </div>
 
     </main>
@@ -144,8 +141,68 @@
     ];
     let activeMoneySection = 'summary';
 
+    // ---- Current vs Prospective property + Compare view --------------------
+    // The whole calculator (income/housing/expenditure) runs per-property, so
+    // the young person can fill in figures for where they live now as well as
+    // the property they're considering, then compare the two. `data()` always
+    // resolves to whichever property is currently active - every calculation
+    // function below reads through it (or accepts an explicit property object
+    // when comparing both at once, see stepCompare()).
+    let activePropertyContext = 'prospective';
+    let viewMode = 'edit'; // 'edit' | 'compare'
+
+    function data(){
+      return MONEY_DATA_BY_PROPERTY[activePropertyContext];
+    }
+
     function selectMoneyNav(id){
       activeMoneySection = id;
+      renderMoneyNav();
+      renderMoneyContent();
+    }
+
+    function propertyToggleBtn(ctx, label){
+      const isOn = activePropertyContext === ctx;
+      const style = isOn ? 'background:var(--primary);border-color:var(--primary);color:#fff' : '';
+      return '<button type="button" class="seg-btn" style="' + style + '" onclick="selectPropertyContext(\'' + ctx + '\')">' + label + '</button>';
+    }
+
+    function selectPropertyContext(ctx){
+      activePropertyContext = ctx;
+      viewMode = 'edit';
+      activeMoneySection = 'summary';
+      renderMoneyToolbar();
+      renderMoneyBody();
+    }
+
+    function toggleCompare(){
+      viewMode = viewMode === 'compare' ? 'edit' : 'compare';
+      renderMoneyToolbar();
+      renderMoneyBody();
+    }
+
+    function renderMoneyToolbar(){
+      document.getElementById('compareBtnSlot').innerHTML = viewMode === 'compare'
+        ? '<button type="button" class="btn btn-secondary btn-sm" onclick="toggleCompare()">&larr; Back to My Money</button>'
+        : '<button type="button" class="btn btn-secondary btn-sm" onclick="toggleCompare()">Compare</button>';
+
+      document.getElementById('moneyToolbar').innerHTML = viewMode === 'compare'
+        ? ''
+        : '<div class="segmented mt-16">' + propertyToggleBtn('current', 'Current Property') + propertyToggleBtn('prospective', 'Prospective Property') + '</div>';
+    }
+
+    function renderMoneyBody(){
+      const body = document.getElementById('moneyBody');
+      if (viewMode === 'compare'){
+        body.innerHTML = stepCompare();
+        return;
+      }
+      body.innerHTML = (
+        '<div class="hre-layout">' +
+          '<aside class="hre-sidebar"><div id="moneyNav"></div></aside>' +
+          '<div class="hre-main" id="moneyContent"></div>' +
+        '</div>'
+      );
       renderMoneyNav();
       renderMoneyContent();
     }
@@ -204,44 +261,74 @@
 
     let nextRowId = 1;
 
-    const MONEY_DATA = {
-      income: [
-        { id: nextRowId++, category: 'Employment / wages', amount: 850, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Universal Credit', amount: 310, frequency: 'monthly' }
-      ],
-      housing: {
-        rent: 750, serviceCharge: 0, councilTax: 0, energy: 0, water: 0, internet: 0, otherCosts: 0,
-        ucHousingElement: 650, housingBenefit: 0, otherSupport: 0
+    // Housing Benefit / Universal Credit housing element are entered as
+    // Income sources now (see INCOME_CATEGORIES above) rather than netted
+    // off separately here - that used to double-count the same support
+    // once as income and again as a housing-cost deduction. Sample "Universal
+    // Credit" amounts below fold in what used to be the separate housing
+    // element figure (e.g. prospective's 960 = 310 standard allowance + 650
+    // housing costs element for this £750 rent), so the affordability totals
+    // stay meaningful after removing the old housing-tab fields.
+    const MONEY_DATA_BY_PROPERTY = {
+      prospective: {
+        income: [
+          { id: nextRowId++, category: 'Employment / wages', amount: 850, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Universal Credit', amount: 960, frequency: 'monthly' }
+        ],
+        housing: { rent: 750, serviceCharge: 0, councilTax: 0, energy: 0, water: 0, internet: 0, otherCosts: 0 },
+        expenditure: [
+          { id: nextRowId++, category: 'Food / groceries', amount: 300, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Public transport', amount: 150, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Mobile phone', amount: 40, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Household essentials', amount: 100, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Debt repayments', amount: 120, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Other essential expenditure', amount: 150, frequency: 'monthly' }
+        ]
       },
-      expenditure: [
-        { id: nextRowId++, category: 'Food / groceries', amount: 300, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Public transport', amount: 150, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Mobile phone', amount: 40, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Household essentials', amount: 100, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Debt repayments', amount: 120, frequency: 'monthly' },
-        { id: nextRowId++, category: 'Other essential expenditure', amount: 150, frequency: 'monthly' }
-      ]
+      // Where Sunny currently lives (14 Marigold Close - see tenancy.html),
+      // pre-filled so a comparison is meaningful right away.
+      current: {
+        income: [
+          { id: nextRowId++, category: 'Employment / wages', amount: 850, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Universal Credit', amount: 750, frequency: 'monthly' }
+        ],
+        housing: { rent: 550, serviceCharge: 0, councilTax: 45, energy: 60, water: 25, internet: 30, otherCosts: 0 },
+        expenditure: [
+          { id: nextRowId++, category: 'Food / groceries', amount: 300, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Public transport', amount: 150, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Mobile phone', amount: 40, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Household essentials', amount: 100, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Debt repayments', amount: 120, frequency: 'monthly' },
+          { id: nextRowId++, category: 'Other essential expenditure', amount: 150, frequency: 'monthly' }
+        ]
+      }
     };
 
-    function totalMonthlyIncome(){
-      return MONEY_DATA.income.reduce(function(sum, row){ return sum + toMonthly(row.amount, row.frequency); }, 0);
+    function totalMonthlyIncome(d){
+      d = d || data();
+      return d.income.reduce(function(sum, row){ return sum + toMonthly(row.amount, row.frequency); }, 0);
     }
-    function totalHousingCost(){
-      const h = MONEY_DATA.housing;
+    function totalHousingCost(d){
+      d = d || data();
+      const h = d.housing;
       return h.rent + h.serviceCharge + h.councilTax + h.energy + h.water + h.internet + h.otherCosts;
     }
-    function totalHousingSupport(){
-      const h = MONEY_DATA.housing;
-      return h.ucHousingElement + h.housingBenefit + h.otherSupport;
+    // Kept as its own function (rather than inlining totalHousingCost) since
+    // "how much housing costs you" is a distinct concept from "total cost of
+    // the property" even though they're equal now support isn't netted off
+    // here - a future change reintroducing property-specific support
+    // (e.g. a discretionary payment tied to one address) only needs to
+    // change this one function.
+    function housingContribution(d){
+      return totalHousingCost(d);
     }
-    function netHousingContribution(){
-      return Math.max(0, totalHousingCost() - totalHousingSupport());
+    function totalEssentialExpenditure(d){
+      d = d || data();
+      return d.expenditure.reduce(function(sum, row){ return sum + toMonthly(row.amount, row.frequency); }, 0);
     }
-    function totalEssentialExpenditure(){
-      return MONEY_DATA.expenditure.reduce(function(sum, row){ return sum + toMonthly(row.amount, row.frequency); }, 0);
-    }
-    function remainingBudget(){
-      return totalMonthlyIncome() - netHousingContribution() - totalEssentialExpenditure();
+    function remainingBudget(d){
+      d = d || data();
+      return totalMonthlyIncome(d) - housingContribution(d) - totalEssentialExpenditure(d);
     }
 
     // Named, adjustable thresholds rather than magic numbers buried in the
@@ -250,12 +337,13 @@
       tightBuffer: 100,          // remaining below this (but still positive) reads as "tight"
       housingRatioWarning: 0.5   // housing contribution above this share of income reads as "tight"
     };
-    function affordabilityStatus(){
-      const income = totalMonthlyIncome();
-      const contribution = netHousingContribution();
-      const essentials = totalEssentialExpenditure();
+    function affordabilityStatus(d){
+      d = d || data();
+      const income = totalMonthlyIncome(d);
+      const contribution = housingContribution(d);
+      const essentials = totalEssentialExpenditure(d);
       if (income === 0 && contribution === 0 && essentials === 0) return 'empty';
-      const remaining = remainingBudget();
+      const remaining = remainingBudget(d);
       if (remaining <= 0) return 'red';
       const housingRatio = income > 0 ? (contribution / income) : 0;
       if (remaining < AFFORDABILITY_RULES.tightBuffer || housingRatio > AFFORDABILITY_RULES.housingRatioWarning) return 'amber';
@@ -269,9 +357,9 @@
     }
 
     function navCaption(id){
-      if (id === 'income') return MONEY_DATA.income.length ? (MONEY_DATA.income.length + ' income source' + (MONEY_DATA.income.length === 1 ? '' : 's')) : 'Not started';
-      if (id === 'housing') return totalHousingCost() > 0 ? ('Contribution: ' + money(netHousingContribution())) : 'Not started';
-      if (id === 'expenditure') return MONEY_DATA.expenditure.length ? (MONEY_DATA.expenditure.length + ' items added') : 'Not started';
+      if (id === 'income') return data().income.length ? (data().income.length + ' income source' + (data().income.length === 1 ? '' : 's')) : 'Not started';
+      if (id === 'housing') return totalHousingCost() > 0 ? ('Total property cost: ' + money(totalHousingCost())) : 'Not started';
+      if (id === 'expenditure') return data().expenditure.length ? (data().expenditure.length + ' items added') : 'Not started';
       if (id === 'outcome') return 'Ready to view';
       return '';
     }
@@ -291,16 +379,18 @@
     }
 
     // Shared visual for the traffic-light assessment box (green/amber/red/
-    // empty) - used on both Affordability Summary and Budget Outcome, each
-    // supplying their own wording (per the brief, the two pages phrase the
-    // same status slightly differently) so the box itself isn't duplicated.
+    // empty) - used on Affordability Summary, Budget Outcome, and the
+    // Compare screen's per-property verdict cards, each supplying their own
+    // wording, so the colour/icon/label lookup itself isn't duplicated.
+    const ASSESSMENT_CONFIG = {
+      green: { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', label: 'SUSTAINABLE', labelColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' },
+      amber: { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', label: 'LIKELY TO BE TIGHT', labelColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>' },
+      red: { bg: 'var(--danger-soft)', border: 'var(--danger-border)', iconBg: 'var(--danger)', label: 'NOT VIABLE', labelColor: 'var(--danger)', icon: '<path d="M18 6 6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>' },
+      empty: { bg: 'var(--surface-2)', border: 'var(--border)', iconBg: 'var(--muted)', label: 'COMPLETE YOUR FIGURES', labelColor: 'var(--muted)', icon: '<path d="M7 12h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>' }
+    };
+
     function renderAssessmentBox(status, text){
-      const cfg = {
-        green: { bg: 'var(--success-soft)', border: 'var(--success-border)', iconBg: 'var(--success)', label: 'SUSTAINABLE', labelColor: 'var(--success)', icon: '<path d="M20 6 9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' },
-        amber: { bg: 'var(--warning-soft)', border: 'var(--warning-border)', iconBg: 'var(--warning)', label: 'LIKELY TO BE TIGHT', labelColor: 'var(--warning)', icon: '<path d="M12 7v6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#fff"/>' },
-        red: { bg: 'var(--danger-soft)', border: 'var(--danger-border)', iconBg: 'var(--danger)', label: 'NOT VIABLE', labelColor: 'var(--danger)', icon: '<path d="M18 6 6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>' },
-        empty: { bg: 'var(--surface-2)', border: 'var(--border)', iconBg: 'var(--muted)', label: 'COMPLETE YOUR FIGURES', labelColor: 'var(--muted)', icon: '<path d="M7 12h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>' }
-      }[status];
+      const cfg = ASSESSMENT_CONFIG[status];
 
       return (
         '<div class="card padded" style="margin-top:20px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
@@ -331,16 +421,14 @@
     // ---- Affordability Summary (tab 1) -------------------------------------
     function stepMoneySummary(){
       const propertyCost = totalHousingCost();
-      const support = totalHousingSupport();
-      const contribution = netHousingContribution();
       const income = totalMonthlyIncome();
       const essentials = totalEssentialExpenditure();
       const remaining = remainingBudget();
       const status = affordabilityStatus();
 
-      const incomeRows = MONEY_DATA.income.length
-        ? MONEY_DATA.income.map(function(row, i){
-            const isLast = i === MONEY_DATA.income.length - 1;
+      const incomeRows = data().income.length
+        ? data().income.map(function(row, i){
+            const isLast = i === data().income.length - 1;
             return summaryRow(row.category, money(toMonthly(row.amount, row.frequency)), { tight: isLast });
           }).join('')
         : summaryRow('No income added yet', money(0), { tight: true });
@@ -354,9 +442,7 @@
           '<p class="small mt-4">A breakdown of income and costs for this property.</p>' +
 
           '<div class="mt-18">' +
-            summaryRow('Property', money(propertyCost)) +
-            summaryRow('Benefit &amp; housing support', money(-support), { tight: true }) +
-            summaryRow('Your Contribution', money(contribution), { total: true }) +
+            summaryRow('Total property cost', money(propertyCost), { total: true }) +
           '</div>' +
 
           '<div class="mt-24">' +
@@ -409,26 +495,26 @@
     }
 
     function updateIncomeField(id, field, value){
-      const row = MONEY_DATA.income.find(function(r){ return r.id === id; });
+      const row = data().income.find(function(r){ return r.id === id; });
       if (!row) return;
       row[field] = (field === 'amount') ? Number(value) : value;
       renderMoneyNav();
       renderMoneyContent();
     }
     function removeIncomeRow(id){
-      MONEY_DATA.income = MONEY_DATA.income.filter(function(r){ return r.id !== id; });
+      data().income = data().income.filter(function(r){ return r.id !== id; });
       renderMoneyNav();
       renderMoneyContent();
     }
     function addIncomeRow(){
-      MONEY_DATA.income.push({ id: nextRowId++, category: INCOME_CATEGORIES[0], amount: 0, frequency: 'monthly' });
+      data().income.push({ id: nextRowId++, category: INCOME_CATEGORIES[0], amount: 0, frequency: 'monthly' });
       renderMoneyNav();
       renderMoneyContent();
     }
 
     function stepMoneyIncome(){
-      const rows = MONEY_DATA.income.length
-        ? MONEY_DATA.income.map(incomeRowHtml).join('')
+      const rows = data().income.length
+        ? data().income.map(incomeRowHtml).join('')
         : '<p class="small empty-state">You haven\'t added any income yet. Add your first income source to get started.</p>';
 
       return (
@@ -456,14 +542,8 @@
       { key: 'internet', label: 'Internet' },
       { key: 'otherCosts', label: 'Other housing-related costs' }
     ];
-    const HOUSING_SUPPORT_FIELDS = [
-      { key: 'ucHousingElement', label: 'Universal Credit housing element' },
-      { key: 'housingBenefit', label: 'Housing Benefit' },
-      { key: 'otherSupport', label: 'Other housing support' }
-    ];
-
     function updateHousingField(key, value){
-      MONEY_DATA.housing[key] = Number(value) || 0;
+      data().housing[key] = Number(value) || 0;
       renderMoneyNav();
       renderMoneyContent();
     }
@@ -472,7 +552,7 @@
       return (
         '<div class="field">' +
           '<div class="label">' + f.label + '</div>' +
-          '<input class="input" type="number" min="0" step="1" value="' + MONEY_DATA.housing[f.key] + '" onchange="updateHousingField(\'' + f.key + '\', this.value)" />' +
+          '<input class="input" type="number" min="0" step="1" value="' + data().housing[f.key] + '" onchange="updateHousingField(\'' + f.key + '\', this.value)" />' +
         '</div>'
       );
     }
@@ -481,18 +561,13 @@
       return (
         '<div class="card padded">' +
           '<div class="h4 m-0">Housing Costs</div>' +
-          '<p class="intro">Tell us about the costs for the property you\'re considering, and any housing benefit or Universal Credit support towards it.</p>' +
+          '<p class="intro">Tell us about the costs for the property you\'re considering. Any Housing Benefit or Universal Credit housing element goes in the Income tab, since it\'s money coming in.</p>' +
 
           '<div class="h6 mt-20">Property &amp; tenancy information</div>' +
           '<div class="field-grid">' + HOUSING_FIELDS.map(housingFieldHtml).join('') + '</div>' +
 
-          '<div class="h6 mt-24">Benefit &amp; housing support</div>' +
-          '<div class="field-grid">' + HOUSING_SUPPORT_FIELDS.map(housingFieldHtml).join('') + '</div>' +
-
           '<div class="mt-24">' +
-            summaryRow('Total property cost', money(totalHousingCost())) +
-            summaryRow('Housing support', money(-totalHousingSupport()), { tight: true }) +
-            summaryRow('Your contribution', money(netHousingContribution()), { total: true, big: true }) +
+            summaryRow('Total property cost', money(totalHousingCost()), { total: true, big: true }) +
           '</div>' +
         '</div>' +
         '<div class="row-between-plain mt-20">' +
@@ -529,26 +604,26 @@
     }
 
     function updateExpenditureField(id, field, value){
-      const row = MONEY_DATA.expenditure.find(function(r){ return r.id === id; });
+      const row = data().expenditure.find(function(r){ return r.id === id; });
       if (!row) return;
       row[field] = (field === 'amount') ? Number(value) : value;
       renderMoneyNav();
       renderMoneyContent();
     }
     function removeExpenditureRow(id){
-      MONEY_DATA.expenditure = MONEY_DATA.expenditure.filter(function(r){ return r.id !== id; });
+      data().expenditure = data().expenditure.filter(function(r){ return r.id !== id; });
       renderMoneyNav();
       renderMoneyContent();
     }
     function addExpenditureRow(){
-      MONEY_DATA.expenditure.push({ id: nextRowId++, category: EXPENDITURE_GROUPS[0].options[0], amount: 0, frequency: 'monthly' });
+      data().expenditure.push({ id: nextRowId++, category: EXPENDITURE_GROUPS[0].options[0], amount: 0, frequency: 'monthly' });
       renderMoneyNav();
       renderMoneyContent();
     }
 
     function stepMoneyExpenditure(){
-      const rows = MONEY_DATA.expenditure.length
-        ? MONEY_DATA.expenditure.map(expenditureRowHtml).join('')
+      const rows = data().expenditure.length
+        ? data().expenditure.map(expenditureRowHtml).join('')
         : '<p class="small empty-state">You haven\'t added any essential expenditure yet. Add your first cost to get started.</p>';
 
       return (
@@ -569,7 +644,7 @@
     // ---- Budget Outcome (tab 5) ----------------------------------------------
     function stepMoneyOutcome(){
       const income = totalMonthlyIncome();
-      const housing = netHousingContribution();
+      const housing = housingContribution();
       const essentials = totalEssentialExpenditure();
       const remaining = remainingBudget();
       const status = affordabilityStatus();
@@ -623,8 +698,91 @@
       document.getElementById('moneyContent').innerHTML = renderers[activeMoneySection]();
     }
 
-    renderMoneyNav();
-    renderMoneyContent();
+    // ---- Compare (Current Property vs Prospective Property) ----------------
+    function editProperty(ctx){
+      activePropertyContext = ctx;
+      viewMode = 'edit';
+      activeMoneySection = 'summary';
+      renderMoneyToolbar();
+      renderMoneyBody();
+    }
+
+    function compareVerdictCard(title, d){
+      const status = affordabilityStatus(d);
+      const cfg = ASSESSMENT_CONFIG[status];
+      return (
+        '<div class="card padded" style="flex:1 1 260px;min-width:240px;background:' + cfg.bg + ';border-color:' + cfg.border + '">' +
+          '<div class="small text-strong">' + title + '</div>' +
+          '<div class="row-start-gap-14 mt-8">' +
+            '<div style="width:36px;height:36px;border-radius:999px;background:' + cfg.iconBg + ';display:grid;place-items:center;flex:none">' +
+              '<svg viewBox="0 0 24 24" fill="none" width="16" height="16">' + cfg.icon + '</svg>' +
+            '</div>' +
+            '<div><div class="h5 m-0" style="color:' + cfg.labelColor + '">' + cfg.label + '</div><div class="small mt-2">' + money(remainingBudget(d)) + ' left over each month</div></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    // `good` says which direction is the better outcome for that row, so the
+    // difference column can colour +/- correctly - more cost is bad (red),
+    // more money left over is good (green).
+    function compareRowHtml(row){
+      const diff = row.proVal - row.curVal;
+      let diffHtml = '<span class="small text-subtle">No change</span>';
+      if (diff !== 0){
+        const better = row.good === 'higher' ? diff > 0 : diff < 0;
+        const color = better ? 'var(--success)' : 'var(--danger)';
+        const sign = diff > 0 ? '+' : '';
+        diffHtml = '<span class="small" style="color:' + color + ';font-weight:700">' + sign + money(diff) + '</span>';
+      }
+      return (
+        '<tr>' +
+          '<td data-label="">' + row.label + '</td>' +
+          '<td data-label="Current Property">' + money(row.curVal) + '</td>' +
+          '<td data-label="Prospective Property">' + money(row.proVal) + '</td>' +
+          '<td data-label="Difference">' + diffHtml + '</td>' +
+        '</tr>'
+      );
+    }
+
+    function stepCompare(){
+      const cur = MONEY_DATA_BY_PROPERTY.current;
+      const pro = MONEY_DATA_BY_PROPERTY.prospective;
+
+      const rows = [
+        { label: 'Total property cost', curVal: totalHousingCost(cur), proVal: totalHousingCost(pro), good: 'lower' },
+        { label: 'Total monthly income', curVal: totalMonthlyIncome(cur), proVal: totalMonthlyIncome(pro), good: 'higher' },
+        { label: 'Essential expenditure', curVal: totalEssentialExpenditure(cur), proVal: totalEssentialExpenditure(pro), good: 'lower' },
+        { label: 'Money left over', curVal: remainingBudget(cur), proVal: remainingBudget(pro), good: 'higher' }
+      ];
+
+      return (
+        '<div class="card padded">' +
+          '<div class="h4 m-0">Compare your properties</div>' +
+          '<p class="intro">See how the property you\'re considering compares to where you live now.</p>' +
+
+          '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px">' +
+            compareVerdictCard('Current Property', cur) +
+            compareVerdictCard('Prospective Property', pro) +
+          '</div>' +
+
+          '<div class="table-wrap mt-20">' +
+            '<table>' +
+              '<thead><tr><th></th><th>Current Property</th><th>Prospective Property</th><th>Difference</th></tr></thead>' +
+              '<tbody>' + rows.map(compareRowHtml).join('') + '</tbody>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="row-end mt-20">' +
+          '<button type="button" class="btn btn-secondary" onclick="editProperty(\'current\')">Edit Current Property</button>' +
+          '<button type="button" class="btn btn-primary" onclick="editProperty(\'prospective\')">Edit Prospective Property</button>' +
+        '</div>'
+      );
+    }
+
+    renderMoneyToolbar();
+    renderMoneyBody();
   </script>
 
   <script>
