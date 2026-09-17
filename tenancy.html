@@ -250,7 +250,7 @@
     }
 
     function renderTenancyNav(){
-      document.getElementById('tenancyNav').innerHTML = TENANCY_SECTIONS.map(function(sec){
+      const items = TENANCY_SECTIONS.map(function(sec){
         const isActive = sec.id === activeTenancySection;
         const caption = navCaption(sec.id);
         return (
@@ -262,7 +262,20 @@
             '</div>' +
           '</div>'
         );
-      }).join('');
+      });
+      // A real link out to My Money's Current Tenancy tab, not an internal
+      // tab switch like the rest of this nav - sits right after Overview.
+      const moneyLinkHtml = (
+        '<a class="money-nav-item" href="my-money.html?property=current">' +
+          '<div class="icon"><svg viewBox="0 0 24 24" fill="none" width="20" height="20"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v10M9.5 9.3c0-1 .9-1.6 2.5-1.6s2.5.6 2.5 1.5-1 1.2-2.5 1.4c-1.5.2-2.5.6-2.5 1.5s1 1.5 2.5 1.5 2.5-.5 2.5-1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>' +
+          '<div class="min-w-0">' +
+            '<div class="title">My Money</div>' +
+            '<div class="small subtle-mt-2">Current Tenancy costs</div>' +
+          '</div>' +
+        '</a>'
+      );
+      items.splice(1, 0, moneyLinkHtml);
+      document.getElementById('tenancyNav').innerHTML = items.join('');
     }
 
     // ---- Shared helpers -----------------------------------------------------

@@ -835,6 +835,11 @@
       );
     }
 
+    // Allow deep-linking straight to a property's tab, e.g. from Tenancy's
+    // "My Money" nav item (my-money.html?property=current).
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('property') === 'current') activePropertyContext = 'current';
+
     renderMoneyToolbar();
     renderMoneyBody();
   </script>
