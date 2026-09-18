@@ -529,6 +529,15 @@ function renderListing(){
         selectOfferTag(btn.getAttribute('data-cat'), btn.getAttribute('data-tag'));
       });
     });
+    // Thumbnail, title and "View offer" all open the same offer-details
+    // popup — one demo popup shared by every card for now (see the note
+    // on the modal markup in local-offers.html).
+    grid.querySelectorAll('.js-open-offer').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openOfferModal();
+      });
+    });
   }
 
   document.getElementById('loadMoreWrap').style.display = filtered.length > state.visibleCount ? 'flex' : 'none';
@@ -560,14 +569,14 @@ function offerCard(offer){
   return `
     <article class="offer-card">
       <div class="offer-thumb-wrap">
-        <div class="offer-thumb-img tone-${cat.tone}" style="background:linear-gradient(155deg, var(--${cat.tone === 'primary' ? 'primary' : cat.tone}), var(--brand-dark-green))">${cat.icon}</div>
+        <div class="offer-thumb-img tone-${cat.tone} js-open-offer" style="background:linear-gradient(155deg, var(--${cat.tone === 'primary' ? 'primary' : cat.tone}), var(--brand-dark-green))">${cat.icon}</div>
         <div class="offer-actions">
           <button class="offer-fav" aria-label="Save offer">${ICON.heart}</button>
           <button class="offer-share" aria-label="Share offer">${ICON.share}</button>
         </div>
       </div>
       <div class="offer-body">
-        <div class="offer-title">${escapeHtml(offer.title)}</div>
+        <div class="offer-title js-open-offer">${escapeHtml(offer.title)}</div>
         <p class="offer-desc">${escapeHtml(offer.desc)}</p>
         <div class="offer-council-row">
           <div class="avatar avatar-primary">${council.initials}</div>
@@ -581,7 +590,7 @@ function offerCard(offer){
             <span class="badge badge-warning">Sign in to check eligibility</span>
           </div>
         </div>
-        <button class="btn btn-primary btn-block" onclick="showToast('Opening offer details')">View offer</button>
+        <button class="btn btn-primary btn-block js-open-offer">View offer</button>
       </div>
     </article>`;
 }
@@ -663,8 +672,83 @@ function initControls(){
   });
 }
 
+/* ---------------- Offer details popup ---------------- */
+function openOfferModal(){
+  document.getElementById('offerModalBackdrop').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOfferModal(){
+  document.getElementById('offerModalBackdrop').hidden = true;
+  if (document.getElementById('offerLightboxBackdrop').hidden){
+    document.body.style.overflow = '';
+  }
+}
+
+function openOfferLightbox(){
+  document.getElementById('offerLightboxBackdrop').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOfferLightbox(){
+  document.getElementById('offerLightboxBackdrop').hidden = true;
+  if (document.getElementById('offerModalBackdrop').hidden){
+    document.body.style.overflow = '';
+  }
+}
+
+function initOfferModal(){
+  const modalBackdrop = document.getElementById('offerModalBackdrop');
+  const lightboxBackdrop = document.getElementById('offerLightboxBackdrop');
+
+  document.getElementById('btnCloseOfferModal').addEventListener('click', closeOfferModal);
+  // Click anywhere outside the modal card (i.e. directly on the dimmed
+  // backdrop) closes it; clicks that land on the modal itself shouldn't.
+  modalBackdrop.addEventListener('click', (e) => {
+    if (e.target === modalBackdrop) closeOfferModal();
+  });
+
+  document.getElementById('offerModal').querySelectorAll('.offer-fav').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showToast('Sign in to save offers to your favourites');
+    });
+  });
+  document.getElementById('offerModal').querySelectorAll('.offer-share').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showToast('Share link copied');
+    });
+  });
+
+  document.getElementById('btnExpandOfferImage').addEventListener('click', (e) => {
+    e.stopPropagation();
+    openOfferLightbox();
+  });
+  document.querySelector('.offer-modal-media').addEventListener('click', (e) => {
+    if (e.target.closest('.offer-actions') || e.target.closest('.offer-modal-expand')) return;
+    openOfferLightbox();
+  });
+
+  document.getElementById('offerModal').querySelector('.offer-modal-cta').addEventListener('click', () => {
+    showToast('Sign in & claim this offer');
+  });
+
+  document.getElementById('btnCloseLightbox').addEventListener('click', closeOfferLightbox);
+  lightboxBackdrop.addEventListener('click', (e) => {
+    if (e.target === lightboxBackdrop) closeOfferLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!lightboxBackdrop.hidden) closeOfferLightbox();
+    else if (!modalBackdrop.hidden) closeOfferModal();
+  });
+}
+
 /* ---------------- Init ---------------- */
 renderCouncilSelect();
 renderLaHeader();
 renderCategoryGrid();
 initControls();
+initOfferModal();

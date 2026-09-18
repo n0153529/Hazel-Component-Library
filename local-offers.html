@@ -73,7 +73,7 @@
         <div class="h2" id="listingTitle">All offers</div>
         <div class="listing-count" id="listingCount"></div>
       </div>
-      <button class="btn btn-secondary btn-sm listing-clear" id="btnClearListing">Back to categories</button>
+      <button class="btn btn-primary btn-pill listing-clear" id="btnClearListing">← Back to categories</button>
     </div>
     <div class="listing-tags" id="listingTags"></div>
     <div class="offer-grid" id="offerGrid"></div>
@@ -84,6 +84,90 @@
 </main>
 
 <div class="lo-toast" id="loToast"></div>
+
+<!-- ============== OFFER DETAILS POPUP ==============
+     One static demo popup shared by every offer card for now (clicking
+     the thumb, title or "View offer" button on any card opens this same
+     content) — swap in per-offer data once the offer model carries
+     eligibility/date fields. ============== -->
+<div class="modal-backdrop offer-modal-backdrop" id="offerModalBackdrop" hidden>
+  <div class="modal offer-modal" id="offerModal" role="dialog" aria-modal="true" aria-labelledby="offerModalTitle">
+    <div class="offer-modal-scroll">
+      <!-- Sticky, zero-height wrapper: keeps the close button pinned to the
+           top of the visible scroll area while scrolling, and — because it's
+           part of the scrolling content rather than the outer .offer-modal —
+           it's inset by the same reserved scrollbar-gutter as everything
+           else, so it never ends up sitting on top of the scrollbar. -->
+      <div class="offer-modal-close-wrap">
+        <button class="icon-btn offer-modal-close" id="btnCloseOfferModal" aria-label="Close offer details">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="offer-modal-media" id="offerModalImage">
+        <div class="offer-thumb-img tone-info" style="background:linear-gradient(155deg, var(--info), var(--brand-dark-green))">🍼</div>
+        <button class="offer-modal-expand" id="btnExpandOfferImage" aria-label="Expand image">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H4v5M15 4h5v5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="offer-actions">
+          <button class="offer-fav" aria-label="Save offer">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.6-4.6-10-9.3C.4 7.8 2.2 4.5 5.7 4c2-.3 3.9.6 5 2.3a5.7 5.7 0 0 1 1.3 0 5.9 5.9 0 0 1 5-2.3c3.5.5 5.3 3.8 3.7 7.2-2.4 4.7-10 9.3-10 9.3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="offer-share" aria-label="Share offer">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18" r="2.5" stroke="currentColor" stroke-width="2"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="offer-modal-body">
+        <h2 class="offer-modal-title" id="offerModalTitle">Home Ready for Baby – A Safe Home to Come Back To</h2>
+
+        <div class="offer-council-row">
+          <div class="avatar avatar-primary">HC</div>
+          <div class="offer-council-name">Hazelton City Council</div>
+        </div>
+
+        <div class="offer-chips">
+          <span class="badge badge-neutral">Relationships &amp; Support Networks</span>
+          <span class="badge badge-primary">Parenting relationships</span>
+        </div>
+
+        <div class="offer-modal-dates">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span><strong>Starts:</strong> 1 Oct 2026 &nbsp;·&nbsp; <strong>Ends:</strong> 1 Dec 2026</span>
+        </div>
+
+        <div class="offer-modal-box">
+          <div class="h3">Who is it for</div>
+          <div class="offer-modal-box-sub">Living in our area</div>
+          <div class="offer-chips offer-modal-elig-chips">
+            <span class="badge badge-neutral">Ages 16–25</span>
+            <span class="badge badge-neutral">Looked after</span>
+            <span class="badge badge-neutral">Eligible</span>
+            <span class="badge badge-neutral">Relevant</span>
+            <span class="badge badge-neutral">Former relevant</span>
+            <span class="badge badge-neutral">Qualifying</span>
+          </div>
+        </div>
+
+        <div class="offer-modal-desc">
+          <p>Bringing a baby home is a big moment, and it can bring worries about sleep, money, housing, heating, or not having everything ready. You don’t need a perfect home or expensive baby equipment — your baby just needs somewhere safe, warm, and suitable.</p>
+          <p>If you’re worried about not having a cot, furniture, heating, washing facilities, enough money, or the right housing, please tell us early. These things don’t mean you’ll be a bad parent; they’re practical problems we may be able to help with.</p>
+          <p>You can use the Home Essentials and Budgeting tools on Hazel to work out what you already have, what you still need, and what support you may be able to get. Your PA can help with benefits, grants, council support, repairs, housing issues, and planning for the baby’s arrival.</p>
+          <p>This support is for mums, dads, and non-birthing parents. You don’t have to do it alone, and you can choose who helps you.</p>
+        </div>
+
+        <button class="btn btn-primary btn-block offer-modal-cta">Sign in to claim offer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image lightbox — click-to-expand from within the popup -->
+<div class="modal-backdrop offer-lightbox-backdrop" id="offerLightboxBackdrop" hidden>
+  <button class="icon-btn offer-lightbox-close" id="btnCloseLightbox" aria-label="Close expanded image">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="offer-lightbox-media" id="offerLightboxImage">🍼</div>
+</div>
 
 <script src="local-offers.js"></script>
 </body>
