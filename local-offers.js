@@ -16,6 +16,7 @@ const ICON = {
   message: `<svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4A9 9 0 0 1 8 19l-5 1 1.4-4.2A8.4 8.4 0 1 1 21 11.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
   search: `<svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
   layers: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2 2 7l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 12l10 5 10-5M2 17l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
+  share: `<svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18" r="2.5" stroke="currentColor" stroke-width="2"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
   sparkle: `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M3.22 3.22l1.41 1.41M9.36 9.36l1.42 1.42M3.22 10.78l1.41-1.41M9.36 4.64l1.42-1.42" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
   uploadCloud: `<svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M7 17a4 4 0 0 1-1-7.87A5 5 0 0 1 15.9 7 4.5 4.5 0 0 1 17 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 20v-8m0 0-3 3m3-3 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   x: `<svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
@@ -74,122 +75,122 @@ const CATEGORIES = [
     tags:['Housing options','Accommodation','Supported accommodation','Social housing','Private renting','Staying Put','Staying Close','Semi independent living','Independent accommodation','Homelessness prevention','Emergency accommodation','Temporary accommodation','Rent deposits','Rent in advance','Rent guarantors','Tenancy support','Moving support','Furniture','Household essentials','Housing after custody'],
     types:['Free Offers','Other Offers','Discounted'],
     templates:[
-      {title:'Home Ready \u2013 A Safe Home Checklist', desc:'A step by step checklist to help you set up and settle into your first home.'},
-      {title:'Welcome Baby \u2013 Essentials Grant & Support', desc:'A one off grant towards the essentials you need when you\u2019re expecting or have a new baby.'},
-      {title:'Rent Deposit & Guarantor Scheme', desc:'Help covering a deposit or finding a guarantor so you can secure a tenancy.'},
-      {title:'Furniture & Household Essentials Fund', desc:'A one off fund to help furnish your new home with the basics.'},
-      {title:'Housing After Custody Support', desc:'Support to arrange somewhere safe to live before and after you leave custody.'},
-      {title:'Emergency Accommodation Helpline', desc:'A 24 hour line for young people who need somewhere safe to stay tonight.'},
-      {title:'Staying Put Arrangement Guidance', desc:'Guidance on staying with your former foster family past your 18th birthday.'},
-      {title:'Tenancy Ready Workshop', desc:'A short workshop covering everything you need to know before signing a tenancy.'}
+      {title:'Home Ready \u2013 A Safe Home Checklist', desc:'A step by step checklist to help you set up and settle into your first home. Covers everything from utilities and locks to making the place feel like yours.'},
+      {title:'Welcome Baby \u2013 Essentials Grant & Support', desc:'A one off grant towards the essentials you need when you\u2019re expecting or have a new baby. Includes a cot, pram and a starter pack of clothing and supplies.'},
+      {title:'Rent Deposit & Guarantor Scheme', desc:'Help covering a deposit or finding a guarantor so you can secure a tenancy. Works with local landlords and letting agents who already know the scheme.'},
+      {title:'Furniture & Household Essentials Fund', desc:'A one off fund to help furnish your new home with the basics. Covers a bed, sofa, white goods and kitchen essentials to get you settled quickly.'},
+      {title:'Housing After Custody Support', desc:'Support to arrange somewhere safe to live before and after you leave custody. A named worker starts planning with you from several weeks before release.'},
+      {title:'Emergency Accommodation Helpline', desc:'A 24 hour line for young people who need somewhere safe to stay tonight. Trained staff will find you emergency accommodation and follow up the next day.'},
+      {title:'Staying Put Arrangement Guidance', desc:'Guidance on staying with your former foster family past your 18th birthday. Explains how the arrangement works, what support continues and how to set it up.'},
+      {title:'Tenancy Ready Workshop', desc:'A short workshop covering everything you need to know before signing a tenancy. Includes budgeting for rent, understanding contracts and tenant rights.'}
     ]
   },
   { id:'money', title:'Money & Financial Support', icon:'\ud83d\udcb7', tone:'success', target:14,
     tags:['Financial support','Leaving care allowance','Setting Up Home Allowance','Leaving care grant','Benefits','Benefit applications','Council tax support','Council tax exemption','Grants','Bursaries','Savings','Junior ISAs','Bank accounts','Budgeting','Debt advice','Household bills','Financial literacy','Income maximisation','Cost of living support','Emergency financial assistance'],
     types:['Free Offers','Other Offers'],
     templates:[
-      {title:'Setting Up Home Allowance', desc:'A one off payment to help you set up your first independent home.'},
-      {title:'Leaving Care Grant Application', desc:'Find out how much you could get and how to apply for your leaving care grant.'},
-      {title:'Benefits Ready Before Release', desc:'Get your benefit claims sorted before you leave care or custody.'},
-      {title:'Get Your Own Bank Account', desc:'Step by step support opening your first bank account.'},
-      {title:'Budgeting & Money Skills Workshop', desc:'A practical session covering budgeting, bills and everyday money skills.'},
-      {title:'Council Tax Exemption Support', desc:'Find out if you\u2019re exempt from council tax as a care leaver and how to apply.'}
+      {title:'Setting Up Home Allowance', desc:'A one off payment to help you set up your first independent home. Paid directly once your tenancy has been confirmed by your personal adviser.'},
+      {title:'Leaving Care Grant Application', desc:'Find out how much you could get and how to apply for your leaving care grant. A benefits adviser will talk you through the application step by step.'},
+      {title:'Benefits Ready Before Release', desc:'Get your benefit claims sorted before you leave care or custody. Avoids gaps in payment by starting the paperwork weeks ahead of your move.'},
+      {title:'Get Your Own Bank Account', desc:'Step by step support opening your first bank account. Covers identity documents, choosing an account and setting up online banking safely.'},
+      {title:'Budgeting & Money Skills Workshop', desc:'A practical session covering budgeting, bills and everyday money skills. Small groups, real examples and a take home budgeting planner.'},
+      {title:'Council Tax Exemption Support', desc:'Find out if you\u2019re exempt from council tax as a care leaver and how to apply. Most young people qualify automatically once their status is confirmed.'}
     ]
   },
   { id:'education', title:'Education & Learning', icon:'\ud83c\udf93', tone:'info', target:9,
     tags:['Education','School','Post 16 education','College','Further education','University','Higher education','Postgraduate study','GCSEs','Functional Skills','Vocational qualifications','Education bursaries','Student finance','Education equipment','Laptops','Travel to education','SEND support','Returning to education','Study support','Barriers to learning'],
     types:['Taster Sessions','Free Offers','Other Offers'],
     templates:[
-      {title:'University Bursary Fund', desc:'Extra financial support for care leavers going on to university.'},
-      {title:'Free Laptop for Study', desc:'A free laptop for care leavers starting a course or apprenticeship.'},
-      {title:'Returning to Education Support', desc:'One to one support if you\u2019re thinking about going back into education.'}
+      {title:'University Bursary Fund', desc:'Extra financial support for care leavers going on to university. Paid each term on top of any student finance you already receive.'},
+      {title:'Free Laptop for Study', desc:'A free laptop for care leavers starting a course or apprenticeship. Comes preloaded with the software most colleges and courses expect.'},
+      {title:'Returning to Education Support', desc:'One to one support if you\u2019re thinking about going back into education. Helps you find the right course and sort out funding before you enrol.'}
     ]
   },
   { id:'jobs', title:'Jobs, Training & Careers', icon:'\ud83d\udcbc', tone:'warning', target:44,
     tags:['Employment','Jobs','Apprenticeships','Traineeships','Work experience','Internships','Taster opportunities','Careers advice','Career planning','Employability programmes','Vocational training','Supported employment','Reasonable adjustments','Interview preparation','Work clothing','Work equipment','Travel to work','Self employment','Enterprise','Staying in employment'],
     types:['Career Insights','Taster Sessions','Work Experience','Job','Apprenticeships','Volunteering'],
     templates:[
-      {title:'Care Experienced Apprenticeship Pathway', desc:'A guaranteed apprenticeship pathway built for care experienced young people.'},
-      {title:'Leaving Custody Interview & Work Starter Fund', desc:'Interview clothing and a work starter fund for young people leaving custody.'},
-      {title:'Guaranteed Careers Conversation', desc:'A guaranteed one to one careers conversation, no experience needed.'},
-      {title:'Unlock Employer Insight Calls', desc:'Short calls with local employers to find out what different careers are really like.'},
-      {title:'Work Experience Taster Week', desc:'A week long taster placement to try out a career before you commit.'},
-      {title:'Interview Clothing Fund', desc:'Funding towards smart clothing for job interviews.'},
-      {title:'Traineeship Programme', desc:'A funded traineeship combining training, work experience and support.'},
-      {title:'Career Insights Evening', desc:'An evening event with employers from a range of local industries.'},
-      {title:'Supported Internship Scheme', desc:'A supported internship for young people who need extra help into work.'},
-      {title:'Self Employment Starter Grant', desc:'A small grant and mentoring for care leavers starting their own business.'},
-      {title:'Employability Skills Bootcamp', desc:'A short course covering CVs, applications and interview skills.'},
-      {title:'Work Equipment Grant', desc:'Funding towards tools, uniform or equipment needed to start a new job.'},
-      {title:'Careers Speed Networking', desc:'Meet several local employers in one evening in a relaxed, informal setting.'},
-      {title:'Job Club Drop In', desc:'A weekly drop in session with help writing CVs and finding vacancies.'},
-      {title:'Volunteering to Employment Pathway', desc:'Build experience through volunteering with a clear route into paid work.'}
+      {title:'Care Experienced Apprenticeship Pathway', desc:'A guaranteed apprenticeship pathway built for care experienced young people. Employers on this scheme have committed to interview every applicant.'},
+      {title:'Leaving Custody Interview & Work Starter Fund', desc:'Interview clothing and a work starter fund for young people leaving custody. Covers travel to interviews as well as the first week of essentials.'},
+      {title:'Guaranteed Careers Conversation', desc:'A guaranteed one to one careers conversation, no experience needed. Just bring whatever ideas you have, however small or unformed.'},
+      {title:'Unlock Employer Insight Calls', desc:'Short calls with local employers to find out what different careers are really like. A relaxed way to ask questions without any pressure.'},
+      {title:'Work Experience Taster Week', desc:'A week long taster placement to try out a career before you commit. Travel and lunch costs are covered for the full week.'},
+      {title:'Interview Clothing Fund', desc:'Funding towards smart clothing for job interviews. Redeemable at partner shops so you can pick something that fits and feels right.'},
+      {title:'Traineeship Programme', desc:'A funded traineeship combining training, work experience and support. Most young people move straight into an apprenticeship or job afterwards.'},
+      {title:'Career Insights Evening', desc:'An evening event with employers from a range of local industries. Food is provided and you can drop in for as long or as little as you like.'},
+      {title:'Supported Internship Scheme', desc:'A supported internship for young people who need extra help into work. A job coach works alongside you throughout the placement.'},
+      {title:'Self Employment Starter Grant', desc:'A small grant and mentoring for care leavers starting their own business. Mentors have started their own businesses and know the early struggles.'},
+      {title:'Employability Skills Bootcamp', desc:'A short course covering CVs, applications and interview skills. Ends with a mock interview and honest, useful feedback.'},
+      {title:'Work Equipment Grant', desc:'Funding towards tools, uniform or equipment needed to start a new job. Ask your personal adviser before your first day to avoid delays.'},
+      {title:'Careers Speed Networking', desc:'Meet several local employers in one evening in a relaxed, informal setting. A good way to make contacts even if you’re not job hunting yet.'},
+      {title:'Job Club Drop In', desc:'A weekly drop in session with help writing CVs and finding vacancies. No appointment needed, just turn up during opening hours.'},
+      {title:'Volunteering to Employment Pathway', desc:'Build experience through volunteering with a clear route into paid work. Many placements have led directly to a paid role with the same organisation.'}
     ]
   },
   { id:'health', title:'Health & Wellbeing', icon:'\u2764\ufe0f', tone:'success', target:6,
     tags:['Physical health','Mental health','Emotional wellbeing','Healthy living','GP registration','Healthcare registration','Dentistry','Eye care','Opticians','Prescriptions','Sexual health','Substance misuse','Pregnancy support','Maternity support','Health histories','Health records','Children\u2019s health services','Adult health services','CAMHS transition','Healthcare after custody'],
     types:['Free Offers','Other Offers'],
     templates:[
-      {title:'My Mental Health \u2013 Asking for Help Is Strong', desc:'Simple ways to ask for help and where to turn when things feel hard.'},
-      {title:'Health Ready Before Release', desc:'Getting your GP, dentist and prescriptions sorted before you leave custody.'},
-      {title:'GP Registration Support', desc:'Help registering with a GP surgery near your new home.'}
+      {title:'My Mental Health \u2013 Asking for Help Is Strong', desc:'Simple ways to ask for help and where to turn when things feel hard. No referral needed, just a phone number and someone who will listen.'},
+      {title:'Health Ready Before Release', desc:'Getting your GP, dentist and prescriptions sorted before you leave custody. A named health worker checks everything is in place before your release date.'},
+      {title:'GP Registration Support', desc:'Help registering with a GP surgery near your new home. Staff can fill in the forms with you and explain how to book your first appointment.'}
     ]
   },
   { id:'relationships', title:'Relationships & Support Networks', icon:'\ud83e\udd1d', tone:'orange', target:11,
     tags:['Personal advisers','Mentors','Independent visitors','Former carers','Foster carers','Residential staff','Siblings','Family relationships','Family reconnection','Partners','Parenting relationships','Trusted adults','Positive relationships','Bereavement support','Peer support','Befriending','Loneliness','Social isolation','Community networks','Support networks','Tours'],
     types:['Other Offers','Volunteering'],
     templates:[
-      {title:'HELP ORGANISE: Sunday Dinner Club', desc:'Help plan and run a monthly dinner club for care experienced young people.'},
-      {title:'Ask Anything \u2013 Practical Parenting Panel', desc:'An informal panel where you can ask parents anything about raising a family.'},
-      {title:'Parents Like Me \u2013 Care Experienced Peer Group', desc:'A peer support group for care experienced parents and parents to be.'},
-      {title:'Mentor Matching Scheme', desc:'Get matched with a trained mentor for regular one to one support.'}
+      {title:'HELP ORGANISE: Sunday Dinner Club', desc:'Help plan and run a monthly dinner club for care experienced young people. A relaxed way to build cooking skills and meet others in a similar position.'},
+      {title:'Ask Anything \u2013 Practical Parenting Panel', desc:'An informal panel where you can ask parents anything about raising a family. No question is off limits and nothing is judged.'},
+      {title:'Parents Like Me \u2013 Care Experienced Peer Group', desc:'A peer support group for care experienced parents and parents to be. Meets monthly with free cr\u00e8che places for younger children.'},
+      {title:'Mentor Matching Scheme', desc:'Get matched with a trained mentor for regular one to one support. Mentors commit to at least six months so the relationship has time to build.'}
     ]
   },
   { id:'community', title:'Community, Activities & Having Your Say', icon:'\ud83c\udfad', tone:'info', target:9,
     tags:['Sport','Leisure','Gyms','Hobbies','Arts','Culture','Events','Trips','Activities','Discounts','Concessions','Free activities','Volunteering','Youth groups','Care leaver forums','Participation','Consultation','Co production','Voting','Civic involvement','Bag of money'],
     types:['Free Offers','Volunteering','Other Offers'],
     templates:[
-      {title:'Help Me Turn My Idea Into a Project', desc:'Turn your own idea into a funded community project with support along the way.'},
-      {title:'Got an Idea? Try It with \u00a3300', desc:'Apply for up to \u00a3300 in seed funding to try out your idea.'},
-      {title:'Create and Chill Youth Space', desc:'A relaxed drop in space with free activities and food every week.'}
+      {title:'Help Me Turn My Idea Into a Project', desc:'Turn your own idea into a funded community project with support along the way. A worker helps you plan it out and apply for the money you need.'},
+      {title:'Got an Idea? Try It with \u00a3300', desc:'Apply for up to \u00a3300 in seed funding to try out your idea. No business plan required, just a short form and a quick chat.'},
+      {title:'Create and Chill Youth Space', desc:'A relaxed drop in space with free activities and food every week. Games, art materials and a quiet corner if you just want to sit and chat.'}
     ]
   },
   { id:'independent-living', title:'Independent Living & Everyday Life', icon:'\ud83c\udfe1', tone:'primary', target:5,
     tags:['Independent living','Life skills','Cooking','Shopping','Laundry','Cleaning','Household skills','Home maintenance','Utilities','Energy bills','Water bills','Insurance','Travel','Public transport','Driving','Provisional licences','Driving lessons','Identification documents','Digital access','Online safety'],
     types:['Free Offers','Discounted','Other Offers'],
     templates:[
-      {title:'Free Provisional Driving Licence', desc:'Your first provisional driving licence paid for, start to finish.'},
-      {title:'Life Skills Cooking Course', desc:'Learn to cook simple, affordable meals from scratch.'}
+      {title:'Free Provisional Driving Licence', desc:'Your first provisional driving licence paid for, start to finish. Your personal adviser handles the application so there’s nothing to pay upfront.'},
+      {title:'Life Skills Cooking Course', desc:'Learn to cook simple, affordable meals from scratch. Small group sessions with all ingredients and equipment provided.'}
     ]
   },
   { id:'advice-rights', title:'Advice, Rights & Leaving Care Support', icon:'\u2696\ufe0f', tone:'warning', target:7,
     tags:['Advice','Rights','Care leaver status','Care leaver entitlements','Personal adviser entitlement','Pathway planning','Transition planning','Advocacy','Legal advice','Complaints','Appeals','Challenges','Care records','Access to files','Immigration','Asylum','Nationality','Citizenship','Police and courts','Support up to age 25'],
     types:['Other Offers'],
     templates:[
-      {title:'Your Rights, Advice & Advocacy', desc:'Find out about your rights as a care leaver and how to get independent advocacy.'},
-      {title:'Dads Together \u2013 Care Experienced Fathers', desc:'A support group for care experienced dads and dads to be.'},
-      {title:'My Independent Pregnancy Companion', desc:'One to one support through pregnancy from someone who understands care.'}
+      {title:'Your Rights, Advice & Advocacy', desc:'Find out about your rights as a care leaver and how to get independent advocacy. Advocates are independent of the council and work only for you.'},
+      {title:'Dads Together \u2013 Care Experienced Fathers', desc:'A support group for care experienced dads and dads to be. Meets fortnightly in a relaxed, informal setting with no pressure to talk.'},
+      {title:'My Independent Pregnancy Companion', desc:'One to one support through pregnancy from someone who understands care. Your companion can come to appointments with you if that helps.'}
     ]
   },
   { id:'extra-support', title:'Extra Support When You Need It', icon:'\ud83d\udee1\ufe0f', tone:'orange', target:8,
     tags:['Disability support','Additional needs','Specialist support','Neurodiversity','SEND','Care experienced parents','Parents to be','Young carers','Domestic abuse','Safeguarding','Exploitation','Trafficking','Modern slavery','Victims of crime','Offending','Custody','Resettlement','Prison release','Migrant care leavers','Crisis support'],
     types:['Other Offers'],
     templates:[
-      {title:'Get My ID Ready Before Release', desc:'Getting your ID documents sorted before you leave custody or care.'},
-      {title:'Victim of Crime Compensation Support', desc:'Support making a claim if you\u2019ve been a victim of crime.'},
-      {title:'Immigration & Right to Work Support', desc:'Advice on immigration status and your right to work in the UK.'}
+      {title:'Get My ID Ready Before Release', desc:'Getting your ID documents sorted before you leave custody or care. Covers a birth certificate, provisional licence and proof of address.'},
+      {title:'Victim of Crime Compensation Support', desc:'Support making a claim if you\u2019ve been a victim of crime. A caseworker helps you gather evidence and complete the application.'},
+      {title:'Immigration & Right to Work Support', desc:'Advice on immigration status and your right to work in the UK. Sessions are confidential and run by a qualified immigration adviser.'}
     ]
   },
   { id:'discounts', title:'Discounts & Free', icon:'\ud83c\udff7\ufe0f', tone:'success', target:16,
     tags:['Free','Percentage discount','Fixed price','Buy one get one free','One off offer','Ongoing offer','Seasonal offer','Limited availability','Online offer','In store offer','Promo code required','Membership required','Advance booking required','New customer offer','Referral offer','Minimum spend applies','Eligibility required','Proof of eligibility required'],
     types:['Free Offers','Discounted'],
     templates:[
-      {title:'Free Cinema Tickets for Care Leavers', desc:'Free monthly cinema tickets, just show your Hazel Card.'},
-      {title:'20% Off Local Gym Membership', desc:'A discounted membership rate at participating local gyms.'},
-      {title:'Free Driving Theory Test Voucher', desc:'A free voucher covering the cost of your driving theory test.'},
-      {title:'Buy One Get One Free Caf\u00e9 Offer', desc:'Buy one get one free on hot drinks at participating cafes.'},
-      {title:'Discounted Bus Travel Pass', desc:'A reduced price travel pass for local bus routes.'},
-      {title:'Free Winter Coat Voucher', desc:'A one off voucher towards a warm winter coat.'}
+      {title:'Free Cinema Tickets for Care Leavers', desc:'Free monthly cinema tickets, just show your Hazel Card. Valid at any participating cinema, no booking required in advance.'},
+      {title:'20% Off Local Gym Membership', desc:'A discounted membership rate at participating local gyms. Includes access to classes and the pool where available.'},
+      {title:'Free Driving Theory Test Voucher', desc:'A free voucher covering the cost of your driving theory test. Ask your personal adviser for the code before you book online.'},
+      {title:'Buy One Get One Free Caf\u00e9 Offer', desc:'Buy one get one free on hot drinks at participating cafes. Just show your Hazel Card at the till before you order.'},
+      {title:'Discounted Bus Travel Pass', desc:'A reduced price travel pass for local bus routes. Renews automatically each month once you\u2019ve set it up once.'},
+      {title:'Free Winter Coat Voucher', desc:'A one off voucher towards a warm winter coat. Redeemable at any participating high street store in the local area.'}
     ]
   }
 ];
@@ -371,6 +372,13 @@ function selectCategory(catId){
   document.getElementById('btnClearSearch').style.display = 'none';
   renderCategoryGrid();
   renderListing();
+  // The category grid swaps for the listing in place (no layout jump),
+  // but if the person clicked a category box near the bottom of a long
+  // grid, the listing that appears above it can render off the top of
+  // the viewport. Bring the listing heading into view so they land
+  // somewhere useful rather than staying stranded at the old scroll
+  // position.
+  document.getElementById('listingTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function toggleTag(tag){
@@ -378,6 +386,24 @@ function toggleTag(tag){
   if (i === -1) state.tags.push(tag); else state.tags.splice(i,1);
   state.visibleCount = 24;
   renderListing();
+}
+
+// Clicking a tag chip directly on an offer card (rather than one of the
+// filter pills above the listing) jumps straight to that offer's category,
+// filtered down to just that one tag — the same end result as choosing the
+// category then pressing the tag pill, collapsed into a single click.
+function selectOfferTag(catId, tag){
+  state.mode = 'category';
+  state.categoryId = catId;
+  state.tags = [tag];
+  state.query = '';
+  state.visibleCount = 24;
+  document.getElementById('searchInput').value = '';
+  document.getElementById('btnClearSearch').style.display = 'none';
+  document.getElementById('btnAllOffers').classList.remove('active');
+  renderCategoryGrid();
+  renderListing();
+  document.getElementById('listingTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function clearTags(){
@@ -491,6 +517,18 @@ function renderListing(){
         showToast('Sign in to save offers to your favourites');
       });
     });
+    grid.querySelectorAll('.offer-share').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showToast('Share link copied');
+      });
+    });
+    grid.querySelectorAll('.offer-chip-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectOfferTag(btn.getAttribute('data-cat'), btn.getAttribute('data-tag'));
+      });
+    });
   }
 
   document.getElementById('loadMoreWrap').style.display = filtered.length > state.visibleCount ? 'flex' : 'none';
@@ -518,11 +556,15 @@ function renderListing(){
 function offerCard(offer){
   const cat = categoryById(offer.categoryId);
   const council = councilById(offer.councilId);
+  const chipTags = offer.tags.slice(0, 2);
   return `
     <article class="offer-card">
       <div class="offer-thumb-wrap">
         <div class="offer-thumb-img tone-${cat.tone}" style="background:linear-gradient(155deg, var(--${cat.tone === 'primary' ? 'primary' : cat.tone}), var(--brand-dark-green))">${cat.icon}</div>
-        <button class="offer-fav" aria-label="Save offer">${ICON.heart}</button>
+        <div class="offer-actions">
+          <button class="offer-fav" aria-label="Save offer">${ICON.heart}</button>
+          <button class="offer-share" aria-label="Share offer">${ICON.share}</button>
+        </div>
       </div>
       <div class="offer-body">
         <div class="offer-title">${escapeHtml(offer.title)}</div>
@@ -531,9 +573,13 @@ function offerCard(offer){
           <div class="avatar avatar-primary">${council.initials}</div>
           <div class="offer-council-name">${escapeHtml(council.name)}</div>
         </div>
-        <div class="offer-chips">
-          <span class="badge ${TYPE_BADGE[offer.type] || 'badge-neutral'}">${escapeHtml(offer.type)}</span>
-          <span class="badge badge-warning">Sign in to check eligibility</span>
+        <div class="offer-chip-stack">
+          <div class="offer-chips">
+            ${chipTags.map(t => `<button type="button" class="badge badge-primary offer-chip-btn" data-cat="${cat.id}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join('')}
+          </div>
+          <div class="offer-eligibility">
+            <span class="badge badge-warning">Sign in to check eligibility</span>
+          </div>
         </div>
         <button class="btn btn-primary btn-block" onclick="showToast('Opening offer details')">View offer</button>
       </div>

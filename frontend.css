@@ -221,23 +221,30 @@
 .la-header-copy {
 }
 .la-header-copy .small {
-  max-width: 70ch;
+  max-width: 90ch;
   line-height: 1.6;
   margin: 0 auto;
 }
 
+/* Equal-width grid columns (not flex) so the row's true center always
+   lines up with the middle stat — and with the logo circle centered
+   above it. A flex row centered as a whole block drifts off-center as
+   soon as the outer labels ("Children in care" vs "Local offers
+   published") are different widths, since only the block's bounding
+   box gets centered, not each column. */
 .la-stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 36px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 26px;
+  max-width: 620px;
+  margin: 26px auto 0;
 }
 .la-stat {
   text-align: center;
+  min-width: 0;
 }
 .la-stat .num {
-  font-size: var(--text-3xl);
+  font-size: var(--text-4xl);
   font-weight: 800;
   color: #fff;
   line-height: 1.1;
@@ -274,8 +281,8 @@
     padding-bottom: 32px;
   }
   .la-stats {
-    gap: 24px;
-    justify-content: space-between;
+    gap: 16px;
+    max-width: 420px;
   }
   .la-ask-btn {
     position: static;
@@ -346,7 +353,7 @@
 }
 .doc-thumb-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-strong);
   text-align: center;
   line-height: 1.35;
@@ -505,6 +512,9 @@
 #categorySection {
   scroll-margin-top: 24px;
 }
+#listingTitle {
+  scroll-margin-top: 24px;
+}
 .listing-head-row {
   display: flex;
   align-items: center;
@@ -589,10 +599,17 @@
   font-size: 34px;
   color: rgba(255, 255, 255, 0.85);
 }
-.offer-fav {
+.offer-actions {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1;
+}
+.offer-fav,
+.offer-share {
   width: 34px;
   height: 34px;
   border-radius: 999px;
@@ -603,6 +620,8 @@
   color: var(--muted);
   cursor: pointer;
   box-shadow: var(--shadow-sm);
+  padding: 0;
+  line-height: 0;
 }
 .offer-fav:hover {
   color: var(--danger);
@@ -610,9 +629,14 @@
 .offer-fav.saved {
   color: var(--danger);
 }
-.offer-fav svg {
+.offer-share:hover {
+  color: var(--primary);
+}
+.offer-fav svg,
+.offer-share svg {
   width: 17px;
   height: 17px;
+  display: block;
 }
 .offer-body {
   padding: 16px 18px 18px;
@@ -637,7 +661,7 @@
   color: var(--muted);
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -662,12 +686,40 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.offer-chip-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+}
 .offer-chips {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: auto;
-  padding-top: 4px;
+}
+/* .offer-chips renders <button class="badge badge-primary offer-chip-btn">
+   tags — same look as a .badge, but clickable: pressing one jumps straight
+   to that tag filtered within its category, same as pressing the tag-pill
+   above the listing. Reset the native button chrome and borrow .tag-pill's
+   hover/selected treatment so it reads as a filter, not just a label. */
+.offer-chip-btn {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.15s ease;
+}
+.offer-chip-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.offer-chip-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.offer-eligibility {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .lo-empty {
