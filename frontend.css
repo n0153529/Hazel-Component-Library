@@ -153,7 +153,7 @@
 .doc-thumb-icon svg{width:20px;height:20px}
 .doc-thumb-title{font-weight:700;font-size:12px;color:var(--text-strong);text-align:center;line-height:1.35;padding:0 4px}
 .doc-thumb-hint{font-size:11px;color:var(--subtle);text-align:center}
-.doc-name-missing{color:var(--subtle);font-style:italic;font-weight:600}
+.doc-name-missing{color:var(--subtle);font-weight:600}
 
 .doc-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .doc-name{font-weight:700;font-size:var(--text-2xl);text-align:left;color:var(--text-strong);line-height:1.25}
