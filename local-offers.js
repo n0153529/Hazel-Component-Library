@@ -236,7 +236,7 @@ function escapeHtml(str){
 
 /* ---------------- State ---------------- */
 const state = {
-  council: 'hazelton',   // 'all' or a council id
+  council: 'all',   // 'all' or a council id
   mode: null,            // null | 'category' | 'search' | 'all'
   categoryId: null,
   tags: [],
