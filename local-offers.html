@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Local offers • Hazel Card</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="frontend.css" />
+</head>
+<body class="app-shell">
+
+<!-- ============== HERO ============== -->
+<section class="lo-hero">
+  <div class="container">
+    <h1>Local offers</h1>
+    <p>Explore every published offer from a local authority. Use your location, browse all councils, or choose an authority yourself.</p>
+    <div class="lo-hero-actions">
+      <button class="btn btn-hero-outline" id="btnLocateMe">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2"/></svg>
+        Use my current location
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SEARCH + FILTERS ============== -->
+<div class="lo-search-wrap">
+  <div class="container lo-search-row">
+    <div class="searchbar lo-searchbar">
+      <input id="searchInput" type="text" placeholder="Search titles, categories or tags — try housing, travel or training" />
+      <button class="lo-clear-search" id="btnClearSearch" style="display:none" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="lo-search-icon" id="btnSearchIcon" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="lo-filters">
+      <select class="select lo-council-select" id="councilSelect"></select>
+      <button class="btn btn-primary btn-all-offers" id="btnAllOffers">Show all offers</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== LA HEADER (branded per-authority section, full-bleed council colour) ============== -->
+<div class="la-header-wrap" id="laHeaderWrap">
+  <div class="container la-header">
+    <div class="la-header-card" id="laHeaderCard"><!-- rendered by JS: renderLaHeader() --></div>
+  </div>
+  <button class="btn btn-ai la-ask-btn" id="btnChat">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M3.22 3.22l1.41 1.41M9.36 9.36l1.42 1.42M3.22 10.78l1.41-1.41M9.36 4.64l1.42-1.42" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    Ask Hazel
+  </button>
+</div>
+
+<main>
+  <!-- ============== CATEGORY GRID ============== -->
+  <section class="container lo-categories" id="categorySection">
+    <div class="lo-section-head">
+      <div>
+        <div class="caption">Browse by category</div>
+        <div class="h3" style="margin-top:4px">What kind of support are you looking for?</div>
+      </div>
+      <div class="small" id="categoryScopeNote"></div>
+    </div>
+    <div class="cat-grid" id="catGrid"><!-- rendered by JS: renderCategoryGrid() --></div>
+  </section>
+
+  <!-- ============== LISTING ============== -->
+  <section class="container lo-listing" id="listingSection" style="display:none">
+    <div class="listing-head-row">
+      <div class="listing-icon" id="listingIcon"></div>
+      <div class="listing-title">
+        <div class="h3" id="listingTitle">All offers</div>
+        <div class="listing-count" id="listingCount"></div>
+      </div>
+      <button class="btn btn-secondary btn-sm listing-clear" id="btnClearListing">Back to categories</button>
+    </div>
+    <div class="listing-tags" id="listingTags"></div>
+    <div class="offer-grid" id="offerGrid"></div>
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="btn btn-secondary" id="btnLoadMore">Load more offers</button>
+    </div>
+  </section>
+</main>
+
+<div class="lo-toast" id="loToast"></div>
+
+<script src="local-offers.js"></script>
+</body>
+</html>
