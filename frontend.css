@@ -665,7 +665,7 @@
 .offer-title {
   font-weight: 700;
   color: var(--text-strong);
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   line-height: 1.25;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -968,6 +968,9 @@
     height: 100%;
     border-radius: 0;
   }
+  #listingIcon {
+    display: none !important;
+}
 }
 
 /* ---------------- Offer image lightbox (click-to-expand) ---------------- */
