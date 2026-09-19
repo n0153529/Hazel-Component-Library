@@ -161,6 +161,7 @@
     background: var(--primary);
     color: #fff;
     border: none;
+    margin-left: 10px;
   }
 }
 @media (max-width: 480px) {
@@ -520,7 +521,7 @@
 
 @media (max-width: 760px) {
   .la-header-wrap {
-    padding-bottom: 32px;
+    padding: 32px;
   }
   .la-stats {
     gap: 16px;
