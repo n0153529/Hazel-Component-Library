@@ -715,6 +715,14 @@
   gap: 6px;
   flex-wrap: wrap;
 }
+.offer-body .offer-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-start;
+}
 /* .offer-chips renders <button class="badge badge-primary offer-chip-btn">
    tags — same look as a .badge, but clickable: pressing one jumps straight
    to that tag filtered within its category, same as pressing the tag-pill
@@ -847,6 +855,14 @@
   font-size: 64px;
   color: rgba(255, 255, 255, 0.85);
 }
+/* Demo photo, in place of the gradient/emoji placeholder — fills the
+   same 3:2 box the placeholder used, cropped rather than stretched. */
+.offer-modal-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .offer-modal-expand {
   position: absolute;
   bottom: 14px;
@@ -895,8 +911,8 @@
   margin-top: -4px;
 }
 .offer-modal-box {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+/*  border: 1px solid var(--border);
+  border-radius: var(--radius-md);*/
   /*background: var(--surface-2);*/
   padding: 14px 16px;
 }
@@ -976,4 +992,11 @@
   place-items: center;
   font-size: 96px;
   box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.offer-lightbox-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }

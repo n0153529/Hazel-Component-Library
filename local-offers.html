@@ -104,7 +104,10 @@
         </button>
       </div>
       <div class="offer-modal-media" id="offerModalImage">
-        <div class="offer-thumb-img tone-info" style="background:linear-gradient(155deg, var(--info), var(--brand-dark-green))">🍼</div>
+        <!-- Demo image only — the popup will take an offer-specific photo
+             once that's wired up; this is just to see a real photo in place
+             of the gradient/emoji placeholder used on the cards. -->
+        <img class="offer-modal-photo" src="assets/HazelCard-offerFeat-900x600.jpg" alt="" />
         <button class="offer-modal-expand" id="btnExpandOfferImage" aria-label="Expand image">
           <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H4v5M15 4h5v5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -136,7 +139,7 @@
         </div>
 
         <div class="offer-modal-box">
-          <div class="h3">Who is it for</div>
+          <div class="h3">Who is it for:</div>
           <div class="offer-modal-box-sub">Living in our area</div>
           <div class="offer-chips offer-modal-elig-chips">
             <span class="badge badge-neutral">Ages 16–25</span>
@@ -166,7 +169,9 @@
   <button class="icon-btn offer-lightbox-close" id="btnCloseLightbox" aria-label="Close expanded image">
     <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </button>
-  <div class="offer-lightbox-media" id="offerLightboxImage">🍼</div>
+  <div class="offer-lightbox-media" id="offerLightboxImage">
+    <img class="offer-lightbox-photo" src="assets/HazelCard-offerFeat-900x600.jpg" alt="" />
+  </div>
 </div>
 
 <script src="local-offers.js"></script>
