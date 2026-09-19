@@ -19,6 +19,96 @@
    forking it.
    ========================================================= */
 
+/* ---------------- Site nav (full-width top bar) ---------------- */
+/* Full-bleed brand-colour bar shared by the public pages (Local offers,
+   Local authorities, Offers, index, etc) — logo left, menu centred,
+   auth actions right. Buttons reuse existing .btn variants rather than
+   inventing nav-specific ones: .btn-hero-outline (already defined below
+   for the hero, and built for text-on-dark) for Login, .btn-primary for
+   Register. */
+.site-nav {
+    background: #151719;
+    padding: 0px 40px;
+}
+.site-nav-inner {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.site-nav-logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.site-nav-logo img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+.site-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex: 1;
+  justify-content: center;
+}
+.site-nav-link {
+  position: relative;
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-xl);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 4px 2px;
+}
+/* Underline-on-hover: a scaled pseudo-element rather than a border, so it
+   animates in smoothly instead of just appearing. */
+.site-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: #ece3d3;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transition: transform 0.18s ease;
+}
+.site-nav-link:hover::after,
+.site-nav-link.active::after {
+  transform: scaleX(1);
+}
+.site-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+@media (max-width: 860px) {
+  /* No hamburger/off-canvas menu yet — out of scope for this pass. The
+     menu hides so the logo and auth actions still fit on one row; revisit
+     with a proper mobile nav when the rest of the header goes responsive. */
+  .site-nav-menu {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .site-nav-inner {
+    height: 72px;
+  }
+  .site-nav-logo img {
+    height: 50px;
+  }
+  .site-nav-actions .btn {
+    padding: 0 14px;
+    font-size: var(--text-sm);
+  }
+}
+
 /* ---------------- Hero ---------------- */
 .lo-hero {
   background: linear-gradient(
@@ -550,6 +640,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 .listing-title .h3 {
   margin: 0;
@@ -573,16 +664,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
-@media (max-width: 960px) {
-  .offer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 640px) {
-  .offer-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 .offer-card {
   border: 1px solid var(--border);
@@ -911,10 +993,7 @@
   margin-top: -4px;
 }
 .offer-modal-box {
-/*  border: 1px solid var(--border);
-  border-radius: var(--radius-md);*/
-  /*background: var(--surface-2);*/
-  padding: 14px 16px;
+  padding: 6px 16px;
 }
 .offer-modal-box .h3 {
   margin: 0;
@@ -959,18 +1038,33 @@
   margin-top: 2px;
 }
 
+
+/* ---------------- Responsive  ---------------- */
 @media (max-width: 640px) {
-  .offer-modal-backdrop {
-    padding: 0;
+    .offer-modal-backdrop {
+      padding: 0;
+    }
+    .offer-modal {
+      max-height: 100vh;
+      height: 100%;
+      border-radius: 0;
+    }
+    #listingIcon {
+      display: none !important;
   }
-  .offer-modal {
-    max-height: 100vh;
-    height: 100%;
-    border-radius: 0;
+  .offer-grid {
+    grid-template-columns: 1fr;
+    
   }
-  #listingIcon {
-    display: none !important;
+  .site-nav {
+    padding: 0px 10px;
+  }
 }
+@media (max-width: 960px) {
+  .offer-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    margin-top: 20px;
+  }
 }
 
 /* ---------------- Offer image lightbox (click-to-expand) ---------------- */
