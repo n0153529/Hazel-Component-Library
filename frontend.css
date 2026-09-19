@@ -217,9 +217,9 @@
 }
 
 .la-logo-circle {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
+  width: 80px;
+  height: 80px;
+  border-radius: 999px;
   flex: none;
   display: grid;
   place-items: center;
@@ -888,7 +888,7 @@
   font-weight: 800;
   color: var(--text-strong);
   font-size: var(--text-5xl);
-  line-height: 1.25;
+  line-height: 1;
   margin: 0;
 }
 .offer-modal-body .offer-council-row {
@@ -897,14 +897,14 @@
 .offer-modal-box {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: var(--surface-2);
+  /*background: var(--surface-2);*/
   padding: 14px 16px;
 }
 .offer-modal-box .h3 {
   margin: 0;
 }
 .offer-modal-box-sub {
-  font-size: var(--text-sm);
+  font-size: var(--text-xl);
   color: var(--muted);
   margin: 2px 0 10px;
 }
