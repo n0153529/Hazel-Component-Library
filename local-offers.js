@@ -746,9 +746,79 @@ function initOfferModal(){
   });
 }
 
+/* ---------------- Site nav: accessibility dropdown + mobile menu ----------------
+   Visual/demo only, per spec — the a11y menu's stepper/switch/segmented
+   controls aren't wired to any real text-size/spacing/etc. behaviour yet,
+   just shown when the wheelchair icon is clicked. The hamburger opens a
+   full-screen mobile menu (reusing the same open/close + body-scroll-lock
+   pattern as the offer modal/lightbox above) with the nav links centred
+   and Login/Register at the bottom. */
+function initSiteNav(){
+  const a11yBtn = document.getElementById('btnA11y');
+  const a11yMenu = document.getElementById('a11yMenu');
+  const mobileMenu = document.getElementById('siteMobileMenu');
+  const hamburgerBtn = document.getElementById('btnHamburger');
+
+  function closeA11yMenu(){
+    a11yMenu.hidden = true;
+    a11yBtn.setAttribute('aria-expanded', 'false');
+  }
+  function openA11yMenu(){
+    a11yMenu.hidden = false;
+    a11yBtn.setAttribute('aria-expanded', 'true');
+  }
+  a11yBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (a11yMenu.hidden) openA11yMenu(); else closeA11yMenu();
+  });
+  document.addEventListener('click', (e) => {
+    if (!a11yMenu.hidden && !e.target.closest('.a11y-menu') && e.target !== a11yBtn && !e.target.closest('#btnA11y')) {
+      closeA11yMenu();
+    }
+  });
+  // Demo-only toggles: flip the .on class so the switches/segmented
+  // buttons visually respond to a click, with no behaviour behind them.
+  a11yMenu.querySelectorAll('.switch').forEach(sw => {
+    sw.addEventListener('click', () => sw.classList.toggle('on'));
+  });
+  a11yMenu.querySelectorAll('.segmented').forEach(seg => {
+    seg.querySelectorAll('.seg-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        seg.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+      });
+    });
+  });
+
+  function openMobileMenu(){
+    mobileMenu.hidden = false;
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu(){
+    mobileMenu.hidden = true;
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  hamburgerBtn.addEventListener('click', () => {
+    if (mobileMenu.hidden) openMobileMenu(); else closeMobileMenu();
+  });
+  document.getElementById('btnCloseMobileMenu').addEventListener('click', closeMobileMenu);
+  mobileMenu.querySelectorAll('.site-mobile-menu-link').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!a11yMenu.hidden) closeA11yMenu();
+    if (!mobileMenu.hidden) closeMobileMenu();
+  });
+}
+
 /* ---------------- Init ---------------- */
 renderCouncilSelect();
 renderLaHeader();
 renderCategoryGrid();
 initControls();
 initOfferModal();
+initSiteNav();

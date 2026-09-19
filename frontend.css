@@ -53,6 +53,7 @@
   gap: 28px;
   flex: 1;
   justify-content: center;
+  padding-left: 10%;
 }
 .site-nav-link {
   position: relative;
@@ -88,12 +89,78 @@
   flex: none;
 }
 
+/* Accessibility ("wheelchair") and help ("?") icon buttons reuse the
+   library's .icon-btn as-is (white circle, dark icon) — it already reads
+   fine against the dark nav bar, same treatment as the modal close
+   buttons elsewhere on this page. .dropdown/.menu/.menu-right/.menu-item/
+   .menu-sep, .switch and .segmented/.seg-btn are all existing components
+   from styles.css; only the a11y-specific row layout below is new, since
+   the dashboard has no equivalent "stepper row inside a menu" pattern. */
+.a11y-menu {
+  min-width: 300px;
+  max-width: calc(100vw - 20px);
+}
+.a11y-menu-title {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 10px 2px;
+}
+.a11y-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+}
+.a11y-row-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+.a11y-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+.a11y-toggle-item {
+  cursor: default;
+  justify-content: space-between;
+}
+.a11y-toggle-item .switch {
+  flex: none;
+}
+.a11y-hint {
+  display: block;
+  font-weight: 500;
+  color: var(--subtle);
+  font-size: var(--text-xs);
+}
+
+/* Login/Register stay in the bar on desktop; the hamburger only appears
+   once the main menu collapses below it. */
+.site-nav-hamburger {
+  display: none;
+}
+
 @media (max-width: 860px) {
-  /* No hamburger/off-canvas menu yet — out of scope for this pass. The
-     menu hides so the logo and auth actions still fit on one row; revisit
-     with a proper mobile nav when the rest of the header goes responsive. */
+  /* Main menu links move into the full-screen mobile menu instead. */
   .site-nav-menu {
     display: none;
+  }
+  /* Login/Register move to the bottom of the full-screen mobile menu;
+     the accessibility and help icon buttons stay put in the bar. */
+  .site-nav-auth-btn {
+    display: none;
+  }
+  .site-nav-hamburger {
+    display: grid;
+    background: var(--primary);
+    color: #fff;
+    border: none;
   }
 }
 @media (max-width: 480px) {
@@ -103,10 +170,83 @@
   .site-nav-logo img {
     height: 50px;
   }
+  .site-nav-actions {
+    gap: 6px;
+  }
   .site-nav-actions .btn {
     padding: 0 14px;
     font-size: var(--text-sm);
   }
+}
+
+/* Below ~640px the a11y menu is wider than the space to the right of the
+   wheelchair button, so instead of hanging off .dropdown (which would
+   clip against the viewport edge) it's anchored to the full-width .site-nav
+   itself, spanning edge-to-edge with the same gutter as the nav padding. */
+@media (max-width: 640px) {
+  .site-nav {
+    position: relative;
+  }
+  .a11y-dropdown {
+    position: static;
+  }
+  .a11y-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 10px;
+    right: 10px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* ---------------- Mobile menu (full-screen, opened by the hamburger) ---------------- */
+.site-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: var(--brand-dark-green);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 32px 24px;
+}
+.site-mobile-menu[hidden] {
+  display: none;
+}
+.site-mobile-menu-close {
+  position: absolute;
+  top: 16px;
+  right: 10px;
+}
+.site-mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+}
+.site-mobile-menu-link {
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-3xl);
+  text-decoration: none;
+  padding: 14px 10px;
+  text-align: center;
+}
+.site-mobile-menu-link.active {
+  color: #ece3d3;
+}
+.site-mobile-menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(360px, 100%);
+  margin: 0 auto;
+  flex: none;
 }
 
 /* ---------------- Hero ---------------- */

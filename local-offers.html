@@ -16,18 +16,133 @@
       <img src="assets/hazel-logo-cream.png" alt="Hazel Card" />
     </a>
     <nav class="site-nav-menu">
+      <a class="site-nav-link" href="#">About Hazel</a>
       <a class="site-nav-link" href="#">Local authorities</a>
       <a class="site-nav-link" href="#">How it works</a>
       <a class="site-nav-link" href="#">Eligibility</a>
-      <a class="site-nav-link" href="#">Offers</a>
+      <!-- <a class="site-nav-link" href="#">Offers</a> -->
       <a class="site-nav-link active" href="local-offers.html">Local offers</a>
     </nav>
     <div class="site-nav-actions">
-      <button class="btn btn-hero-outline" id="btnNavLogin">Login</button>
-      <button class="btn btn-primary" id="btnNavRegister">Register</button>
+      <div class="dropdown a11y-dropdown">
+        <button class="icon-btn" id="btnA11y" aria-haspopup="true" aria-expanded="false" aria-label="Accessibility options">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="15" cy="4" r="1.7" stroke="currentColor" stroke-width="2"/><path d="M14.3 7.3l-.8 4.2 3.8 1.3 1.7 4.7M9.8 16.5H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="16.5" r="5.3" stroke="currentColor" stroke-width="1.8"/><path d="M9 16.5l3.3-6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="menu menu-right a11y-menu" id="a11yMenu" hidden>
+          <div class="a11y-menu-title">Accessibility</div>
+          <div class="menu-sep"></div>
+
+          <div class="a11y-row">
+            <span class="a11y-row-label">Text size</span>
+            <div class="a11y-stepper">
+              <button class="icon-btn icon-btn-sm" aria-label="Decrease text size">−</button>
+              <button class="icon-btn icon-btn-sm" aria-label="Increase text size">+</button>
+            </div>
+          </div>
+
+          <div class="menu-item a11y-toggle-item">
+            <span>Reading guide</span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+
+          <div class="menu-item a11y-toggle-item">
+            <span>Readable font <small class="a11y-hint">Atkinson Hyperlegible</small></span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+
+          <div class="menu-sep"></div>
+
+          <div class="a11y-row">
+            <span class="a11y-row-label">Letter spacing</span>
+            <div class="a11y-stepper">
+              <button class="icon-btn icon-btn-sm" aria-label="Decrease letter spacing">−</button>
+              <button class="icon-btn icon-btn-sm" aria-label="Increase letter spacing">+</button>
+            </div>
+          </div>
+
+          <div class="a11y-row">
+            <span class="a11y-row-label">Word spacing</span>
+            <div class="a11y-stepper">
+              <button class="icon-btn icon-btn-sm" aria-label="Decrease word spacing">−</button>
+              <button class="icon-btn icon-btn-sm" aria-label="Increase word spacing">+</button>
+            </div>
+          </div>
+
+          <div class="a11y-row">
+            <span class="a11y-row-label">Line height</span>
+            <div class="a11y-stepper">
+              <button class="icon-btn icon-btn-sm" aria-label="Decrease line height">−</button>
+              <button class="icon-btn icon-btn-sm" aria-label="Increase line height">+</button>
+            </div>
+          </div>
+
+          <div class="a11y-row">
+            <span class="a11y-row-label">Text align</span>
+            <div class="segmented">
+              <button class="seg-btn on" aria-label="Align text left">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <button class="seg-btn" aria-label="Align text centre">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M5 18h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <button class="seg-btn" aria-label="Align text right">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M10 12h10M6 18h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="menu-sep"></div>
+
+          <div class="menu-item a11y-toggle-item">
+            <span>Grayscale</span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+          <div class="menu-item a11y-toggle-item">
+            <span>Pause animations</span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+          <div class="menu-item a11y-toggle-item">
+            <span>Links underline</span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+          <div class="menu-item a11y-toggle-item">
+            <span>Focus outline</span>
+            <div class="switch"><div class="switch-track"><div class="switch-thumb"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="icon-btn" id="btnHelp" aria-label="Help">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.7" r="1" fill="currentColor" stroke="none"/></svg>
+      </button>
+
+      <button class="btn btn-hero-outline site-nav-auth-btn" id="btnNavLogin">Login</button>
+      <button class="btn btn-primary site-nav-auth-btn" id="btnNavRegister">Register</button>
+
+      <button class="icon-btn site-nav-hamburger" id="btnHamburger" aria-haspopup="true" aria-expanded="false" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </div>
 </header>
+
+<!-- ============== MOBILE MENU (full-screen, opened by the hamburger) ============== -->
+<div class="site-mobile-menu" id="siteMobileMenu" hidden>
+  <button class="icon-btn site-mobile-menu-close" id="btnCloseMobileMenu" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <nav class="site-mobile-menu-links">
+    <a class="site-mobile-menu-link" href="#">About Hazel</a>
+    <a class="site-mobile-menu-link" href="#">Local authorities</a>
+    <a class="site-mobile-menu-link" href="#">How it works</a>
+    <a class="site-mobile-menu-link" href="#">Eligibility</a>
+    <a class="site-mobile-menu-link active" href="local-offers.html">Local offers</a>
+  </nav>
+  <div class="site-mobile-menu-actions">
+    <button class="btn btn-hero-outline btn-block" id="btnMobileLogin">Login</button>
+    <button class="btn btn-primary btn-block" id="btnMobileRegister">Register</button>
+  </div>
+</div>
 
 <!-- ============== HERO ============== -->
 <section class="lo-hero">
