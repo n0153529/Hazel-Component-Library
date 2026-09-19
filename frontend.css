@@ -285,6 +285,7 @@
   position: absolute;
   right: 28px;
   bottom: 24px;
+  border: 1px solid #fff;
 }
 
 @media (max-width: 760px) {
@@ -406,7 +407,7 @@
 
 /* ---------------- Category grid ---------------- */
 .lo-categories {
-  padding: 36px 0 8px;
+  padding: 36px 0 150px;
 }
 .lo-section-head {
   display: flex;
@@ -514,7 +515,7 @@
 
 /* ---------------- Listing section ---------------- */
 .lo-listing {
-  padding: 40px 0 60px;
+  padding: 40px 0 150px;
   scroll-margin-top: 24px;
 }
 #laHeaderWrap {
